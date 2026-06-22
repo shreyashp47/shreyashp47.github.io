@@ -9,6 +9,7 @@
   --radius: 14px;
   --transition: 0.3s ease;
   --font: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+  --font-display: 'Orbitron', monospace;
   --max-width: 1200px;
   --nav-height: 70px;
 }
@@ -32,12 +33,35 @@ body {
   -webkit-font-smoothing: antialiased;
 }
 
-#fluid-bg {
+#bg-blobs {
   position: fixed;
-  top: 0;
-  left: 0;
+  inset: 0;
   z-index: -1;
   pointer-events: none;
+  overflow: hidden;
+}
+
+#bg-blobs svg {
+  width: 100%;
+  height: 100%;
+}
+
+.blob {
+  animation: blobMove 20s ease-in-out infinite;
+  transform-origin: center;
+}
+
+.b1 { animation-duration: 18s; }
+.b2 { animation-duration: 25s; animation-delay: -5s; }
+.b3 { animation-duration: 22s; animation-delay: -8s; }
+.b4 { animation-duration: 16s; animation-delay: -3s; }
+.b5 { animation-duration: 24s; animation-delay: -12s; }
+
+@keyframes blobMove {
+  0%, 100% { transform: translate(0, 0) scale(1); }
+  25% { transform: translate(40px, -60px) scale(1.1); }
+  50% { transform: translate(-30px, 30px) scale(0.9); }
+  75% { transform: translate(50px, 20px) scale(1.05); }
 }
 
 .glass {
@@ -64,6 +88,7 @@ img { max-width: 100%; display: block; }
 .section-title {
   font-size: 2rem;
   font-weight: 700;
+  font-family: var(--font-display);
   margin-bottom: 60px;
   text-align: center;
   background: linear-gradient(135deg, var(--accent-orange), var(--accent-amber));
@@ -232,6 +257,7 @@ img { max-width: 100%; display: block; }
 .hero-name {
   font-size: 4rem;
   font-weight: 800;
+  font-family: var(--font-display);
   margin-bottom: 12px;
   background: linear-gradient(135deg, var(--accent-orange), var(--accent-amber));
   -webkit-background-clip: text;
@@ -332,57 +358,62 @@ img { max-width: 100%; display: block; }
   transform: translateY(-3px);
 }
 
-.skill-category {
-  margin-bottom: 24px;
+.skills-marquee {
+  display: flex;
+  overflow: hidden;
+  margin-bottom: 20px;
+  padding: 6px 0;
 }
 
-.skill-category:last-child {
-  margin-bottom: 0;
+.skills-marquee-track {
+  display: flex;
+  gap: 16px;
+  animation: marquee 35s linear infinite;
+  padding: 8px 0;
 }
 
-.skill-category-title {
-  font-size: 0.95rem;
-  font-weight: 600;
-  color: var(--text-primary);
-  margin-bottom: 12px;
-  padding-left: 4px;
+.skills-marquee.reverse .skills-marquee-track {
+  animation-direction: reverse;
 }
 
-.skill-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(90px, 1fr));
-  gap: 12px;
+@keyframes marquee {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
 }
 
-.skill-card {
+.skill-marquee-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 22px;
+  border: 1px solid var(--border);
+  border-radius: 100px;
+  white-space: nowrap;
   background: var(--bg-glass);
   backdrop-filter: blur(12px);
   -webkit-backdrop-filter: blur(12px);
-  border: 1px solid var(--border);
-  border-radius: var(--radius);
-  padding: 10px 8px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 6px;
+  filter: grayscale(80%);
   transition: all var(--transition);
   cursor: default;
+  flex-shrink: 0;
 }
 
-.skill-card:hover {
+.skill-marquee-item:hover {
+  filter: grayscale(0%);
   border-color: var(--accent-orange);
   transform: translateY(-2px);
-  box-shadow: 0 4px 20px rgba(249, 115, 22, 0.15);
+  box-shadow: 0 0 20px rgba(249, 115, 22, 0.15);
 }
 
-.skill-card i {
+.skill-marquee-item i {
   font-size: 1.2rem;
+  color: var(--accent-orange);
 }
 
-.skill-card span {
-  font-size: 0.68rem;
+.skill-marquee-item span {
+  font-size: 0.88rem;
+  font-weight: 500;
   color: var(--text-muted);
-  text-align: center;
 }
 
 .github-stats {
@@ -787,9 +818,5 @@ img { max-width: 100%; display: block; }
 @media (max-width: 480px) {
   .hero-name {
     font-size: 2rem;
-  }
-
-  .skill-grid {
-    grid-template-columns: repeat(2, 1fr);
   }
 }

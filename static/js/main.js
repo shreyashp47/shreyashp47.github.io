@@ -1,80 +1,5 @@
 document.addEventListener("DOMContentLoaded", () => {
 
-  /* ===== FLUID PARTICLE BACKGROUND ===== */
-  const fluidCanvas = document.getElementById("fluid-bg");
-  let ctx, W, H, particles, mouse;
-
-  function initCanvas() {
-    ctx = fluidCanvas.getContext("2d");
-    resizeCanvas();
-    particles = [];
-    mouse = { x: null, y: null, radius: 120 };
-    for (let i = 0; i < 80; i++) {
-      particles.push({
-        x: Math.random() * W,
-        y: Math.random() * H,
-        vx: (Math.random() - 0.5) * 0.6,
-        vy: (Math.random() - 0.5) * 0.6,
-        size: Math.random() * 3 + 1.5,
-        opacity: Math.random() * 0.5 + 0.2,
-        hue: Math.random() < 0.5 ? 25 : 38,
-      });
-    }
-    animate();
-  }
-
-  function resizeCanvas() {
-    W = window.innerWidth;
-    H = window.innerHeight;
-    fluidCanvas.width = W;
-    fluidCanvas.height = H;
-  }
-
-  function animate() {
-    ctx.clearRect(0, 0, W, H);
-    particles.forEach((p, i) => {
-      p.x += p.vx;
-      p.y += p.vy;
-      if (p.x < 0 || p.x > W) p.vx *= -1;
-      if (p.y < 0 || p.y > H) p.vy *= -1;
-      const dx = mouse.x - p.x;
-      const dy = mouse.y - p.y;
-      const dist = Math.sqrt(dx * dx + dy * dy);
-      if (dist < mouse.radius) {
-        const force = (mouse.radius - dist) / mouse.radius;
-        p.vx -= (dx / dist) * force * 0.02;
-        p.vy -= (dy / dist) * force * 0.02;
-      }
-      p.vx += (Math.random() - 0.5) * 0.02;
-      p.vy += (Math.random() - 0.5) * 0.02;
-      const speed = Math.sqrt(p.vx * p.vx + p.vy * p.vy);
-      if (speed > 1) { p.vx = (p.vx / speed) * 1; p.vy = (p.vy / speed) * 1; }
-      ctx.beginPath();
-      ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
-      ctx.fillStyle = `hsla(${p.hue}, 90%, 55%, ${p.opacity})`;
-      ctx.fill();
-      for (let j = i + 1; j < particles.length; j++) {
-        const p2 = particles[j];
-        const dx2 = p.x - p2.x;
-        const dy2 = p.y - p2.y;
-        const dist2 = Math.sqrt(dx2 * dx2 + dy2 * dy2);
-        if (dist2 < 120) {
-          ctx.beginPath();
-          ctx.moveTo(p.x, p.y);
-          ctx.lineTo(p2.x, p2.y);
-          ctx.strokeStyle = `hsla(25, 90%, 55%, ${(1 - dist2 / 120) * 0.15})`;
-          ctx.stroke();
-        }
-      }
-    });
-    requestAnimationFrame(animate);
-  }
-
-  window.addEventListener("resize", resizeCanvas);
-  document.addEventListener("mousemove", (e) => { mouse.x = e.clientX; mouse.y = e.clientY; });
-  document.addEventListener("mouseleave", () => { mouse.x = null; mouse.y = null; });
-  initCanvas();
-
   const C = CONFIG;
 
   /* ===== POPULATE FROM CONFIG ===== */
@@ -142,30 +67,27 @@ document.addEventListener("DOMContentLoaded", () => {
     return `<i class="${cls}"></i>`;
   }
 
-  /* ===== SKILLS ===== */
+  /* ===== SKILLS MARQUEE ===== */
   const skillsContainer = document.getElementById("skillsContainer");
+  let rowIdx = 0;
   Object.entries(C.skills).forEach(([category, techList]) => {
-    const categoryDiv = document.createElement("div");
-    categoryDiv.className = "skill-category reveal";
+    const row = document.createElement("div");
+    row.className = `skills-marquee ${rowIdx % 2 === 0 ? "" : "reverse"}`;
 
-    const title = document.createElement("h3");
-    title.className = "skill-category-title";
-    title.textContent = category;
-    categoryDiv.appendChild(title);
+    const track = document.createElement("div");
+    track.className = "skills-marquee-track";
 
-    const grid = document.createElement("div");
-    grid.className = "skill-grid";
-
-    techList.forEach(tech => {
-      const card = document.createElement("div");
-      card.className = "skill-card";
-      const icon = getSkillIcon(tech);
-      card.innerHTML = `${icon}<span>${tech}</span>`;
-      grid.appendChild(card);
+    const allItems = [...techList, ...techList, ...techList];
+    allItems.forEach(tech => {
+      const item = document.createElement("div");
+      item.className = "skill-marquee-item";
+      item.innerHTML = `${getSkillIcon(tech)}<span>${tech}</span>`;
+      track.appendChild(item);
     });
 
-    categoryDiv.appendChild(grid);
-    skillsContainer.appendChild(categoryDiv);
+    row.appendChild(track);
+    skillsContainer.appendChild(row);
+    rowIdx++;
   });
 
   /* ===== PROJECTS ===== */
