@@ -1,11 +1,11 @@
 :root {
-  --bg-primary: #0a0a0f;
-  --bg-glass: rgba(17, 17, 24, 0.55);
-  --accent-orange: #f97316;
-  --accent-amber: #f59e0b;
+  --bg-primary: #0F172A;
+  --bg-glass: rgba(15, 23, 42, 0.7);
+  --accent-cyan: #22D3EE;
+  --accent-blue: #3B82F6;
   --text-primary: #e2e8f0;
-  --text-muted: #94a3b8;
-  --border: rgba(255, 255, 255, 0.06);
+  --text-muted: #64748B;
+  --border: rgba(34, 211, 238, 0.1);
   --radius: 14px;
   --transition: 0.3s ease;
   --font: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
@@ -36,7 +36,7 @@ img { max-width: 100%; display: block; }
   font-size: 2rem; font-weight: 700;
   font-family: var(--font-display);
   margin-bottom: 60px; text-align: center;
-  background: linear-gradient(135deg, var(--accent-orange), var(--accent-amber));
+  background: linear-gradient(135deg, var(--accent-cyan), var(--accent-blue));
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
