@@ -14,22 +14,12 @@
 </head>
 <body>
   <div id="bg-blobs" aria-hidden="true">
-    <svg viewBox="0 0 1200 1000" preserveAspectRatio="xMidYMid slice">
-      <defs>
-        <filter id="goo">
-          <feGaussianBlur in="SourceGraphic" stdDeviation="50" result="blur" />
-          <feColorMatrix in="blur" mode="matrix" values="1 0 0 0 0  0 1 0 0 0  0 0 1 0 0  0 0 0 30 -10" result="goo" />
-          <feComposite in="SourceGraphic" in2="goo" operator="atop" />
-        </filter>
-      </defs>
-      <g filter="url(#goo)" fill="rgba(249, 115, 22, 0.12)">
-        <circle class="blob b1" cx="20%" cy="30%" r="180" />
-        <circle class="blob b2" cx="80%" cy="60%" r="240" />
-        <circle class="blob b3" cx="50%" cy="85%" r="160" />
-        <circle class="blob b4" cx="30%" cy="75%" r="140" />
-        <circle class="blob b5" cx="70%" cy="15%" r="190" />
-      </g>
-    </svg>
+    <div class="blob b1"></div>
+    <div class="blob b2"></div>
+    <div class="blob b3"></div>
+    <div class="blob b4"></div>
+    <div class="blob b5"></div>
+    <div class="blob b6"></div>
   </div>
 
   <nav class="navbar" id="navbar">
