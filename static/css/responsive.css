@@ -1,0 +1,32 @@
+@media (max-width: 768px) {
+  .hero-name { font-size: 2.5rem; }
+  .hero-role { font-size: 1.2rem; }
+
+  .nav-links {
+    position: fixed; top: var(--nav-height); left: 0; width: 100%;
+    flex-direction: column;
+    background: rgba(10, 10, 15, 0.85);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    padding: 24px; gap: 20px;
+    transform: translateY(-100%); opacity: 0;
+    transition: all var(--transition);
+    pointer-events: none;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .nav-links.open { transform: translateY(0); opacity: 1; pointer-events: all; }
+  .hamburger { display: flex; }
+  .about-grid { grid-template-columns: 1fr; gap: 32px; }
+  .avatar-img { width: 150px; height: 150px; }
+  .project-grid { grid-template-columns: 1fr; }
+  .contact-grid { grid-template-columns: 1fr; gap: 32px; }
+  .repo-grid { grid-template-columns: 1fr; }
+  .section { padding: 60px 0; }
+  .hero-cta { flex-direction: column; align-items: center; }
+  .blog-scroll { grid-template-columns: 1fr; }
+}
+
+@media (max-width: 480px) {
+  .hero-name { font-size: 2rem; }
+}
