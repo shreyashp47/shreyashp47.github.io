@@ -42,6 +42,31 @@ document.addEventListener("DOMContentLoaded", () => {
   const footerText = document.getElementById("footerText");
   footerText.innerHTML = `&copy; ${new Date().getFullYear()} ${C.name}. Built with &hearts;`;
 
+  function getSkillIcon(tech) {
+    const deviconMap = {
+      "Kotlin": "devicon-kotlin-plain colored",
+      "Java": "devicon-java-plain colored",
+      "Swift": "devicon-swift-plain colored",
+      "Dart": "devicon-dart-plain colored",
+      "Flutter": "devicon-flutter-plain colored",
+      "Python": "devicon-python-plain colored",
+      "Firebase": "devicon-firebase-plain colored",
+      "Git": "devicon-git-plain colored",
+      "Docker": "devicon-docker-plain colored",
+      "Figma": "devicon-figma-plain colored",
+      "OpenAI": "fas fa-microchip",
+      "MCP": "fas fa-plug",
+      "LangChain": "fas fa-link",
+      "SQLite": "fas fa-database",
+      "Realm": "fas fa-server",
+      "Swagger": "devicon-swagger-plain colored",
+      "Jetpack Compose": "fas fa-mobile-alt",
+      "Notion": "fas fa-sticky-note",
+    };
+    const cls = deviconMap[tech] || `devicon-${tech.toLowerCase().replace(/ /g, "-")}-plain colored`;
+    return `<i class="${cls}"></i>`;
+  }
+
   /* ===== SKILLS ===== */
   const skillsContainer = document.getElementById("skillsContainer");
   Object.entries(C.skills).forEach(([category, techList]) => {
@@ -59,8 +84,8 @@ document.addEventListener("DOMContentLoaded", () => {
     techList.forEach(tech => {
       const card = document.createElement("div");
       card.className = "skill-card";
-      const deviconClass = `devicon-${tech.toLowerCase().replace(/ /g, "-")}-plain colored`;
-      card.innerHTML = `<i class="${deviconClass}"></i><span>${tech}</span>`;
+      const icon = getSkillIcon(tech);
+      card.innerHTML = `${icon}<span>${tech}</span>`;
       grid.appendChild(card);
     });
 
