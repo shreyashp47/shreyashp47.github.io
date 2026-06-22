@@ -153,6 +153,13 @@ const Render = (() => {
       img.loading = "lazy";
       container.appendChild(img);
     });
+    if (C.leetcodeUsername) {
+      const leet = document.createElement("img");
+      leet.src = `https://leetcard.jacoblin.cool/${C.leetcodeUsername}?theme=dark&font=Inter&ext=heatmap&hide_border=true`;
+      leet.alt = "LeetCode Stats";
+      leet.loading = "lazy";
+      container.appendChild(leet);
+    }
   }
 
   function githubRepos() {

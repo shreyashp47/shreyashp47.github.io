@@ -3,6 +3,7 @@ const CONFIG = {
   tagline: "Mobile & AI developer — building Android apps and exploring LLMs",
   githubUsername: "shreyashp47",
   githubUrl: "https://github.com/shreyashp47",
+  leetcodeUsername: "shreyashp47",
   linkedinUrl: "https://linkedin.com/in/shreyashpattewardeveloper",
   twitterUrl: "https://twitter.com/shreyashp4",
   email: "shreyashp47@gmail.com",
