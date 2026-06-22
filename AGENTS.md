@@ -3,24 +3,25 @@
 ## Stack
 
 - **Frontend:** HTML + CSS + Vanilla JS (no frameworks, no build step)
-- **Config:** Embedded as `CONFIG` JS object inline in `portfolio/index.html`
-- **Runtime:** Static site — open `portfolio/index.html` in a browser
-- **Hosting:** GitHub Pages / Netlify / any static file server
+- **Config:** Embedded as `CONFIG` JS object inline in `index.html`
+- **Runtime:** Static site — open `index.html` in a browser
+- **Hosting:** GitHub Pages (`shreyashp47/shreyashp47` repo)
 - **Deprecated (removed):** Flask backend, Jinja2 templating, Python deps
 
 ## Commands
 
 ```bash
 # No build step needed. Just open the file:
-open portfolio/index.html
+open index.html
 ```
 
 ## Architecture
 
-- **`portfolio/index.html`** — single self-contained page. All content is in a `CONFIG` JS object at the bottom of `<body>`. Edit it to update name, bio, skills, projects, links, and LinkedIn posts.
-- **`portfolio/static/css/style.css`** — design system via `:root` variables. Orange/amber accent scheme.
-- **`portfolio/static/js/main.js`** — reads `CONFIG` to render all sections, fetches GitHub repos directly from `api.github.com`, handles typewriter + scroll reveal + contact form.
-- **`portfolio/static/assets/`** — `resume.pdf`, `profile.png`
+- **`index.html`** — single self-contained page. All content is in a `CONFIG` JS object at the bottom of `<body>`. Edit it to update name, bio, skills, projects, links, and LinkedIn posts.
+- **`static/css/style.css`** — design system via `:root` variables. Orange/amber accent scheme.
+- **`static/js/main.js`** — reads `CONFIG` to render all sections, fetches GitHub repos directly from `api.github.com`, handles typewriter + scroll reveal + contact form.
+- **`static/assets/`** — `resume.pdf`, `profile.png`
+- **`README.md`** — GitHub profile README (also in this repo, must stay for profile to work)
 
 ## Key conventions
 
@@ -28,7 +29,7 @@ open portfolio/index.html
 - Scroll reveal: add `.reveal` class to any element; JS Intersection Observer adds `.visible`
 - Skills use Devicon classes — names derived from config strings (lowercased, spaces → hyphens). Some mobile icons (Flutter, Swift) may need manual class overrides.
 - GitHub repo cards fetched client-side from `api.github.com` (unauthenticated, 60 req/hr limit)
-- Contact form submits to Formspree — replace `YOUR_FORM_ID` in `index.html` with a real Formspree endpoint
+- Contact form submits to FormSubmit.co — works with no signup; sends to shreyashp47@gmail.com
 
 ## Gotchas
 
