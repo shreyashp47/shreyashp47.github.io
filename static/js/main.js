@@ -38,12 +38,13 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
   renderSocials("aboutSocials", "row");
-  renderSocials("contactSocials", "column", ["GitHub", "Email"]);
 
   const contactDetails = document.getElementById("contactDetails");
   if (contactDetails) {
     const details = [
       { icon: "fab fa-github", label: "GitHub", value: C.githubUsername, url: C.githubUrl },
+      { icon: "fab fa-linkedin-in", label: "LinkedIn", value: C.linkedinUrl.replace("https://", ""), url: C.linkedinUrl },
+      { icon: "fab fa-twitter", label: "Twitter", value: `@${C.twitterUrl.split("/").pop()}`, url: C.twitterUrl },
       { icon: "fas fa-envelope", label: "Email", value: C.email, url: `mailto:${C.email}` },
     ];
     details.forEach(d => {
