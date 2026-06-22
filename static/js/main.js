@@ -43,14 +43,17 @@ document.addEventListener("DOMContentLoaded", () => {
   const contactDetails = document.getElementById("contactDetails");
   if (contactDetails) {
     const details = [
-      { icon: "fab fa-github", label: "GitHub", value: C.githubUsername },
-      { icon: "fas fa-envelope", label: "Email", value: C.email },
+      { icon: "fab fa-github", label: "GitHub", value: C.githubUsername, url: C.githubUrl },
+      { icon: "fas fa-envelope", label: "Email", value: C.email, url: `mailto:${C.email}` },
     ];
     details.forEach(d => {
-      const div = document.createElement("div");
-      div.className = "contact-detail-item";
-      div.innerHTML = `<i class="${d.icon}"></i> <span>${d.value}</span>`;
-      contactDetails.appendChild(div);
+      const a = document.createElement("a");
+      a.href = d.url;
+      a.target = "_blank";
+      a.rel = "noopener";
+      a.className = "contact-detail-item";
+      a.innerHTML = `<i class="${d.icon}"></i> <span>${d.value}</span>`;
+      contactDetails.appendChild(a);
     });
   }
 
