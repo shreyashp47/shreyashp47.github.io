@@ -143,8 +143,8 @@ const Render = (() => {
     const container = document.getElementById("githubStats");
     const urls = [
       `https://github-readme-stats.vercel.app/api?username=${C.githubUsername}&show_icons=true&theme=tokyonight&hide_border=true`,
-      `https://github-readme-stats.vercel.app/api/top-langs/?username=${C.githubUsername}&layout=compact&theme=tokyonight&hide_border=true`,
       `https://github-readme-streak-stats.herokuapp.com/?user=${C.githubUsername}&theme=tokyonight&hide_border=true`,
+      `https://github-readme-stats.vercel.app/api/top-langs/?username=${C.githubUsername}&layout=compact&theme=tokyonight&hide_border=true`,
     ];
     urls.forEach(src => {
       const img = document.createElement("img");
