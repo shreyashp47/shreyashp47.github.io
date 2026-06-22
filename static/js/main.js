@@ -39,6 +39,20 @@ document.addEventListener("DOMContentLoaded", () => {
   renderSocials("aboutSocials", "row");
   renderSocials("contactSocials", "column");
 
+  const contactDetails = document.getElementById("contactDetails");
+  if (contactDetails) {
+    const details = [
+      { icon: "fab fa-github", label: "GitHub", value: C.githubUsername },
+      { icon: "fas fa-envelope", label: "Email", value: C.email },
+    ];
+    details.forEach(d => {
+      const div = document.createElement("div");
+      div.className = "contact-detail-item";
+      div.innerHTML = `<i class="${d.icon}"></i> <span>${d.value}</span>`;
+      contactDetails.appendChild(div);
+    });
+  }
+
   const footerText = document.getElementById("footerText");
   footerText.innerHTML = `&copy; ${new Date().getFullYear()} ${C.name}. Built with &hearts;`;
 

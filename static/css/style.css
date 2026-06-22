@@ -307,6 +307,7 @@ img { max-width: 100%; display: block; }
   font-weight: 800;
   font-family: var(--font-display);
   margin-bottom: 12px;
+  white-space: nowrap;
   background: linear-gradient(135deg, var(--accent-orange), var(--accent-amber));
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
@@ -713,7 +714,39 @@ img { max-width: 100%; display: block; }
 .contact-info {
   display: flex;
   flex-direction: column;
-  gap: 20px;
+  gap: 24px;
+}
+
+.contact-details {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.contact-detail-item {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 14px 20px;
+  background: var(--bg-glass);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  color: var(--text-muted);
+  font-size: 0.95rem;
+}
+
+.contact-detail-item i {
+  font-size: 1.3rem;
+  width: 24px;
+  text-align: center;
+  color: var(--accent-orange);
+}
+
+.contact-detail-item span {
+  color: var(--text-primary);
+  font-weight: 500;
 }
 
 .contact-socials {
