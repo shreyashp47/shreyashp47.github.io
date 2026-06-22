@@ -10,9 +10,33 @@
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Orbitron:wght@600;700;800;900&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" crossorigin="anonymous" />
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/devicon.min.css" crossorigin="anonymous" />
-  <link rel="stylesheet" href="static/css/base.css?v=2" />
-  <link rel="stylesheet" href="static/css/components.css?v=2" />
-  <link rel="stylesheet" href="static/css/responsive.css?v=2" />
+  <link rel="stylesheet" href="static/css/base.css?v=3" />
+  <link rel="stylesheet" href="static/css/components.css?v=3" />
+  <link rel="stylesheet" href="static/css/responsive.css?v=3" />
+  <script>
+    (function(){
+      var themes = [
+        {bg:"#0F172A",gl:"rgba(15,23,42,0.7)",tx:"#e2e8f0",tm:"#64748B",a1:"#22D3EE",a1r:"34,211,238",a2:"#3B82F6",a2r:"59,130,246",bd:"rgba(34,211,238,0.1)",cu:"#22D3EE",he:"#22D3EE"},
+        {bg:"#0a0a0f",gl:"rgba(17,17,24,0.55)",tx:"#e2e8f0",tm:"#94a3b8",a1:"#f97316",a1r:"249,115,22",a2:"#f59e0b",a2r:"245,158,11",bd:"rgba(255,255,255,0.06)",cu:"#f59e0b",he:"#ef4444"},
+        {bg:"#f4f4f4",gl:"rgba(255,255,255,0.75)",tx:"#2E2E2E",tm:"#6B7280",a1:"#4A90E2",a1r:"74,144,226",a2:"#357ABD",a2r:"53,122,189",bd:"rgba(74,144,226,0.2)",cu:"#4A90E2",he:"#4A90E2"},
+        {bg:"#1C1C1C",gl:"rgba(28,28,28,0.7)",tx:"#FFFFFF",tm:"#9CA3AF",a1:"#F8B400",a1r:"248,180,0",a2:"#E63946",a2r:"230,57,70",bd:"rgba(248,180,0,0.12)",cu:"#F8B400",he:"#E63946"},
+        {bg:"#0F0A1A",gl:"rgba(15,10,26,0.7)",tx:"#e2e8f0",tm:"#7C7A9A",a1:"#A855F7",a1r:"168,85,247",a2:"#EC4899",a2r:"236,72,153",bd:"rgba(168,85,247,0.12)",cu:"#A855F7",he:"#EC4899"}
+      ];
+      var t = themes[Math.floor(Math.random() * themes.length)];
+      var r = document.documentElement;
+      r.style.setProperty("--bg-primary", t.bg);
+      r.style.setProperty("--bg-glass", t.gl);
+      r.style.setProperty("--text-primary", t.tx);
+      r.style.setProperty("--text-muted", t.tm);
+      r.style.setProperty("--accent-1", t.a1);
+      r.style.setProperty("--accent-1-rgb", t.a1r);
+      r.style.setProperty("--accent-2", t.a2);
+      r.style.setProperty("--accent-2-rgb", t.a2r);
+      r.style.setProperty("--border", t.bd);
+      r.style.setProperty("--cursor-color", t.cu);
+      r.style.setProperty("--heart-color", t.he);
+    })();
+  </script>
 </head>
 <body>
   <div id="bg-blobs" aria-hidden="true">
@@ -132,10 +156,11 @@
     </div>
   </footer>
 
-  <script src="static/js/config.js?v=2"></script>
-  <script src="static/js/effects.js?v=2"></script>
-  <script src="static/js/render.js?v=2"></script>
-  <script src="static/js/navigation.js?v=2"></script>
-  <script src="static/js/main.js?v=2"></script>
+  <script src="static/js/config.js?v=3"></script>
+  <script src="static/js/themes.js?v=3"></script>
+  <script src="static/js/effects.js?v=3"></script>
+  <script src="static/js/render.js?v=3"></script>
+  <script src="static/js/navigation.js?v=3"></script>
+  <script src="static/js/main.js?v=3"></script>
 </body>
 </html>
