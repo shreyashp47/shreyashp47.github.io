@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Shreyash Pattewar | Mobile &amp; AI Developer</title>
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>⚡</text></svg>" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" crossorigin="anonymous" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/devicon.min.css" crossorigin="anonymous" />
+  <link rel="stylesheet" href="static/css/style.css" />
+</head>
+<body>
+
+  <nav class="navbar" id="navbar">
+    <div class="nav-container">
+      <a href="#hero" class="nav-logo">SP</a>
+      <ul class="nav-links" id="navLinks">
+        <li><a href="#about" class="nav-link">About</a></li>
+        <li><a href="#skills" class="nav-link">Skills</a></li>
+        <li><a href="#projects" class="nav-link">Projects</a></li>
+        <li><a href="#github" class="nav-link">GitHub</a></li>
+        <li><a href="#blog" class="nav-link">Blog</a></li>
+        <li><a href="#contact" class="nav-link">Contact</a></li>
+      </ul>
+      <button class="hamburger" id="hamburger" aria-label="Menu">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </nav>
+
+  <main>
+
+    <!-- ===== HERO ===== -->
+    <section class="hero" id="hero">
+      <div class="hero-bg"></div>
+      <div class="hero-content">
+        <p class="hero-greeting">Hi, I'm</p>
+        <h1 class="hero-name" id="heroName"></h1>
+        <h2 class="hero-role">
+          <span class="typewriter" id="typewriter"></span>
+          <span class="cursor">|</span>
+        </h2>
+        <p class="hero-tagline" id="heroTagline"></p>
+        <div class="hero-cta">
+          <a href="#projects" class="btn btn-primary">View Projects</a>
+          <a href="static/assets/resume.pdf" class="btn btn-secondary" target="_blank" rel="noopener">Download Resume</a>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== ABOUT ===== -->
+    <section class="section about" id="about">
+      <div class="container">
+        <h2 class="section-title reveal">About Me</h2>
+        <div class="about-grid">
+          <div class="about-avatar reveal">
+            <img src="static/assets/profile.png" alt="Shreyash Pattewar" class="avatar-img" />
+          </div>
+          <div class="about-text reveal" id="aboutText"></div>
+        </div>
+        <div class="about-socials" id="aboutSocials"></div>
+      </div>
+    </section>
+
+    <!-- ===== SKILLS ===== -->
+    <section class="section skills" id="skills">
+      <div class="container">
+        <h2 class="section-title reveal">Skills &amp; Tech Stack</h2>
+        <div id="skillsContainer"></div>
+      </div>
+    </section>
+
+    <!-- ===== PROJECTS ===== -->
+    <section class="section projects" id="projects">
+      <div class="container">
+        <h2 class="section-title reveal">Projects</h2>
+        <div class="project-grid" id="projectsContainer"></div>
+      </div>
+    </section>
+
+    <!-- ===== BLOG / LINKEDIN POSTS ===== -->
+    <section class="section blog" id="blog">
+      <div class="container">
+        <h2 class="section-title reveal">Latest Posts</h2>
+        <!-- Add your LinkedIn posts to the CONFIG object below -->
+        <div class="blog-scroll" id="blogContainer"></div>
+      </div>
+    </section>
+
+    <!-- ===== CONTACT ===== -->
+    <section class="section contact" id="contact">
+      <div class="container">
+        <h2 class="section-title reveal">Get In Touch</h2>
+        <div class="contact-grid">
+          <form class="contact-form reveal" id="contactForm" action="https://formsubmit.co/shreyashp47@gmail.com" method="POST">
+            <input type="hidden" name="_captcha" value="false" />
+            <input type="hidden" name="_template" value="table" />
+            <input type="text" name="name" placeholder="Your Name" required />
+            <input type="email" name="email" placeholder="Your Email" required />
+            <textarea name="message" rows="5" placeholder="Your Message" required></textarea>
+            <button type="submit" class="btn btn-primary">Send Message</button>
+            <p class="form-status" id="formStatus"></p>
+          </form>
+          <div class="contact-info reveal">
+            <div class="contact-socials" id="contactSocials"></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== GITHUB ===== -->
+    <section class="section github" id="github">
+      <div class="container">
+        <h2 class="section-title reveal">GitHub Stats</h2>
+        <div class="github-stats reveal" id="githubStats"></div>
+        <div class="repo-grid" id="repoGrid">
+          <p class="loading-text">Loading repositories...</p>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <footer class="footer">
+    <div class="footer-container">
+      <p id="footerText"></p>
+      <a href="#hero" class="back-to-top" aria-label="Back to top">
+        <i class="fas fa-arrow-up"></i>
+      </a>
+    </div>
+  </footer>
+
+  <script>
+    const CONFIG = {
+      name: "Shreyash Pattewar",
+      tagline: "Mobile & AI developer — building Android apps and exploring LLMs",
+      githubUsername: "shreyashp47",
+      githubUrl: "https://github.com/shreyashp47",
+      linkedinUrl: "https://linkedin.com/in/shreyashpattewardeveloper",
+      twitterUrl: "https://twitter.com/shreyashp4",
+      email: "shreyashp47@gmail.com",
+      resumePath: "static/assets/resume.pdf",
+      skills: {
+        "Mobile": ["Kotlin", "Java", "Swift", "Dart", "Flutter", "Jetpack Compose"],
+        "AI & LLMs": ["Python", "LangChain", "MCP", "OpenAI"],
+        "Backend & Database": ["Firebase", "Swagger", "Realm", "SQLite"],
+        "Tools & DevOps": ["Figma", "Notion", "Git", "Docker"]
+      },
+      projects: [
+        {
+          title: "DoTrack",
+          description: "A modern task management Android app built with Clean Architecture and Jetpack Compose that turns your wallpaper into a dynamic to-do list.",
+          tech: ["Kotlin", "Jetpack Compose", "Room", "Hilt"],
+          github: "https://github.com/shreyashp47/DoTrack",
+          demo: ""
+        },
+        {
+          title: "OpenCodeLeet",
+          description: "LeetCode-style coding practice platform for honing data structures and algorithms skills with real-time feedback.",
+          tech: ["Python"],
+          github: "https://github.com/shreyashp47/OpenCodeLeet",
+          demo: ""
+        },
+        {
+          title: "Shreyash-AI",
+          description: "AI-powered personal assistant exploring LLM agents, function calling, and MCP server integrations — built with Python.",
+          tech: ["Python", "LLM", "MCP"],
+          github: "https://github.com/shreyashp47/Shreyash-AI",
+          demo: ""
+        }
+      ],
+      linkedinPosts: [
+        {
+          date: "Sep 2025",
+          excerpt: "Side-Effects Simplified in Jetpack Compose — a carousel breaking down what side effects are, suspending vs non-suspending effects, and when to use each one in your Compose UI.",
+          likes: 93,
+          url: "https://www.linkedin.com/posts/shreyashpattewardeveloper_side-effects-in-compose-activity-7376132742343925761-kPVw"
+        },
+        {
+          date: "Sep 2025",
+          excerpt: "Kotlin Essentials Every Developer Must Know — a quick carousel covering null-safety, type operators, range operators, scope functions, and equality in Kotlin.",
+          likes: 134,
+          url: "https://www.linkedin.com/posts/shreyashpattewardeveloper_kotlin-essentials-every-developer-must-know-activity-7368942670427115524-biTT"
+        },
+{
+          date: "June 2025",
+          excerpt: "Introducing DoTrack - a modern task management app that turns your wallpaper into a live to-do list! Built with Clean Architecture, Jetpack Compose, Material 3, and a fully automated CI/CD pipeline with GitHub Actions.",
+          likes: 120,
+          url: "https://www.linkedin.com/feed/update/urn:li:activity:7338562065843810304/"
+        }
+      ],
+      bio: "Mobile & AI developer passionate about building Android apps and exploring the world of LLMs, AI agents, and MCP servers. I work with Kotlin, Swift, and Python to bring ideas to life.\n\nCurrently diving deep into AI agent architectures and LLM integrations alongside mobile development. Open to collaborating on projects at the intersection of mobile and AI. When I'm not coding, you'll find me swimming or playing ping pong."
+    };
+  </script>
+  <script src="static/js/main.js"></script>
+</body>
+</html>
