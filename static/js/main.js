@@ -19,9 +19,10 @@ document.addEventListener("DOMContentLoaded", () => {
     { icon: "fab fa-twitter", url: C.twitterUrl, label: "Twitter" },
     { icon: "fas fa-envelope", url: `mailto:${C.email}`, label: "Email" },
   ];
-  function renderSocials(containerId, linkStyle) {
+  function renderSocials(containerId, linkStyle, exclude = []) {
     const container = document.getElementById(containerId);
     socialLinks.forEach(s => {
+      if (exclude.includes(s.label)) return;
       const a = document.createElement("a");
       a.href = s.url;
       a.target = "_blank";
@@ -37,7 +38,7 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
   renderSocials("aboutSocials", "row");
-  renderSocials("contactSocials", "column");
+  renderSocials("contactSocials", "column", ["GitHub", "Email"]);
 
   const contactDetails = document.getElementById("contactDetails");
   if (contactDetails) {
