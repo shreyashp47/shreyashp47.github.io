@@ -20,3 +20,9 @@ open index.html
 - `static/css/` — base, components, responsive
 - `static/js/` — config, themes, effects, render, navigation, main
 - `static/assets/` — resume, profile image
+- `SS/` — screenshots
+
+## Screenshots
+
+![Hero Section](SS/Screenshot%202026-06-22%20at%2012.18.42%E2%80%AFPM.png)
+![Stats Section](SS/Screenshot%202026-06-22%20at%2012.30.29%E2%80%AFPM.png)
