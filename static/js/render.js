@@ -19,6 +19,9 @@ const Render = (() => {
       { icon: "fab fa-github", url: C.githubUrl },
       { icon: "fab fa-linkedin-in", url: C.linkedinUrl },
       { icon: "fab fa-twitter", url: C.twitterUrl },
+      { icon: "fab fa-medium-m", url: C.mediumUrl },
+      { icon: "fab fa-stack-overflow", url: C.stackoverflowUrl },
+      { icon: "fab fa-instagram", url: C.instagramUrl },
       { icon: "fas fa-envelope", url: `mailto:${C.email}` },
     ];
     links.forEach(s => {
@@ -63,6 +66,8 @@ const Render = (() => {
         Realm: "fas fa-server",
         Swagger: "devicon-swagger-plain colored",
         "Jetpack Compose": "fas fa-mobile-alt",
+        TypeScript: "devicon-typescript-plain colored",
+        "CI/CD": "fas fa-sync-alt",
         Notion: "fas fa-sticky-note",
       };
 
@@ -92,11 +97,28 @@ const Render = (() => {
         links += `<a href="${proj.demo}" target="_blank" rel="noopener" class="btn btn-small btn-primary"><i class="fas fa-external-link-alt"></i> Live</a>`;
       }
 
+      let testingHtml = "";
+      if (proj.testing) {
+        testingHtml = `
+          <details class="project-testing">
+            <summary class="testing-summary"><i class="fab fa-google-play"></i> Open Testing on Google Play</summary>
+            <div class="testing-content">
+              <p>This app is in open testing. To try it:</p>
+              <ol>
+                <li>Join the tester group: <a href="${proj.testing.group}" target="_blank" rel="noopener">Google Groups</a></li>
+                <li>Once approved, install from <a href="${proj.testing.playStore}" target="_blank" rel="noopener">Google Play</a></li>
+                <li>Report issues on <a href="${proj.github}/issues" target="_blank" rel="noopener">GitHub</a></li>
+              </ol>
+            </div>
+          </details>`;
+      }
+
       card.innerHTML = `
         <h3 class="project-title">${proj.title}</h3>
         <p class="project-desc">${proj.description}</p>
         <div class="project-tech">${techHtml}</div>
         <div class="project-links">${links}</div>
+        ${testingHtml}
       `;
       container.appendChild(card);
     });
@@ -126,6 +148,9 @@ const Render = (() => {
       { icon: "fab fa-github", value: C.githubUsername, url: C.githubUrl },
       { icon: "fab fa-linkedin-in", value: C.linkedinUrl.replace("https://", ""), url: C.linkedinUrl },
       { icon: "fab fa-twitter", value: `@${C.twitterUrl.split("/").pop()}`, url: C.twitterUrl },
+      { icon: "fab fa-medium-m", value: "medium.com/@shreyashp47", url: C.mediumUrl },
+      { icon: "fab fa-stack-overflow", value: "Stack Overflow", url: C.stackoverflowUrl },
+      { icon: "fab fa-instagram", value: "@shreyashpattewar_", url: C.instagramUrl },
       { icon: "fas fa-envelope", value: C.email, url: `mailto:${C.email}` },
     ];
     items.forEach(d => {

@@ -1,18 +1,21 @@
 const CONFIG = {
   name: "Shreyash Pattewar",
-  tagline: "Mobile & AI developer — building Android apps and exploring LLMs",
+  tagline: "Android & iOS developer exploring LLMs and AI agents",
   githubUsername: "shreyashp47",
   githubUrl: "https://github.com/shreyashp47",
   leetcodeUsername: "shreyashp47",
   linkedinUrl: "https://linkedin.com/in/shreyashpattewardeveloper",
-  twitterUrl: "https://twitter.com/shreyashp4",
+  twitterUrl: "https://x.com/shreyashp4",
+  mediumUrl: "https://medium.com/@shreyashp47",
+  stackoverflowUrl: "https://stackoverflow.com/users/12186899/shreyash-pattewar",
+  instagramUrl: "https://instagram.com/shreyashpattewar_",
   email: "shreyashp47@gmail.com",
   resumePath: "static/assets/resume.pdf",
   skills: {
     "Mobile": ["Kotlin", "Java", "Swift", "Dart", "Flutter", "Jetpack Compose"],
     "AI & LLMs": ["Python", "LangChain", "MCP", "OpenAI"],
-    "Backend & Database": ["Firebase", "Swagger", "Realm", "SQLite"],
-    "Tools & DevOps": ["Figma", "Notion", "Git", "Docker"]
+    "Web & Database": ["TypeScript", "Firebase", "Swagger", "Realm", "SQLite"],
+    "Tools & DevOps": ["Figma", "Notion", "Git", "Docker", "CI/CD"]
   },
   projects: [
     {
@@ -20,7 +23,36 @@ const CONFIG = {
       description: "A modern task management Android app built with Clean Architecture and Jetpack Compose that turns your wallpaper into a dynamic to-do list.",
       tech: ["Kotlin", "Jetpack Compose", "Room", "Hilt"],
       github: "https://github.com/shreyashp47/DoTrack",
+      demo: "",
+      testing: {
+        playStore: "https://play.google.com/store/apps/details?id=com.shreyash.dotrack",
+        group: "https://groups.google.com/g/testers-community"
+      }
+    },
+    {
+      title: "chatgpt-analysis",
+      description: "A ChatGPT clone built with TypeScript — deployed on Vercel. Full-stack web exploration alongside mobile development.",
+      tech: ["TypeScript"],
+      github: "https://github.com/shreyashp47/chatgpt-analysis",
+      demo: "https://chatgpt-clone-app-lyart.vercel.app"
+    },
+    {
+      title: "Anti-Theft-Alarm-App",
+      description: "An Android app that detects unauthorized device motion and triggers a loud alarm — built with Kotlin and device sensor integration.",
+      tech: ["Kotlin", "Android Sensors"],
+      github: "https://github.com/shreyashp47/Anti-Theft-Alarm-App",
       demo: ""
+    },
+    {
+      title: "Sensor-App",
+      description: "A Kotlin-based Android app for reading and visualizing device sensor data in real time.",
+      tech: ["Kotlin", "Android Sensors"],
+      github: "https://github.com/shreyashp47/Sensor-App",
+      demo: "",
+      testing: {
+        playStore: "https://play.google.com/store/apps/details?id=com.shreyash.sensorapp",
+        group: "https://groups.google.com/g/testers-community"
+      }
     },
     {
       title: "OpenCodeLeet",
@@ -57,5 +89,5 @@ const CONFIG = {
       url: "https://www.linkedin.com/feed/update/urn:li:activity:7338562065843810304/"
     }
   ],
-  bio: "Mobile & AI developer passionate about building Android apps and exploring the world of LLMs, AI agents, and MCP servers. I work with Kotlin, Swift, and Python to bring ideas to life.\n\nCurrently diving deep into AI agent architectures and LLM integrations alongside mobile development. Open to collaborating on projects at the intersection of mobile and AI. When I'm not coding, you'll find me swimming or playing ping pong."
+  bio: "Android & iOS developer working at Cognizant, passionate about building mobile apps and exploring the world of LLMs, AI agents, and MCP servers. I work with Kotlin, Swift, and Python to bring ideas to life.\n\nCurrently diving deep into iOS development alongside Android. Open to collaborating on mobile app projects and anything at the intersection of mobile and AI. When I'm not coding, you'll find me swimming or playing ping pong."
 };
