@@ -205,6 +205,16 @@
 .tech-badge { padding: 4px 12px; border-radius: 20px; background: rgba(var(--accent-1-rgb), 0.1); color: var(--accent-1); font-size: 0.78rem; font-weight: 500; }
 .project-links { display: flex; gap: 12px; }
 
+.project-testing { margin-top: 16px; border-top: 1px solid var(--border); padding-top: 12px; }
+.project-testing[open] { padding-bottom: 4px; }
+.testing-summary { cursor: pointer; font-size: 0.85rem; font-weight: 600; color: var(--accent-1); list-style: none; display: flex; align-items: center; gap: 6px; }
+.testing-summary::-webkit-details-marker { display: none; }
+.testing-summary:hover { opacity: 0.8; }
+.testing-content { font-size: 0.82rem; color: var(--text-muted); margin-top: 8px; line-height: 1.7; }
+.testing-content ol { padding-left: 18px; }
+.testing-content a { color: var(--accent-2); text-decoration: underline; }
+.testing-content a:hover { color: var(--accent-1); }
+
 /* ── Blog Cards ── */
 .blog-scroll { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 24px; }
 
