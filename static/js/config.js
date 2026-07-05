@@ -56,10 +56,10 @@ const CONFIG = {
     },
     {
       title: "OpenCodeLeet",
-      description: "LeetCode-style coding practice platform for honing data structures and algorithms skills with real-time feedback.",
-      tech: ["Python"],
+      description: "A local LeetCode-style coding challenge platform supporting Python and Kotlin. Solve algorithm problems in a web editor, run code against test cases, and get instant feedback.",
+      tech: ["Python", "Flask", "Kotlin", "HTML", "Tailwind CSS"],
       github: "https://github.com/shreyashp47/OpenCodeLeet",
-      demo: ""
+      demo: "https://opencodeleet.onrender.com/"
     },
     {
       title: "Shreyash-AI",
