@@ -1,6 +1,6 @@
 export const personal = {
   name: 'Shreyash Pattewar',
-  role: 'Android Developer with 6+ years of experience building 20+ high-impact apps',
+  role: 'Android Developer with 7+ years of experience building 30+ high-impact apps',
   email: 'shreyashp47@gmail.com',
   phone: '(+91) 8806308164',
   location: 'Pune, Maharashtra',
@@ -8,18 +8,18 @@ export const personal = {
 }
 
 export const taglines = [
-  'Building 20+ high-impact Android apps',
+  'Building 30+ high-impact Android apps',
   'Reducing crash rates by 50% with clean architecture',
   'Shipping 27+ white-labeled apps via CI/CD',
   'Android developer at Cognizant & HubEngage',
   'Passionate about performance & clean architecture',
 ]
 
-export const bio = `Android Developer with **6+ years** of experience building **20+ high-impact apps** for enterprise clients, reducing crash rates by **50%**, improving load times by **50%**, and leading development of chat, AI search, and live streaming modules using Kotlin, Jetpack, and CI/CD.
+export const bio = `Android Developer with **7+ years** of experience building **30+ high-impact apps** for enterprise clients, reducing crash rates by **50%**, improving load times by **50%**, and leading development of chat, AI search, and live streaming modules using Kotlin, Jetpack, and CI/CD.
 
 Proven success in scaling Android architecture, shipping white-labeled apps, and enhancing UI/UX for low-end devices. Passionate about clean architecture, performance optimization, and impactful user experiences.
 
-Currently working as an **Associate/Senior Software Developer at Cognizant**, previously at **HubEngage** where I built core modules including real-time chat, AI-powered search, and Amazon IVS live streaming.`
+Currently leading Android development for a multi-brand EV charging application at **CARIAD (Volkswagen Group)** through **Cognizant**, working within a cross-functional team of Android, iOS, QA, and UI/UX engineers. Previously at **HubEngage** where I built core modules including real-time chat, AI-powered search, and Amazon IVS live streaming.`
 
 export const focusAreas = [
   { title: 'Android Architecture', desc: 'MVVM, MVP, MVI — scaling architecture for 27+ white-labeled enterprise apps' },
@@ -29,8 +29,8 @@ export const focusAreas = [
 ]
 
 export const quickStats = [
-  { value: '6+', label: 'Years Experience' },
-  { value: '20+', label: 'Apps Built' },
+  { value: '7+', label: 'Years Experience' },
+  { value: '30+', label: 'Apps Built' },
   { value: '27+', label: 'White-Label Apps' },
   { value: '37+', label: 'Enterprise Clients' },
 ]
@@ -121,8 +121,8 @@ export const experience = [
     role: 'Associate / Senior Software Developer',
     company: 'Cognizant',
     location: 'Pune, India',
-    description: 'Working as an Android developer on enterprise client projects, building and maintaining high-impact mobile applications.',
-    tags: ['Android', 'Kotlin', 'CI/CD', 'Enterprise Apps'],
+    description: 'Leading Android development for a multi-brand EV charging application at CARIAD (Volkswagen Group) within a cross-functional team of 4 Android, 4 iOS, 2 QA, and 2 UI/UX engineers. Delivered ~48 user stories over 9 months, drove story refinement sessions with stakeholders, and showcased 8+ features across 6 Volkswagen Group brands (Audi, Bentley, Škoda, Cupra, Volkswagen, Motum) from a shared Android codebase.',
+    tags: ['Android', 'Kotlin', 'Jetpack Compose', 'CARIAD', 'Volkswagen', 'CI/CD'],
   },
   {
     period: 'Nov 2021 - Sep 2025',
