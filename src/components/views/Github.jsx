@@ -14,7 +14,7 @@ export default function Github() {
         return res.json()
       })
       .then((data) => {
-        const sorted = data.sort((a, b) => (b.stargazers_count || 0) - (a.stargazers_count || 0))
+        const sorted = data.sort((a, b) => new Date(b.updated_at) - new Date(a.updated_at))
         setRepos(sorted)
         setLoading(false)
       })
@@ -90,7 +90,7 @@ export default function Github() {
       {/* Repos */}
       <div className="view-header" style={{ marginBottom: 12 }}>
         <div className="filename" style={{ fontSize: 12 }}>
-          {'// '}repositories (sorted by stars)
+          {'// '}repositories (sorted by last updated)
         </div>
       </div>
 
