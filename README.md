@@ -34,7 +34,33 @@ npm run dev
 npm run build
 ```
 
-Output goes to `dist/` — deployed to GitHub Pages via CI/CD.
+Output goes to `dist/`.
+
+## Switch Between v1 & v2
+
+Two versions are preserved as branches:
+
+| Version | Branch | Description |
+|---------|--------|-------------|
+| **v1 (classic)** | `v1-classic` | Original static HTML/CSS/JS site |
+| **v2 (current)** | `main` / `v2` | React + Vite VS Code IDE theme |
+
+### Via GitHub Actions (no code needed)
+
+1. Go to **Actions** tab → **Deploy to GitHub Pages** workflow
+2. Click **Run workflow**
+3. Choose **v1** or **v2** from the dropdown
+4. Site updates at **shreyashp47.github.io**
+
+### Via CLI
+
+```bash
+# Deploy v1
+git checkout main && git reset --hard v1-classic && git push origin main --force
+
+# Deploy v2
+git checkout main && git reset --hard v2 && git push origin main --force
+```
 
 ## License
 
