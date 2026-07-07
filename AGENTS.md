@@ -2,11 +2,12 @@
 
 ## Versions
 - **v1-classic** — Original static HTML/CSS/JS portfolio
-- **main / v2** — Current React + Vite VS Code IDE theme
+- **v2-vscode-theme** — React + Vite VS Code IDE theme (preserved)
+- **main / v3** — Current: React + Vite Android Studio IDE theme
 
 ## Deploy
-- **Auto**: Push to `main` → builds & deploys v2
-- **Manual**: GitHub Actions → "Deploy to GitHub Pages" → pick v1 or v2
+- **Auto**: Push to `main` → builds & deploys v3
+- **Manual**: GitHub Actions → "Deploy to GitHub Pages" → pick v1, v2, or v3
 
 ## Commands
 - `npm run dev` — Start dev server
