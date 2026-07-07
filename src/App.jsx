@@ -249,9 +249,6 @@ export default function App() {
           <span className="status-item">
             <i className="fa-solid fa-code" /> {files.find((f) => f.id === activeFile)?.label || 'TypeScript React'}
           </span>
-          <span className="status-item">
-            <i className="fa-solid fa-check-circle" style={{color: '#89d185'}} /> Prettier
-          </span>
         </div>
         <div className="status-right">
           <span className="status-item" onClick={() => setThemeSwitcherOpen(true)}>
