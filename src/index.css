@@ -1,28 +1,28 @@
 :root {
-  --as-bg: #2b2b2b;
-  --as-bg2: #313335;
-  --as-bg3: #3c3f41;
-  --as-bg4: #45494a;
-  --as-bg5: #4e5254;
-  --as-menu: #3c3f41;
-  --as-menu-hover: #4e5254;
-  --as-menu-selected: #4b6eaf;
-  --as-border: #323232;
-  --as-border2: #646464;
-  --as-text: #a9b7c6;
-  --as-text2: #bbbbbb;
-  --as-dim: #808080;
+  --as-bg: #0D0E10;
+  --as-bg2: #141517;
+  --as-bg3: #18191C;
+  --as-bg4: #1C1D20;
+  --as-bg5: #222326;
+  --as-menu: #1A1B1E;
+  --as-menu-hover: #222326;
+  --as-menu-selected: #3B3225;
+  --as-border: #282A2D;
+  --as-border2: #3C3E41;
+  --as-text: #BCBEC3;
+  --as-text2: #ffffff;
+  --as-dim: #878A90;
   --as-bright: #ffffff;
-  --as-blue: #6897bb;
-  --as-blue2: #4e8bca;
+  --as-blue: #6BA6EF;
+  --as-blue2: #73BFD3;
   --as-blue3: #579df6;
   --as-blue4: #4a88c7;
   --as-selection: #214283;
   --as-list-select: #2f65ca;
-  --as-green: #6a8759;
-  --as-green2: #499c54;
-  --as-yellow: #ffc66d;
-  --as-orange: #cc7832;
+  --as-green: #4CAF50;
+  --as-green2: #66BB6A;
+  --as-yellow: #FFC66D;
+  --as-orange: #CF8E6D;
   --as-purple: #9876aa;
   --as-pink: #ff6b68;
   --as-red: #bc3f3c;
@@ -597,7 +597,7 @@ body {
 
 .home-content .subtitle {
   font-size: 14px;
-  color: var(--as-orange);
+  color: var(--as-green);
   margin-bottom: 16px;
   min-height: 24px;
 }
@@ -611,7 +611,7 @@ body {
 }
 
 .home-content .highlight {
-  color: var(--as-orange);
+  color: var(--as-green);
 }
 
 .quick-stats {
@@ -659,13 +659,13 @@ body {
 }
 
 .btn:hover {
-  border-color: var(--as-orange);
+  border-color: var(--as-blue);
   color: var(--as-bright);
 }
 
 .btn-primary {
-  background: var(--as-orange);
-  border-color: var(--as-orange);
+  background: var(--as-blue);
+  border-color: var(--as-blue);
   color: var(--as-bright);
 }
 
@@ -707,7 +707,7 @@ body {
 }
 
 .focus-card:hover {
-  border-color: var(--as-orange);
+  border-color: var(--as-blue);
   background: var(--as-bg3);
 }
 
@@ -837,7 +837,7 @@ body {
 }
 
 .project-card:hover {
-  border-color: var(--as-orange);
+  border-color: var(--as-blue);
   background: var(--as-bg3);
 }
 
@@ -995,7 +995,7 @@ body {
 }
 
 .contact-card:hover {
-  border-color: var(--as-orange);
+  border-color: var(--as-blue);
   background: var(--as-bg3);
 }
 
@@ -1108,7 +1108,7 @@ body {
   }
 
   .as-layout .status-bar {
-    background: var(--as-orange);
+    background: var(--as-blue);
     border-top: none;
   }
 
