@@ -234,7 +234,7 @@ export const blogPosts = [
   {
     date: 'Sep 2025',
     title: 'Side-Effects Simplified in Jetpack Compose',
-    excerpt: 'A carousel breaking down what side effects are, suspending vs non-suspending effects, and when to use each one in your Compose UI.',
+    excerpt: 'An article breaking down what side effects are, suspending vs non-suspending effects, and when to use each one in Compose UI.',
     likes: 93,
     url: 'https://www.linkedin.com/posts/shreyashpattewardeveloper_side-effects-in-compose-activity-7376132742343925761-kPVw',
   },
@@ -247,17 +247,6 @@ export const blogPosts = [
   },
 ]
 
-export const files = [
-  { id: 'home', name: 'home.kt', label: 'Kotlin', icon: 'fa-brands fa-android' },
-  { id: 'about', name: 'about.xml', label: 'XML', icon: 'fa-solid fa-mobile-screen' },
-  { id: 'projects', name: 'build.gradle.kts', label: 'Gradle Kotlin', icon: 'fa-solid fa-cubes' },
-  { id: 'skills', name: 'skills.json', label: 'JSON', icon: 'fa-solid fa-database' },
-  { id: 'experience', name: 'experience.kt', label: 'Kotlin', icon: 'fa-brands fa-android' },
-  { id: 'github', name: 'github.json', label: 'JSON', icon: 'fa-brands fa-github' },
-  { id: 'contact', name: 'contact.xml', label: 'XML', icon: 'fa-solid fa-mobile-screen' },
-  { id: 'readme', name: 'README.md', label: 'Markdown', icon: 'fa-solid fa-markdown' },
-]
-
 export const themes = [
   { id: 'default', label: 'Default Dark+' },
   { id: 'rose-pine', label: 'Rosé Pine' },
@@ -265,4 +254,42 @@ export const themes = [
   { id: 'catppuccin', label: 'Catppuccin' },
   { id: 'nord', label: 'Nord' },
   { id: 'gruvbox', label: 'Gruvbox' },
+]
+
+// File tree structure for the IDE project panel
+export const fileTree = [
+  {
+    name: 'Portfolio',
+    type: 'folder',
+    open: true,
+    children: [
+      {
+        name: 'About',
+        type: 'folder',
+        open: true,
+        children: [
+          { id: 'bio', name: 'Bio.md', type: 'file', icon: 'fa-solid fa-file-lines' },
+        ],
+      },
+      {
+        name: 'Skills',
+        type: 'folder',
+        open: true,
+        children: [
+          { id: 'techstack', name: 'TechStack.json', type: 'file', icon: 'fa-solid fa-file-code' },
+        ],
+      },
+      {
+        name: 'Projects',
+        type: 'folder',
+        open: true,
+        children: [
+          { id: 'project1', name: 'Project1.java', type: 'file', icon: 'fa-brands fa-java' },
+          { id: 'project2', name: 'Project2.py', type: 'file', icon: 'fa-brands fa-python' },
+          { id: 'project3', name: 'Project3.js', type: 'file', icon: 'fa-brands fa-js' },
+        ],
+      },
+      { id: 'contact', name: 'Contact.txt', type: 'file', icon: 'fa-solid fa-file-alt' },
+    ],
+  },
 ]

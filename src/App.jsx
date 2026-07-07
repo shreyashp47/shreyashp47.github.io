@@ -1,51 +1,105 @@
 import { useState, useEffect, useCallback } from 'react'
-import { files } from './data/content'
+import { fileTree } from './data/content'
 import { useTheme } from './hooks/useTheme'
 import ThemeSwitcher from './components/ThemeSwitcher'
 import Terminal from './components/Terminal'
 import CommandPalette from './components/CommandPalette'
-import Home from './components/views/Home'
-import About from './components/views/About'
-import Projects from './components/views/Projects'
-import Skills from './components/views/Skills'
-import Experience from './components/views/Experience'
-import Github from './components/views/Github'
-import Contact from './components/views/Contact'
-import Readme from './components/views/Readme'
-
-const fileIcons = {
-  'fa-brands fa-android': '#3DDC84',
-  'fa-solid fa-mobile-screen': '#6897BB',
-  'fa-solid fa-cubes': '#005EFF',
-  'fa-solid fa-database': '#CC7832',
-  'fa-brands fa-github': '#FFFFFF',
-  'fa-solid fa-markdown': '#083FA1',
-}
+import BioMd from './components/views/BioMd'
+import TechStackJson from './components/views/TechStackJson'
+import Project1Java from './components/views/Project1Java'
+import Project2Py from './components/views/Project2Py'
+import Project3Js from './components/views/Project3Js'
+import ContactTxt from './components/views/ContactTxt'
 
 const viewComponents = {
-  home: Home,
-  about: About,
-  projects: Projects,
-  skills: Skills,
-  experience: Experience,
-  github: Github,
-  contact: Contact,
-  readme: Readme,
+  bio: BioMd,
+  techstack: TechStackJson,
+  project1: Project1Java,
+  project2: Project2Py,
+  project3: Project3Js,
+  contact: ContactTxt,
 }
 
-const menuItems = ['File', 'Edit', 'View', 'Navigate', 'Code', 'Analyze', 'Refactor', 'Build', 'Run', 'Tools', 'VCS', 'Window', 'Help']
+const menuItems = ['File', 'Edit', 'View', 'Navigate', 'Code', 'Run', 'Portfolio']
+
+const fileIconMap = {
+  'fa-solid fa-file-lines': '#A9B7C6',
+  'fa-solid fa-file-code': '#6897BB',
+  'fa-brands fa-java': '#ED8B00',
+  'fa-brands fa-python': '#3776AB',
+  'fa-brands fa-js': '#F7DF1E',
+  'fa-solid fa-file-alt': '#CC7832',
+}
+
+const fileExtIcons = {
+  md: { icon: 'fa-solid fa-file-lines', color: '#A9B7C6' },
+  json: { icon: 'fa-solid fa-file-code', color: '#6897BB' },
+  java: { icon: 'fa-brands fa-java', color: '#ED8B00' },
+  py: { icon: 'fa-brands fa-python', color: '#3776AB' },
+  js: { icon: 'fa-brands fa-js', color: '#F7DF1E' },
+  txt: { icon: 'fa-solid fa-file-alt', color: '#CC7832' },
+}
+
+function getFileIcon(name) {
+  const ext = name.split('.').pop()
+  return fileExtIcons[ext] || { icon: 'fa-solid fa-file', color: '#A9B7C6' }
+}
+
+function TreeNode({ node, activeFile, onOpenFile, expandedFolders, onToggleFolder }) {
+  const isFolder = node.type === 'folder'
+  const isOpen = expandedFolders[node.name] !== false
+
+  if (isFolder) {
+    return (
+      <div className="tree-folder">
+        <div className="tree-folder-label" onClick={() => onToggleFolder(node.name)}>
+          <i className={`fa-solid fa-chevron-right tree-chevron ${isOpen ? 'open' : ''}`} />
+          <i className={`fa-solid ${isOpen ? 'fa-folder-open' : 'fa-folder'} tree-folder-icon`} />
+          <span>{node.name}</span>
+        </div>
+        {isOpen && node.children && (
+          <div className="tree-children">
+            {node.children.map((child, i) => (
+              <TreeNode
+                key={child.name + i}
+                node={child}
+                activeFile={activeFile}
+                onOpenFile={onOpenFile}
+                expandedFolders={expandedFolders}
+                onToggleFolder={onToggleFolder}
+              />
+            ))}
+          </div>
+        )}
+      </div>
+    )
+  }
+
+  const fi = node.icon ? { icon: node.icon, color: fileIconMap[node.icon] || '#A9B7C6' } : getFileIcon(node.name)
+
+  return (
+    <div
+      className={`tree-file ${activeFile === node.id ? 'active' : ''}`}
+      onClick={() => onOpenFile(node.id, node.name)}
+    >
+      <i className={fi.icon} style={{ color: fi.color, width: 14, fontSize: 12 }} />
+      <span>{node.name}</span>
+    </div>
+  )
+}
 
 export default function App() {
   const { theme, setTheme } = useTheme()
-  const [activeFile, setActiveFile] = useState('home')
+  const [activeFile, setActiveFile] = useState('bio')
   const [navOpen, setNavOpen] = useState(true)
   const [terminalOpen, setTerminalOpen] = useState(false)
   const [paletteOpen, setPaletteOpen] = useState(false)
   const [themeSwitcherOpen, setThemeSwitcherOpen] = useState(false)
   const [isMobile, setIsMobile] = useState(window.innerWidth < 1024)
   const [mobileNav, setMobileNav] = useState(false)
-  const [openTabs, setOpenTabs] = useState([{ id: 'home', name: 'home.kt', icon: 'fa-brands fa-android' }])
   const [activeMenu, setActiveMenu] = useState(null)
+  const [expandedFolders, setExpandedFolders] = useState({ Portfolio: true, About: true, Skills: true, Projects: true })
+  const [openTabs, setOpenTabs] = useState([{ id: 'bio', name: 'Bio.md' }])
 
   useEffect(() => {
     const handleResize = () => setIsMobile(window.innerWidth < 1024)
@@ -53,14 +107,13 @@ export default function App() {
     return () => window.removeEventListener('resize', handleResize)
   }, [])
 
-  const openFile = useCallback((id) => {
-    const file = files.find((f) => f.id === id)
-    if (!file) return
+  const openFile = useCallback((id, name) => {
+    if (!id || !name) return
     setActiveFile(id)
     setMobileNav(false)
     setOpenTabs((tabs) => {
       if (tabs.find((t) => t.id === id)) return tabs
-      return [...tabs, { id: file.id, name: file.name, icon: file.icon }]
+      return [...tabs, { id, name }]
     })
   }, [])
 
@@ -93,45 +146,49 @@ export default function App() {
     return () => window.removeEventListener('keydown', handleKeyDown)
   }, [])
 
-  const ActiveView = viewComponents[activeFile] || Home
+  const toggleFolder = (name) => {
+    setExpandedFolders((prev) => ({ ...prev, [name]: !prev[name] }))
+  }
+
+  const ActiveView = viewComponents[activeFile] || BioMd
 
   const navContent = (
     <>
       <div className="nav-header">
         <i className="fa-solid fa-folder-open" />
-        <span>Portfolio</span>
+        <span>Project</span>
         <i className="fa-solid fa-ellipsis-vertical" style={{ marginLeft: 'auto', opacity: 0.5 }} />
       </div>
       <div className="nav-tree">
-        {files.map((file) => (
-          <div
-            key={file.id}
-            className={`nav-file ${activeFile === file.id ? 'active' : ''}`}
-            onClick={() => openFile(file.id)}
-          >
-            <i className={file.icon} style={{ color: fileIcons[file.icon] || 'var(--as-dim)', width: 16, fontSize: 12 }} />
-            <span>{file.name}</span>
-          </div>
+        {fileTree.map((node, i) => (
+          <TreeNode
+            key={node.name + i}
+            node={node}
+            activeFile={activeFile}
+            onOpenFile={openFile}
+            expandedFolders={expandedFolders}
+            onToggleFolder={toggleFolder}
+          />
         ))}
       </div>
       {isMobile && (
         <>
           <div className="nav-divider" />
           <div className="nav-actions">
-            <div className="nav-file" onClick={() => { setPaletteOpen(true); setMobileNav(false) }}>
-              <i className="fa-solid fa-search" style={{ width: 16, fontSize: 12, color: 'var(--as-dim)' }} />
+            <div className="tree-file" onClick={() => { setPaletteOpen(true); setMobileNav(false) }}>
+              <i className="fa-solid fa-search" style={{ width: 14, fontSize: 12, color: 'var(--as-dim)' }} />
               <span>Search</span>
             </div>
-            <div className="nav-file" onClick={() => { setTerminalOpen((v) => !v); setMobileNav(false) }}>
-              <i className="fa-solid fa-terminal" style={{ width: 16, fontSize: 12, color: 'var(--as-dim)' }} />
+            <div className="tree-file" onClick={() => { setTerminalOpen((v) => !v); setMobileNav(false) }}>
+              <i className="fa-solid fa-terminal" style={{ width: 14, fontSize: 12, color: 'var(--as-dim)' }} />
               <span>Terminal</span>
             </div>
-            <div className="nav-file" onClick={() => { setThemeSwitcherOpen(true); setMobileNav(false) }}>
-              <i className="fa-solid fa-palette" style={{ width: 16, fontSize: 12, color: 'var(--as-dim)' }} />
+            <div className="tree-file" onClick={() => { setThemeSwitcherOpen(true); setMobileNav(false) }}>
+              <i className="fa-solid fa-palette" style={{ width: 14, fontSize: 12, color: 'var(--as-dim)' }} />
               <span>Theme</span>
             </div>
-            <div className="nav-file" onClick={() => { window.open('https://github.com/shreyashp47', '_blank'); setMobileNav(false) }}>
-              <i className="fa-brands fa-github" style={{ width: 16, fontSize: 12, color: 'var(--as-dim)' }} />
+            <div className="tree-file" onClick={() => { window.open('https://github.com/shreyashp47', '_blank'); setMobileNav(false) }}>
+              <i className="fa-brands fa-github" style={{ width: 14, fontSize: 12, color: 'var(--as-dim)' }} />
               <span>GitHub</span>
             </div>
           </div>
@@ -151,10 +208,11 @@ export default function App() {
     <div className={layoutClass} onClick={() => activeMenu && setActiveMenu(null)}>
       {/* Menu Bar */}
       <div className="menu-bar">
-        <span className="menu-logo" style={{ fontWeight: 700, fontSize: 12, letterSpacing: 0.5 }}>
-          <i className="fa-brands fa-android" style={{ fontSize: 14, marginRight: 6, color: 'var(--as-green)' }} />
-          Portfolio
-        </span>
+        <div className="window-controls">
+          <span className="window-dot red" />
+          <span className="window-dot yellow" />
+          <span className="window-dot green" />
+        </div>
         {menuItems.map((m) => (
           <span
             key={m}
@@ -164,18 +222,6 @@ export default function App() {
             {m}
           </span>
         ))}
-      </div>
-
-      {/* Toolbar */}
-      <div className="toolbar">
-        <div className="toolbar-group">
-          <button className="toolbar-btn" onClick={() => setNavOpen((v) => !v)} title="Project"><i className="fa-solid fa-folder-tree" /></button>
-        </div>
-        <div className="toolbar-group" style={{ marginLeft: 'auto' }}>
-          <button className="toolbar-btn" onClick={() => setPaletteOpen(true)} title="Search"><i className="fa-solid fa-search" /></button>
-          <button className="toolbar-btn" onClick={() => setThemeSwitcherOpen(true)} title="Theme"><i className="fa-solid fa-palette" /></button>
-          <button className="toolbar-btn" onClick={() => window.open('https://github.com/shreyashp47', '_blank')} title="GitHub"><i className="fa-brands fa-github" /></button>
-        </div>
       </div>
 
       {/* Navigation Panel */}
@@ -198,37 +244,27 @@ export default function App() {
       {/* Editor */}
       <div className="editor">
         <div className="editor-tabs">
-          {openTabs.map((tab) => (
-            <div
-              key={tab.id}
-              className={`editor-tab ${activeFile === tab.id ? 'active' : ''}`}
-              onClick={() => setActiveFile(tab.id)}
-            >
-              <i className={tab.icon} style={{ fontSize: 11, color: fileIcons[tab.icon] || 'var(--as-dim)' }} />
-              <span>{tab.name}</span>
-              <i
-                className="fa-solid fa-xmark"
-                style={{ fontSize: 11, opacity: 0.5, marginLeft: 4, cursor: 'pointer' }}
-                onClick={(e) => closeTab(e, tab.id)}
-              />
-            </div>
-          ))}
+          {openTabs.map((tab) => {
+            const fi = getFileIcon(tab.name)
+            return (
+              <div
+                key={tab.id}
+                className={`editor-tab ${activeFile === tab.id ? 'active' : ''}`}
+                onClick={() => setActiveFile(tab.id)}
+              >
+                <i className={fi.icon} style={{ fontSize: 11, color: fi.color }} />
+                <span>{tab.name}</span>
+                <i
+                  className="fa-solid fa-xmark"
+                  style={{ fontSize: 11, opacity: 0.5, marginLeft: 4, cursor: 'pointer' }}
+                  onClick={(e) => closeTab(e, tab.id)}
+                />
+              </div>
+            )
+          })}
         </div>
-        <div className={`editor-content ${isMobile ? 'compact' : ''}`}>
-          <ActiveView onNavigate={openFile} />
-        </div>
-      </div>
-
-      {/* Tool Window Bar (bottom) */}
-      <div className="tw-bar">
-        <div className="tw-bar-left">
-          <span className={`tw-item ${terminalOpen ? 'active' : ''}`} onClick={() => setTerminalOpen((v) => !v)}>
-            <i className="fa-solid fa-terminal" /> Terminal
-          </span>
-          <span className="tw-item"><i className="fa-solid fa-list-check" /> TODO</span>
-          <span className="tw-item"><i className="fa-solid fa-bug" /> Logcat</span>
-          <span className="tw-item"><i className="fa-solid fa-hammer" /> Build</span>
-          <span className="tw-item"><i className="fa-solid fa-circle-play" /> Run</span>
+        <div className="editor-content">
+          <ActiveView />
         </div>
       </div>
 
@@ -236,19 +272,29 @@ export default function App() {
       <div className="status-bar">
         <div className="status-left">
           <span className="status-item" onClick={() => setTerminalOpen((v) => !v)}>
-            <i className="fa-solid fa-branch" /> v3
+            <i className="fa-solid fa-branch" /> main
           </span>
           <span className="status-item">
-            <i className="fa-solid fa-code" /> {files.find((f) => f.id === activeFile)?.label || 'TypeScript'}
+            <i className="fa-solid fa-code" /> UTF-8
           </span>
         </div>
         <div className="status-right">
-          <span className="status-item">
-            <i className="fa-solid fa-indent" /> UTF-8
-          </span>
           <span className="status-item">Ln 1, Col 1</span>
-          <span className="status-item">LF</span>
-          <span className="status-item">4 spaces</span>
+          <span className="status-item">
+            <a href="https://github.com/shreyashp47" target="_blank" rel="noopener noreferrer" className="status-link">
+              <i className="fa-brands fa-github" />
+            </a>
+          </span>
+          <span className="status-item">
+            <a href="https://linkedin.com/in/shreyashpattewardeveloper" target="_blank" rel="noopener noreferrer" className="status-link">
+              <i className="fa-brands fa-linkedin-in" />
+            </a>
+          </span>
+          <span className="status-item">
+            <a href="mailto:shreyashp47@gmail.com" className="status-link">
+              <i className="fa-solid fa-envelope" />
+            </a>
+          </span>
           <span className="status-item hamburger" onClick={() => setMobileNav((v) => !v)}>
             <i className="fa-solid fa-bars" />
           </span>
@@ -259,14 +305,20 @@ export default function App() {
       <Terminal
         visible={terminalOpen}
         onToggle={() => setTerminalOpen(false)}
-        onOpenFile={(id) => openFile(id)}
+        onOpenFile={(id) => {
+          const map = { bio: 'Bio.md', techstack: 'TechStack.json', project1: 'Project1.java', project2: 'Project2.py', project3: 'Project3.js', contact: 'Contact.txt' }
+          openFile(id, map[id])
+        }}
       />
 
       {/* Command Palette */}
       <CommandPalette
         visible={paletteOpen}
         onClose={() => setPaletteOpen(false)}
-        onOpenFile={(id) => openFile(id)}
+        onOpenFile={(id) => {
+          const map = { bio: 'Bio.md', techstack: 'TechStack.json', project1: 'Project1.java', project2: 'Project2.py', project3: 'Project3.js', contact: 'Contact.txt' }
+          openFile(id, map[id])
+        }}
       />
 
       {/* Theme Switcher */}

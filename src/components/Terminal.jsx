@@ -1,35 +1,35 @@
 import { useState, useRef, useEffect } from 'react'
 
-const welcomeLines = [
-  'Welcome to Shreyash Pattewar\'s Portfolio terminal v2.0',
-  'Type "help" for available commands.',
-  '',
+const buildLines = [
+  { text: '> Building Portfolio...', delay: 0 },
+  { text: '> Compiling Skills... ✅', delay: 800 },
+  { text: '> Loading Projects... ✅', delay: 1600 },
+  { text: '> BUILD SUCCESSFUL in 0.8s', delay: 2400 },
+  { text: '', delay: 3200 },
 ]
 
-const helpText = `Available commands:
-  help              - Show this message
-  clear             - Clear terminal
-  whoami            - Display current user
-  ls                - List portfolio sections
-  cat [section]     - Open a section (home, about, projects, skills, experience, contact, readme)
-  pwd               - Print working directory
-  date              - Show current date
-  echo [text]       - Print text
-  neofetch          - Display system info`
-
-const fileMap = {
-  home: 'home', about: 'about', projects: 'projects',
-  skills: 'skills', experience: 'experience', github: 'github',
-  contact: 'contact', readme: 'readme',
-}
-
 export default function Terminal({ visible, onToggle, onOpenFile }) {
-  const [lines, setLines] = useState(welcomeLines)
+  const [lines, setLines] = useState([])
   const [input, setInput] = useState('')
   const [history, setHistory] = useState([])
   const [historyIdx, setHistoryIdx] = useState(-1)
+  const [buildDone, setBuildDone] = useState(false)
   const inputRef = useRef(null)
   const bodyRef = useRef(null)
+
+  useEffect(() => {
+    if (!visible) return
+    setLines([])
+    setBuildDone(false)
+    buildLines.forEach(({ text, delay }) => {
+      setTimeout(() => {
+        setLines((prev) => [...prev, { text, type: 'build' }])
+        if (delay === 3200) {
+          setTimeout(() => setBuildDone(true), 400)
+        }
+      }, delay)
+    })
+  }, [visible])
 
   useEffect(() => {
     if (visible && inputRef.current) inputRef.current.focus()
@@ -38,6 +38,11 @@ export default function Terminal({ visible, onToggle, onOpenFile }) {
   useEffect(() => {
     if (bodyRef.current) bodyRef.current.scrollTop = bodyRef.current.scrollHeight
   }, [lines])
+
+  const fileMap = {
+    bio: 'bio', techstack: 'techstack', project1: 'project1',
+    project2: 'project2', project3: 'project3', contact: 'contact',
+  }
 
   const processCommand = (cmd) => {
     const parts = cmd.trim().split(/\s+/)
@@ -51,7 +56,15 @@ export default function Terminal({ visible, onToggle, onOpenFile }) {
 
     switch (command) {
       case 'help':
-        output.push(helpText)
+        output.push('Available commands:')
+        output.push('  help              - Show this message')
+        output.push('  clear             - Clear terminal')
+        output.push('  whoami            - Display current user')
+        output.push('  ls                - List portfolio files')
+        output.push('  open [file]       - Open a file (Bio.md, TechStack.json, Project1.java, etc.)')
+        output.push('  pwd               - Print working directory')
+        output.push('  build             - Re-run build')
+        output.push('  neofetch          - Display system info')
         break
       case 'clear':
         setLines([])
@@ -60,46 +73,59 @@ export default function Terminal({ visible, onToggle, onOpenFile }) {
         output.push('shreyashp47')
         break
       case 'ls':
-        output.push('home.kt    about.xml    build.gradle.kts    skills.json')
-        output.push('experience.kt    github.json    contact.xml    README.md')
+        output.push('About/')
+        output.push('  Bio.md')
+        output.push('Skills/')
+        output.push('  TechStack.json')
+        output.push('Projects/')
+        output.push('  Project1.java')
+        output.push('  Project2.py')
+        output.push('  Project3.js')
+        output.push('Contact.txt')
         break
-      case 'cat':
       case 'open':
         if (args.length === 0) {
-          output.push('cat: missing operand')
+          output.push('open: missing operand')
         } else {
           const target = args[0].replace(/\.\w+$/, '').toLowerCase()
-          if (fileMap[target]) {
-            if (onOpenFile) onOpenFile(fileMap[target])
+          const idMap = { bio: 'bio', techstack: 'techstack', project1: 'project1', project2: 'project2', project3: 'project3', contact: 'contact' }
+          if (idMap[target] && onOpenFile) {
+            onOpenFile(idMap[target])
             output.push(`Opening ${args[0]}...`)
           } else {
-            output.push(`cat: ${args[0]}: No such file`)
+            output.push(`open: ${args[0]}: No such file`)
           }
         }
         break
       case 'pwd':
         output.push('/home/shreyashp47/portfolio')
         break
-      case 'date':
-        output.push(new Date().toString())
-        break
-      case 'echo':
-        output.push(args.join(' '))
-        break
+      case 'build':
+        setLines([])
+        setBuildDone(false)
+        buildLines.forEach(({ text, delay }) => {
+          setTimeout(() => {
+            setLines((prev) => [...prev, { text, type: 'build' }])
+            if (delay === 3200) {
+              setTimeout(() => setBuildDone(true), 400)
+            }
+          }, delay)
+        })
+        return
       case 'neofetch':
         output.push('shreyashp47@portfolio')
         output.push('---------------------')
         output.push('OS: macOS')
         output.push('Shell: zsh')
-        output.push('Editor: VS Code Portfolio')
-        output.push('Languages: Kotlin, Swift, Python, TypeScript')
-        output.push('Uptime: ' + Math.floor(Math.random() * 30 + 1) + ' days')
+        output.push('IDE: Android Studio')
+        output.push('Theme: Darcula Dark')
+        output.push('Languages: Kotlin, Java, Python, JavaScript')
         break
       default:
         output.push(`Command not found: ${command}. Type "help" for available commands.`)
     }
 
-    setLines((l) => [...l, `$ ${cmd}`, ...output])
+    setLines((l) => [...l, { text: `$ ${cmd}`, type: 'input' }, ...output.map((t) => ({ text: t, type: 'output' }))])
   }
 
   const handleKeyDown = (e) => {
@@ -133,29 +159,39 @@ export default function Terminal({ visible, onToggle, onOpenFile }) {
   return (
     <div className="terminal-panel">
       <div className="terminal-header" onClick={onToggle}>
-        <span><i className="fa-solid fa-terminal" style={{marginRight: 6}} />Terminal</span>
-        <span onClick={(e) => { e.stopPropagation(); onToggle() }} style={{cursor: 'pointer'}}>
+        <span><i className="fa-solid fa-terminal" style={{ marginRight: 6 }} />Build</span>
+        <span onClick={(e) => { e.stopPropagation(); onToggle() }} style={{ cursor: 'pointer' }}>
           <i className="fa-solid fa-times" />
         </span>
       </div>
       <div className="terminal-body" ref={bodyRef} onClick={() => inputRef.current?.focus()}>
         {lines.map((line, i) => (
-          <div className="terminal-line" key={i} style={{color: line.startsWith('$') ? 'var(--gcm)' : line.startsWith('Command') || line.startsWith('cat:') ? 'var(--red)' : 'var(--text)'}}>
-            {line}
+          <div
+            key={i}
+            className="terminal-line"
+            style={{
+              color: line.type === 'build'
+                ? line.text.includes('SUCCESSFUL') ? 'var(--as-green)' : 'var(--as-text)'
+                : line.type === 'input' ? 'var(--accent-android)' : 'var(--as-text)',
+            }}
+          >
+            {line.text}
           </div>
         ))}
-        <div className="terminal-input-line">
-          <span className="terminal-prompt">$</span>
-          <input
-            ref={inputRef}
-            className="terminal-input"
-            value={input}
-            onChange={(e) => setInput(e.target.value)}
-            onKeyDown={handleKeyDown}
-            spellCheck={false}
-            autoComplete="off"
-          />
-        </div>
+        {buildDone && (
+          <div className="terminal-input-line">
+            <span className="terminal-prompt">$</span>
+            <input
+              ref={inputRef}
+              className="terminal-input"
+              value={input}
+              onChange={(e) => setInput(e.target.value)}
+              onKeyDown={handleKeyDown}
+              spellCheck={false}
+              autoComplete="off"
+            />
+          </div>
+        )}
       </div>
     </div>
   )
