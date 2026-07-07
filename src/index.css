@@ -178,8 +178,11 @@ body {
 }
 
 .app-grid.mobile {
-  display: flex;
-  flex-direction: column;
+  grid-template-columns: 48px 1fr;
+  grid-template-areas:
+    "title title"
+    "act   editor"
+    "status status";
 }
 
 .mobile-sidebar {
@@ -413,6 +416,15 @@ body {
 
 .status-item:hover {
   background: rgba(255,255,255,0.12);
+}
+
+.status-item.hamburger {
+  display: none;
+}
+@media (max-width: 1023px) {
+  .status-item.hamburger {
+    display: flex;
+  }
 }
 
 /* Terminal */
@@ -1115,8 +1127,34 @@ body {
   color: var(--blue);
 }
 
-/* Responsive */
+/* Mobile touch targets & overrides */
 @media (max-width: 1023px) {
+  .file-item {
+    padding: 8px 12px 8px 20px;
+    min-height: 36px;
+  }
+  .editor-tab {
+    padding: 8px 14px;
+    min-height: 36px;
+  }
+  .status-item {
+    padding: 0 8px;
+    min-height: 36px;
+  }
+  .activity-btn {
+    height: 44px;
+  }
+  .sidebar-header {
+    padding: 10px 12px;
+    min-height: 36px;
+  }
+  .command-palette-overlay {
+    padding-top: 40px;
+    align-items: flex-start;
+  }
+  .command-palette {
+    max-height: 60vh;
+  }
   .home-wrapper {
     flex-direction: column;
     align-items: flex-start;
@@ -1165,5 +1203,63 @@ body {
   }
   .command-palette {
     width: calc(100vw - 32px);
+  }
+}
+
+@media (max-width: 480px) {
+  .app-grid.mobile {
+    grid-template-columns: 1fr;
+    grid-template-areas:
+      "title"
+      "editor"
+      "status";
+  }
+  .app-grid.mobile .activity-bar {
+    display: none;
+  }
+  .editor-content.compact {
+    padding: 10px;
+  }
+  .home-content h1 {
+    font-size: 20px;
+  }
+  .quick-stats {
+    flex-wrap: wrap;
+    gap: 12px;
+  }
+  .stat-item {
+    flex: 1 1 calc(50% - 12px);
+  }
+  .stat-value {
+    font-size: 18px;
+  }
+  .stat-label {
+    font-size: 10px;
+  }
+  .focus-card {
+    padding: 10px;
+  }
+  .project-card {
+    padding: 14px;
+  }
+  .project-card h3 {
+    font-size: 14px;
+  }
+  .skill-category {
+    padding: 12px;
+  }
+  .education-table th,
+  .education-table td {
+    padding: 6px 8px;
+    font-size: 11px;
+  }
+  .timeline-item {
+    padding-bottom: 20px;
+  }
+  .timeline-title {
+    font-size: 13px;
+  }
+  .contact-card {
+    padding: 10px;
   }
 }

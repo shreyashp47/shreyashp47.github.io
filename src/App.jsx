@@ -119,8 +119,15 @@ export default function App() {
     </>
   )
 
+  const gridClass = [
+    'app-grid',
+    isMobile ? 'mobile' : '',
+    !sidebarOpen ? 'sidebar-hidden' : '',
+    terminalOpen ? 'terminal-open' : '',
+  ].filter(Boolean).join(' ')
+
   return (
-    <div className="app-grid">
+    <div className={gridClass}>
       {/* Title Bar */}
       <div className="title-bar">
         <span style={{ opacity: 0.6 }}>
@@ -205,7 +212,7 @@ export default function App() {
             </div>
           ))}
         </div>
-        <div className="editor-content">
+        <div className={`editor-content ${isMobile ? 'compact' : ''}`}>
           <ActiveView />
         </div>
       </div>
@@ -229,7 +236,7 @@ export default function App() {
           </span>
           <span className="status-item">Ln 1, Col 1</span>
           <span className="status-item">UTF-8</span>
-          <span className="status-item" onClick={() => setMobileSidebar((v) => !v)}>
+          <span className="status-item hamburger" onClick={() => setMobileSidebar((v) => !v)}>
             <i className="fa-solid fa-bars" />
           </span>
         </div>

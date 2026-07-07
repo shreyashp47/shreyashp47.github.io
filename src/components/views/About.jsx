@@ -29,24 +29,26 @@ export default function About() {
         </div>
         <div>
           <h3 style={{fontSize: 14, color: 'var(--dim)', textTransform: 'uppercase', letterSpacing: '0.08em', marginBottom: 12}}>Education</h3>
-          <table className="education-table">
-            <thead>
-              <tr>
-                <th>Institution</th>
-                <th>Degree</th>
-                <th>Period</th>
-              </tr>
-            </thead>
-            <tbody>
-              {education.map((e, i) => (
-                <tr key={i}>
-                  <td>{e.institution}<br /><span style={{color: 'var(--dim)', fontSize: 11}}>{e.location}</span></td>
-                  <td>{e.degree}</td>
-                  <td>{e.period}</td>
+          <div style={{ overflowX: 'auto' }}>
+            <table className="education-table">
+              <thead>
+                <tr>
+                  <th>Institution</th>
+                  <th>Degree</th>
+                  <th>Period</th>
                 </tr>
-              ))}
-            </tbody>
-          </table>
+              </thead>
+              <tbody>
+                {education.map((e, i) => (
+                  <tr key={i}>
+                    <td>{e.institution}<br /><span style={{color: 'var(--dim)', fontSize: 11}}>{e.location}</span></td>
+                    <td>{e.degree}</td>
+                    <td>{e.period}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
           <h3 style={{fontSize: 14, color: 'var(--dim)', textTransform: 'uppercase', letterSpacing: '0.08em', margin: '20px 0 12px'}}>Certifications</h3>
           <div style={{display: 'flex', flexDirection: 'column', gap: 6, marginBottom: 20}}>
             {certifications.map((c, i) => (

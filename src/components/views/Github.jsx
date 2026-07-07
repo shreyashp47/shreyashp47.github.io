@@ -2,10 +2,24 @@ import { useState, useEffect } from 'react'
 
 const GITHUB_USER = 'shreyashp47'
 
+function cssVar(name) {
+  return getComputedStyle(document.documentElement).getPropertyValue(name).trim()
+}
+
 export default function Github() {
   const [repos, setRepos] = useState([])
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState(null)
+  const [c, setColors] = useState({ text: '', dim: '', border: '', blue2: '' })
+
+  useEffect(() => {
+    setColors({
+      text: cssVar('--text'),
+      dim: cssVar('--dim'),
+      border: cssVar('--border'),
+      blue2: cssVar('--blue2'),
+    })
+  }, [])
 
   useEffect(() => {
     fetch(`https://api.github.com/users/${GITHUB_USER}/repos?sort=updated&per_page=12`)
@@ -38,7 +52,7 @@ export default function Github() {
           padding: 16, flex: '1 1 200px', textAlign: 'center',
         }}>
           <img
-            src={`https://github-readme-stats.vercel.app/api?username=${GITHUB_USER}&show_icons=true&hide_title=true&count_private=true&theme=transparent&text_color=var(--text)&icon_color=var(--blue2)&border_color=transparent`}
+            src={`https://github-readme-stats.vercel.app/api?username=${GITHUB_USER}&show_icons=true&hide_title=true&count_private=true&theme=transparent&text_color=${encodeURIComponent(c.text)}&icon_color=${encodeURIComponent(c.blue2)}&border_color=transparent`}
             alt="GitHub Stats"
             style={{ maxWidth: '100%', height: 'auto' }}
             onError={(e) => { e.target.style.display = 'none' }}
@@ -49,7 +63,7 @@ export default function Github() {
           padding: 16, flex: '1 1 200px', textAlign: 'center',
         }}>
           <img
-            src={`https://github-readme-streak-stats.herokuapp.com/?user=${GITHUB_USER}&theme=transparent&hide_border=true&stroke=var(--border)&ring=var(--blue2)&fire=var(--blue2)&currStreakNum=var(--text)&sideNums=var(--text)&currStreakLabel=var(--dim)&sideLabels=var(--dim)&dates=var(--dim)`}
+            src={`https://github-readme-streak-stats.herokuapp.com/?user=${GITHUB_USER}&theme=transparent&hide_border=true&stroke=${encodeURIComponent(c.border)}&ring=${encodeURIComponent(c.blue2)}&fire=${encodeURIComponent(c.blue2)}&currStreakNum=${encodeURIComponent(c.text)}&sideNums=${encodeURIComponent(c.text)}&currStreakLabel=${encodeURIComponent(c.dim)}&sideLabels=${encodeURIComponent(c.dim)}&dates=${encodeURIComponent(c.dim)}`}
             alt="GitHub Streak"
             style={{ maxWidth: '100%', height: 'auto' }}
             onError={(e) => { e.target.style.display = 'none' }}
@@ -60,7 +74,7 @@ export default function Github() {
           padding: 16, flex: '1 1 200px', textAlign: 'center',
         }}>
           <img
-            src={`https://github-readme-stats.vercel.app/api/top-langs/?username=${GITHUB_USER}&layout=compact&hide_title=true&theme=transparent&text_color=var(--text)&border_color=transparent`}
+            src={`https://github-readme-stats.vercel.app/api/top-langs/?username=${GITHUB_USER}&layout=compact&hide_title=true&theme=transparent&text_color=${encodeURIComponent(c.text)}&border_color=transparent`}
             alt="Top Languages"
             style={{ maxWidth: '100%', height: 'auto' }}
             onError={(e) => { e.target.style.display = 'none' }}
