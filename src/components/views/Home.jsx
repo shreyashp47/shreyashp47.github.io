@@ -46,6 +46,9 @@ export default function Home({ onNavigate }) {
             <button className="btn" onClick={() => onNavigate?.('contact')}>
               <i className="fa-solid fa-envelope" /> Get In Touch
             </button>
+            <a href={personal.resumeUrl} className="btn" download>
+              <i className="fa-solid fa-download" /> Download Resume
+            </a>
           </div>
         </div>
       </div>

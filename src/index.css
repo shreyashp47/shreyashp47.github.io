@@ -1167,6 +1167,10 @@ body {
   .window-controls {
     margin-right: 8px;
   }
+
+  .status-item.hamburger {
+    display: flex;
+  }
 }
 
 @media (max-width: 767px) {
