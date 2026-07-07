@@ -116,6 +116,29 @@ export default function App() {
           <span className="truncate">{file.name}</span>
         </div>
       ))}
+      {isMobile && (
+        <div className="sidebar-divider" />
+      )}
+      {isMobile && (
+        <div className="mobile-actions">
+          <div className="file-item" onClick={() => { setPaletteOpen(true); setMobileSidebar(false) }}>
+            <span className="file-icon" style={{ color: 'var(--dim)' }}><i className="fa-solid fa-search" /></span>
+            <span>Search</span>
+          </div>
+          <div className="file-item" onClick={() => { setTerminalOpen((v) => !v); setMobileSidebar(false) }}>
+            <span className="file-icon" style={{ color: 'var(--dim)' }}><i className="fa-solid fa-terminal" /></span>
+            <span>Terminal</span>
+          </div>
+          <div className="file-item" onClick={() => { setThemeSwitcherOpen(true); setMobileSidebar(false) }}>
+            <span className="file-icon" style={{ color: 'var(--dim)' }}><i className="fa-solid fa-palette" /></span>
+            <span>Theme</span>
+          </div>
+          <div className="file-item" onClick={() => { window.open('https://github.com/shreyashp47', '_blank'); setMobileSidebar(false) }}>
+            <span className="file-icon" style={{ color: 'var(--dim)' }}><i className="fa-brands fa-github" /></span>
+            <span>GitHub</span>
+          </div>
+        </div>
+      )}
     </>
   )
 
@@ -194,7 +217,7 @@ export default function App() {
       )}
 
       {/* Editor */}
-      <div className="editor-area" style={terminalOpen ? { gridRow: '2 / 3' } : {}}>
+      <div className="editor-area" style={terminalOpen && !isMobile ? { gridRow: '2 / 3' } : {}}>
         <div className="editor-tabs">
           {openTabs.map((tab) => (
             <div

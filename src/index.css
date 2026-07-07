@@ -178,11 +178,61 @@ body {
 }
 
 .app-grid.mobile {
-  grid-template-columns: 48px 1fr;
-  grid-template-areas:
-    "title title"
-    "act   editor"
-    "status status";
+  display: flex;
+  flex-direction: column;
+  height: 100dvh;
+  overflow: hidden;
+}
+
+.app-grid.mobile .title-bar {
+  display: none;
+}
+
+.app-grid.mobile .activity-bar {
+  display: none;
+}
+
+.app-grid.mobile .editor-area {
+  flex: 1;
+  overflow: hidden;
+  height: 100%;
+}
+
+.app-grid.mobile .editor-tabs {
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
+.app-grid.mobile .editor-content {
+  height: calc(100% - 37px);
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
+.app-grid.mobile .status-bar {
+  flex-shrink: 0;
+}
+
+.app-grid.mobile .terminal-panel {
+  position: fixed;
+  inset: 0;
+  z-index: 200;
+  grid-row: unset;
+  grid-column: unset;
+}
+
+.app-grid.mobile .sidebar-divider {
+  height: 1px;
+  background: var(--border);
+  margin: 8px 12px;
+}
+
+.app-grid.mobile .mobile-actions {
+  border-top: none;
+}
+
+.app-grid.mobile .status-bar .status-right .status-item:not(.hamburger) {
+  display: none;
 }
 
 .mobile-sidebar {
