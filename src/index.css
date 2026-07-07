@@ -1098,16 +1098,13 @@ body {
 /* ── Responsive ── */
 @media (max-width: 1023px) {
   .as-layout {
-    grid-template-rows: 26px 1fr 22px;
+    grid-template-rows: 26px 30px 1fr 22px;
     grid-template-columns: 1fr;
     grid-template-areas:
       "menu"
+      "toolbar"
       "editor"
       "status";
-  }
-
-  .as-layout .toolbar {
-    display: none;
   }
 
   .as-layout .tw-bar {
@@ -1162,6 +1159,25 @@ body {
   }
 
   .menu-logo span {
+    display: none;
+  }
+
+  .as-layout .toolbar {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    gap: 2px;
+    padding: 0 4px;
+  }
+
+  .as-layout .toolbar .toolbar-group:first-child .toolbar-btn:nth-child(-n+2) {
+    display: none;
+  }
+
+  .as-layout .toolbar .toolbar-group:nth-child(2) {
+    display: none;
+  }
+
+  .as-layout .toolbar .toolbar-sep {
     display: none;
   }
 }
