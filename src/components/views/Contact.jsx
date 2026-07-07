@@ -4,7 +4,7 @@ export default function Contact() {
   return (
     <div>
       <div className="view-header">
-        <div className="filename">{'// contact.css : ways to reach me'}</div>
+        <div className="filename">{'// contact.xml : ways to reach me'}</div>
         <h2>Contact</h2>
         <div style={{color: 'var(--dim)', fontSize: 12, marginTop: 4}}>
           {'// '}open to work, collabs &amp; good conversations

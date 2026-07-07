@@ -248,13 +248,13 @@ export const blogPosts = [
 ]
 
 export const files = [
-  { id: 'home', name: 'home.tsx', label: 'TypeScript React', icon: 'fa-brands fa-react' },
-  { id: 'about', name: 'about.html', label: 'HTML', icon: 'fa-brands fa-html5' },
-  { id: 'projects', name: 'projects.js', label: 'JavaScript', icon: 'fa-brands fa-js' },
-  { id: 'skills', name: 'skills.json', label: 'JSON', icon: 'fa-solid fa-code' },
-  { id: 'experience', name: 'experience.ts', label: 'TypeScript', icon: 'fa-brands fa-js' },
+  { id: 'home', name: 'home.kt', label: 'Kotlin', icon: 'fa-brands fa-android' },
+  { id: 'about', name: 'about.xml', label: 'XML', icon: 'fa-solid fa-mobile-screen' },
+  { id: 'projects', name: 'build.gradle.kts', label: 'Gradle Kotlin', icon: 'fa-solid fa-cubes' },
+  { id: 'skills', name: 'skills.json', label: 'JSON', icon: 'fa-solid fa-database' },
+  { id: 'experience', name: 'experience.kt', label: 'Kotlin', icon: 'fa-brands fa-android' },
   { id: 'github', name: 'github.json', label: 'JSON', icon: 'fa-brands fa-github' },
-  { id: 'contact', name: 'contact.css', label: 'CSS', icon: 'fa-brands fa-css3-alt' },
+  { id: 'contact', name: 'contact.xml', label: 'XML', icon: 'fa-solid fa-mobile-screen' },
   { id: 'readme', name: 'README.md', label: 'Markdown', icon: 'fa-solid fa-markdown' },
 ]
 

@@ -4,7 +4,7 @@ export default function Skills() {
   return (
     <div>
       <div className="view-header">
-        <div className="filename">{'// skills.json - tech stack & tools I actually use'}</div>
+        <div className="filename">{'// skills.json - tech stack & tools'}</div>
         <h2>Skills</h2>
       </div>
       <div className="skills-grid">

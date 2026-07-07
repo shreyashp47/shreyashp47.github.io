@@ -4,7 +4,7 @@ export default function About() {
   return (
     <div>
       <div className="view-header">
-        <div className="filename">{'<!-- about.html - ' + personal.name + ' -->'}</div>
+        <div className="filename">{'<!-- about.xml - ' + personal.name + ' -->'}</div>
         <h2>About Me</h2>
       </div>
       <div className="about-grid">

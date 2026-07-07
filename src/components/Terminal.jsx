@@ -60,8 +60,8 @@ export default function Terminal({ visible, onToggle, onOpenFile }) {
         output.push('shreyashp47')
         break
       case 'ls':
-        output.push('home.tsx    about.html    projects.js    skills.json')
-        output.push('experience.ts    github.json    contact.css    README.md')
+        output.push('home.kt    about.xml    build.gradle.kts    skills.json')
+        output.push('experience.kt    github.json    contact.xml    README.md')
         break
       case 'cat':
       case 'open':

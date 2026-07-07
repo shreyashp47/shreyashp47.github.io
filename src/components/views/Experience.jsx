@@ -4,7 +4,7 @@ export default function Experience() {
   return (
     <div>
       <div className="view-header">
-        <div className="filename">{'// experience.ts - professional journey'}</div>
+        <div className="filename">{'// experience.kt - professional journey'}</div>
         <h2>Experience</h2>
         <div style={{color: 'var(--dim)', fontSize: 12, marginTop: 4}}>
           <span style={{color: 'var(--blue)'}}>interface</span> Career <span style={{color: 'var(--blue)'}}>extends</span> Timeline {'{}'}

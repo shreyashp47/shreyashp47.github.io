@@ -14,13 +14,12 @@ import Contact from './components/views/Contact'
 import Readme from './components/views/Readme'
 
 const fileIcons = {
-  'fa-brands fa-react': '#61DAFB',
-  'fa-brands fa-html5': '#E34F26',
-  'fa-brands fa-js': '#F7DF1E',
-  'fa-solid fa-code': '#519ABA',
-  'fa-brands fa-css3-alt': '#1572B6',
-  'fa-solid fa-markdown': '#083FA1',
+  'fa-brands fa-android': '#3DDC84',
+  'fa-solid fa-mobile-screen': '#6897BB',
+  'fa-solid fa-cubes': '#E8BF6A',
+  'fa-solid fa-database': '#CC7832',
   'fa-brands fa-github': '#FFFFFF',
+  'fa-solid fa-markdown': '#083FA1',
 }
 
 const viewComponents = {
@@ -45,7 +44,7 @@ export default function App() {
   const [themeSwitcherOpen, setThemeSwitcherOpen] = useState(false)
   const [isMobile, setIsMobile] = useState(window.innerWidth < 1024)
   const [mobileNav, setMobileNav] = useState(false)
-  const [openTabs, setOpenTabs] = useState([{ id: 'home', name: 'home.tsx', icon: 'fa-brands fa-react' }])
+  const [openTabs, setOpenTabs] = useState([{ id: 'home', name: 'home.kt', icon: 'fa-brands fa-android' }])
   const [activeMenu, setActiveMenu] = useState(null)
 
   useEffect(() => {

@@ -7,7 +7,7 @@ export default function Home({ onNavigate }) {
   return (
     <div>
       <div className="view-header">
-        <div className="filename">{'// home.tsx - ' + personal.name}</div>
+        <div className="filename">{'// home.kt - ' + personal.name}</div>
       </div>
       <div className="home-wrapper">
         <div className="home-avatar">
