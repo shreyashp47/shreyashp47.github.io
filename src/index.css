@@ -1120,6 +1120,24 @@ body {
     border-top-color: var(--as-bg4);
   }
 
+  .as-layout .menu-bar {
+    background: var(--as-blue2);
+  }
+
+  .as-layout .menu-item {
+    color: rgba(255,255,255,0.85);
+  }
+
+  .as-layout .menu-item:hover,
+  .as-layout .menu-item.active {
+    background: rgba(255,255,255,0.15);
+    color: #fff;
+  }
+
+  .as-layout .menu-logo {
+    color: #fff;
+  }
+
   .home-wrapper {
     flex-direction: column;
     align-items: flex-start;
