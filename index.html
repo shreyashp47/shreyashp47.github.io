@@ -1,23 +1,164 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-    <meta name="theme-color" content="#1e1e1e" />
-    <meta name="apple-mobile-web-app-capable" content="yes" />
-    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
-    <meta name="msapplication-TileColor" content="#1e1e1e" />
-    <title>Shreyash Pattewar | Mobile & AI Developer</title>
-    <meta name="description" content="Android & iOS developer exploring LLMs and AI agents" />
-    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='6' fill='%230F172A'/%3E%3Ctext x='16' y='22' text-anchor='middle' font-family='Arial,sans-serif' font-weight='800' font-size='16' fill='%2322D3EE'%3ESP%3C/text%3E%3C/svg%3E" />
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:ital,wght@0,300;0,400;0,500;0,600;1,400&family=Syne:wght@700;800&display=swap" rel="stylesheet" />
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" crossorigin="anonymous" />
-    <script type="module" crossorigin src="/assets/index-B9o01RDh.js"></script>
-    <link rel="stylesheet" crossorigin href="/assets/index-Beut2ay0.css">
-  </head>
-  <body>
-    <div id="root"></div>
-  </body>
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Shreyash Pattewar | Mobile &amp; AI Developer</title>
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='6' fill='%230F172A'/%3E%3Ctext x='16' y='22' text-anchor='middle' font-family='Arial,sans-serif' font-weight='800' font-size='16' fill='%2322D3EE'%3ESP%3C/text%3E%3C/svg%3E" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Orbitron:wght@600;700;800;900&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" crossorigin="anonymous" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/devicon.min.css" crossorigin="anonymous" />
+  <link rel="stylesheet" href="static/css/base.css?v=3" />
+  <link rel="stylesheet" href="static/css/components.css?v=3" />
+  <link rel="stylesheet" href="static/css/responsive.css?v=3" />
+  <script>
+    (function(){
+      var themes = [
+        {bg:"#0F172A",gl:"rgba(15,23,42,0.7)",tx:"#e2e8f0",tm:"#64748B",a1:"#22D3EE",a1r:"34,211,238",a2:"#3B82F6",a2r:"59,130,246",bd:"rgba(34,211,238,0.1)",cu:"#22D3EE",he:"#22D3EE"},
+        {bg:"#0a0a0f",gl:"rgba(17,17,24,0.55)",tx:"#e2e8f0",tm:"#94a3b8",a1:"#f97316",a1r:"249,115,22",a2:"#f59e0b",a2r:"245,158,11",bd:"rgba(255,255,255,0.06)",cu:"#f59e0b",he:"#ef4444"},
+        {bg:"#f4f4f4",gl:"rgba(255,255,255,0.75)",tx:"#2E2E2E",tm:"#6B7280",a1:"#4A90E2",a1r:"74,144,226",a2:"#357ABD",a2r:"53,122,189",bd:"rgba(74,144,226,0.2)",cu:"#4A90E2",he:"#4A90E2"}
+      ];
+      var t = themes[Math.floor(Math.random() * themes.length)];
+      var r = document.documentElement;
+      r.style.setProperty("--bg-primary", t.bg);
+      r.style.setProperty("--bg-glass", t.gl);
+      r.style.setProperty("--text-primary", t.tx);
+      r.style.setProperty("--text-muted", t.tm);
+      r.style.setProperty("--accent-1", t.a1);
+      r.style.setProperty("--accent-1-rgb", t.a1r);
+      r.style.setProperty("--accent-2", t.a2);
+      r.style.setProperty("--accent-2-rgb", t.a2r);
+      r.style.setProperty("--border", t.bd);
+      r.style.setProperty("--cursor-color", t.cu);
+      r.style.setProperty("--heart-color", t.he);
+    })();
+  </script>
+</head>
+<body>
+  <div id="bg-blobs" aria-hidden="true">
+    <div class="blob b1"></div>
+    <div class="blob b2"></div>
+    <div class="blob b3"></div>
+    <div class="blob b4"></div>
+    <div class="blob b5"></div>
+    <div class="blob b6"></div>
+    <div id="cursor-glow"></div>
+  </div>
+
+  <nav class="navbar" id="navbar">
+    <div class="nav-container">
+      <a href="#hero" class="nav-logo">SP</a>
+      <ul class="nav-links" id="navLinks">
+        <li><a href="#about" class="nav-link">About</a></li>
+        <li><a href="#skills" class="nav-link">Skills</a></li>
+        <li><a href="#projects" class="nav-link">Projects</a></li>
+        <li><a href="#github" class="nav-link">Stats</a></li>
+        <li><a href="#blog" class="nav-link">Blog</a></li>
+        <li><a href="#contact" class="nav-link">Contact</a></li>
+      </ul>
+      <button class="hamburger" id="hamburger" aria-label="Menu">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </nav>
+
+  <main>
+    <section class="hero" id="hero">
+      <div class="hero-content">
+        <p class="hero-greeting">Hi, I'm</p>
+        <h1 class="hero-name" id="heroName"></h1>
+        <h2 class="hero-role">
+          <span class="typewriter" id="typewriter"></span>
+          <span class="cursor">|</span>
+        </h2>
+        <p class="hero-tagline" id="heroTagline"></p>
+        <div class="hero-cta">
+          <a href="#projects" class="btn btn-primary">View Projects</a>
+          <a href="static/assets/resume.pdf" class="btn btn-secondary" target="_blank" rel="noopener">Download Resume</a>
+        </div>
+      </div>
+    </section>
+
+    <section class="section about" id="about">
+      <div class="container">
+        <h2 class="section-title reveal">About Me</h2>
+        <div class="about-grid">
+          <div class="about-avatar reveal">
+            <img src="static/assets/profile.png" alt="Shreyash Pattewar" class="avatar-img" />
+          </div>
+          <div class="about-text reveal" id="aboutText"></div>
+        </div>
+        <div class="about-socials" id="aboutSocials"></div>
+      </div>
+    </section>
+
+    <section class="section skills" id="skills">
+      <div class="container">
+        <h2 class="section-title reveal">Skills &amp; Tech Stack</h2>
+        <div id="skillsContainer"></div>
+      </div>
+    </section>
+
+    <section class="section projects" id="projects">
+      <div class="container">
+        <h2 class="section-title reveal">Projects</h2>
+        <div class="project-grid" id="projectsContainer"></div>
+      </div>
+    </section>
+
+    <section class="section blog" id="blog">
+      <div class="container">
+        <h2 class="section-title reveal">Latest Posts</h2>
+        <div class="blog-scroll" id="blogContainer"></div>
+      </div>
+    </section>
+
+    <section class="section contact" id="contact">
+      <div class="container">
+        <h2 class="section-title reveal">Get In Touch</h2>
+        <div class="contact-grid">
+          <form class="contact-form reveal" id="contactForm" action="https://formsubmit.co/shreyashp47@gmail.com" method="POST">
+            <input type="hidden" name="_captcha" value="false" />
+            <input type="hidden" name="_template" value="table" />
+            <input type="text" name="name" placeholder="Your Name" required />
+            <input type="email" name="email" placeholder="Your Email" required />
+            <textarea name="message" rows="5" placeholder="Your Message" required></textarea>
+            <button type="submit" class="btn btn-primary">Send Message</button>
+          </form>
+          <div class="contact-info reveal">
+            <div class="contact-details" id="contactDetails"></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section github" id="github">
+      <div class="container">
+        <h2 class="section-title reveal">Stats &amp; Activity</h2>
+        <div class="github-stats reveal" id="githubStats"></div>
+        <div class="repo-grid" id="repoGrid">
+          <p class="loading-text">Loading repositories...</p>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-container">
+      <p id="footerText"></p>
+      <a href="#hero" class="back-to-top" aria-label="Back to top">
+        <i class="fas fa-arrow-up"></i>
+      </a>
+    </div>
+  </footer>
+
+  <script src="static/js/config.js?v=3"></script>
+  <script src="static/js/themes.js?v=3"></script>
+  <script src="static/js/effects.js?v=3"></script>
+  <script src="static/js/render.js?v=3"></script>
+  <script src="static/js/navigation.js?v=3"></script>
+  <script src="static/js/main.js?v=3"></script>
+</body>
 </html>
