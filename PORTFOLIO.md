@@ -13,26 +13,20 @@
   - [Deployment](#deployment)
   - [Git Branches](#git-branches)
   - [License](#license)
-- [v2 — React + Vite (current)](#v2--react--vite-current)
-  - [Tech Stack](#v2-tech-stack)
-  - [Commands](#v2-commands)
-  - [Project Structure](#v2-project-structure)
-  - [Architecture & Features](#v2-architecture--features)
-  - [Components](#v2-components)
-  - [Hooks](#v2-hooks)
-  - [Data Layer](#v2-data-layer)
-  - [Themes](#v2-themes)
-  - [Keyboard Shortcuts](#v2-keyboard-shortcuts)
-  - [Interactive Terminal](#v2-interactive-terminal)
-  - [HTML Entry Point](#v2-html-entry-point)
-  - [Responsive Breakpoints](#v2-responsive-breakpoints)
+- [v3 — Android Studio Theme (current)](#v3--android-studio-theme-current)
+  - [Tech Stack](#v3-tech-stack)
+  - [Commands](#v3-commands)
+  - [Project Structure](#v3-project-structure)
+  - [Architecture & Features](#v3-architecture--features)
+  - [Components](#v3-components)
+  - [Hooks](#v3-hooks)
+  - [Data Layer](#v3-data-layer)
+  - [Keyboard Shortcuts](#v3-keyboard-shortcuts)
+  - [Interactive Terminal](#v3-interactive-terminal)
+  - [HTML Entry Point](#v3-html-entry-point)
+  - [Responsive Breakpoints](#v3-responsive-breakpoints)
+- [v2 — VS Code Theme (archived)](#v2--vs-code-theme-archived)
 - [v1 — Classic Static Site](#v1--classic-static-site)
-  - [Tech Stack](#v1-tech-stack)
-  - [Project Structure](#v1-project-structure)
-  - [Architecture & Features](#v1-architecture--features)
-  - [Components](#v1-components)
-  - [HTML Entry Point](#v1-html-entry-point)
-- [Template — Adding a New Version](#template--adding-a-new-version)
 
 ---
 
@@ -40,7 +34,8 @@
 
 | Version | Branch | Stack | Status |
 |---------|--------|-------|--------|
-| **v2** | `main` / `v2` | React + Vite | **current** |
+| **v3** | `main` | React + Vite | **current** |
+| **v2** | `v2-vscode-theme` | React + Vite | archived |
 | **v1** | `v1-classic` | Static HTML/CSS/JS | archived |
 
 ---
@@ -80,7 +75,8 @@ Push to `main` → GitHub Actions builds and deploys current version to `gh-page
 
 | Branch | Description |
 |--------|-------------|
-| `main` / `v2` | v2 — React + Vite portfolio |
+| `main` | v3 — React + Vite Android Studio theme |
+| `v2-vscode-theme` | v2 — React + Vite VS Code IDE theme |
 | `v1-classic` | v1 — Static HTML/CSS/JS portfolio |
 | `gh-pages` (remote) | GitHub Pages deployment branch |
 | `update-portfolio-content` | Feature branch for content updates |
@@ -93,9 +89,9 @@ Push to `main` → GitHub Actions builds and deploys current version to `gh-page
 
 ---
 
-# v2 — React + Vite (current)
+# v3 — Android Studio Theme (current)
 
-<a id="v2-tech-stack"></a>
+<a id="v3-tech-stack"></a>
 ### Tech Stack
 
 | Tool | Version | Purpose |
@@ -108,9 +104,9 @@ Push to `main` → GitHub Actions builds and deploys current version to `gh-page
 | JetBrains Mono | — | Code font (Google Fonts) |
 | Syne | — | Heading font (Google Fonts) |
 
-**Zero external CSS frameworks.** Theming is powered entirely by CSS Custom Properties.
+**Darcula-inspired theme** with CSS Custom Properties (`--as-*` variables).
 
-<a id="v2-commands"></a>
+<a id="v3-commands"></a>
 ### Commands
 
 ```bash
@@ -119,30 +115,25 @@ npm run build     # Build for production (outputs to dist/)
 npm run preview   # Preview production build locally
 ```
 
-<a id="v2-project-structure"></a>
+<a id="v3-project-structure"></a>
 ### Project Structure
 
 ```
 .
-├── .github/workflows/deploy.yml   # GitHub Actions deploy config
-├── AGENTS.md                       # AI assistant conventions
-├── README.md                       # Project README
-├── PORTFOLIO.md                    # This file
-├── index.html                      # HTML entry point
-├── package.json                    # Dependencies & scripts
-├── vite.config.js                  # Vite configuration
+├── .github/workflows/deploy.yml
+├── AGENTS.md
+├── README.md
+├── PORTFOLIO.md
+├── index.html
+├── package.json
+├── vite.config.js
 ├── public/
 │   └── Shreyash_Pattewar_Android_Resume.pdf
-├── dist/                           # Production build output
-│   ├── index.html
-│   ├── assets/
-│   │   ├── index-*.css             # Minified CSS bundle
-│   │   └── index-*.js              # Minified JS bundle
-│   └── Shreyash_Pattewar_Android_Resume.pdf
+├── dist/
 └── src/
     ├── main.jsx                    # React entry point
-    ├── App.jsx                     # Root IDE shell component
-    ├── index.css                   # Global styles & themes
+    ├── App.jsx                     # Root AS IDE shell component
+    ├── index.css                   # Global styles (Darcula theme)
     ├── data/
     │   └── content.js              # All portfolio data
     ├── hooks/
@@ -152,185 +143,114 @@ npm run preview   # Preview production build locally
         ├── Terminal.jsx            # Interactive terminal emulator
         ├── ThemeSwitcher.jsx        # Theme selection overlay
         ├── CommandPalette.jsx       # Quick file search (Ctrl+P)
-        └── views/
-            ├── Home.jsx            # Landing page with typing animation
-            ├── About.jsx           # Bio, focus areas, education, certs, awards
-            ├── Projects.jsx        # Project showcase grid
-            ├── Skills.jsx          # Skill categories with progress bars
-            ├── Experience.jsx      # Work history timeline
-            ├── Github.jsx          # Live GitHub integration
-            ├── Contact.jsx         # Social links
-            └── Readme.jsx          # Portfolio README page
+        └── views/                  # 8 view components (same as v2)
 ```
 
-<a id="v2-architecture--features"></a>
+<a id="v3-architecture--features"></a>
 ### Architecture & Features
 
 #### Layout (CSS Grid)
 
-The page mimics VS Code's IDE layout:
+The page mimics Android Studio / IntelliJ IDEA's layout:
 
 ```
-┌─────────────────────────────────────────┐
-│ Title Bar                   30px         │
-├────┬──────────┬─────────────────────────┤
-│    │          │                         │
-│ A  │ Sidebar  │    Editor Area          │
-│ c  │ (220px)  │    (1fr)                │
-│ t  │          │                         │
-│ i  │          │                         │
-│ v  │          │                         │
-│ i  │          │                         │
-│ t  │          │                         │
-│ y  │          │                         │
-│    │          │                         │
-│ 48 │          │                         │
-│ px │          │                         │
-├────┴──────────┴─────────────────────────┤
-│ Status Bar                   22px         │
-├─────────────────────────────────────────┤
-│ Terminal (togglable)                     │
-└─────────────────────────────────────────┘
+┌──────────────────────────────────────────┐
+│ Menu Bar (File, Edit, View, ...)   28px   │
+├──────────────────────────────────────────┤
+│ Toolbar (nav, build, run)         30px   │
+├──────────┬───────────────────────────────┤
+│          │                               │
+│ Project  │  Editor Area                  │
+│ Panel    │  (tabs + content)             │
+│ (240px)  │                               │
+│          │                               │
+├──────────┴───────────────────────────────┤
+│ Tool Window Bar (Terminal, TODO, etc) 26px│
+├──────────────────────────────────────────┤
+│ Status Bar                        22px   │
+└──────────────────────────────────────────┘
 ```
 
 #### Features
 
-- **IDE-like Interface**: Activity bar, sidebar file explorer, editor tabs, status bar
-- **File Tabs**: Open/close tabs with fallback logic
-- **Mobile Responsive**: Slide-in sidebar with backdrop overlay at <1024px
-- **Keyboard Shortcuts**: VS Code-inspired keybindings (Ctrl+P, Ctrl+`, Ctrl+B)
-- **Theming**: 6 dark themes via CSS custom properties
+- **Menu Bar**: 13 menu items (File, Edit, View, Navigate, Code, Analyze, Refactor, Build, Run, Tools, VCS, Window, Help)
+- **Toolbar**: Navigation arrows, project toggle, build/run/debug buttons
+- **Project Panel**: File tree on the left with folder icons
+- **Editor Tabs**: Open/close tabs with fallback logic
+- **Tool Window Bar**: Bottom panel with Terminal, TODO, Logcat, Build, Run toggles
+- **Mobile Responsive**: Menu-only on mobile, nav panel as slide-in overlay
 - **Interactive Terminal**: In-browser terminal emulator
 - **Command Palette**: Quick file navigation (Ctrl+P)
 - **Live GitHub Integration**: Fetches real repo data from GitHub API
 - **Typewriter Effect**: Animated subtitle on the home page
-- **Theme Persistence**: Saves selection to `localStorage`
 
-<a id="v2-components"></a>
+<a id="v3-components"></a>
 ### Components
 
 #### `App.jsx` — Root IDE Shell
 
-**State:** `activeFile`, `sidebarOpen`, `terminalOpen`, `paletteOpen`, `themeSwitcherOpen`, `isMobile`, `mobileSidebar`, `openTabs`
+**State:** `activeFile`, `navOpen`, `terminalOpen`, `paletteOpen`, `themeSwitcherOpen`, `isMobile`, `mobileNav`, `openTabs`, `activeMenu`
 
 **Key functions:**
-- `openFile(fileId)` — Adds tab and sets it active
-- `closeTab(fileId)` — Removes tab, falls back to adjacent tab
+- `openFile(fileId)` — Adds tab and sets it active, closes mobile nav
+- `closeTab(e, id)` — Removes tab, falls back to adjacent tab
 
-**Activity bar:** Explorer (files), Search (palette), Terminal, Theme palette, GitHub link
+**Menu bar:** Android Studio-style menu items with highlight on click
 
-**Status bar:** Branch name, language, Prettier, theme name, cursor position, encoding, mobile hamburger
+**Toolbar:** Grouped buttons for navigation, project, build, run, debug, stop, search, theme, GitHub
 
 **View mapping:**
 
 | File ID | Component | Title |
 |---------|-----------|-------|
-| `home` | `Home` | Home.jsx |
-| `about` | `About` | About.jsx |
-| `projects` | `Projects` | Projects.jsx |
-| `skills` | `Skills` | Skills.jsx |
-| `experience` | `Experience` | Experience.jsx |
-| `github` | `Github` | Github.jsx |
-| `contact` | `Contact` | Contact.jsx |
+| `home` | `Home` | Home.tsx |
+| `about` | `About` | About.tsx |
+| `projects` | `Projects` | Projects.tsx |
+| `skills` | `Skills` | Skills.tsx |
+| `experience` | `Experience` | Experience.tsx |
+| `github` | `Github` | Github.tsx |
+| `contact` | `Contact` | Contact.tsx |
 | `readme` | `Readme` | README.md |
 
 #### `Terminal.jsx` — Interactive Terminal
-
-- Green `$` prompt, red error text, green command echo
-- Command history navigation (ArrowUp/ArrowDown)
-- Auto-scroll to bottom
-- Togglable visibility
+Same as v2. Green `$` prompt, command history, auto-scroll.
 
 #### `ThemeSwitcher.jsx` — Theme Selection
-
-Overlay listing all themes. Highlights active one. Calls `onSelect(id)` on click.
+Same as v2. Lists all themes, highlights active.
 
 #### `CommandPalette.jsx` — Quick File Search
-
-VS Code-style quick open. Filters files by name/ID as you type. Shows file icon + name + language label. Enter opens first result, Escape closes.
+Same as v2. VS Code-style quick open with file filtering.
 
 #### View Components
+Same 8 view components as v2 (Home, About, Projects, Skills, Experience, Github, Contact, Readme). All receive `onNavigate` prop for programmatic navigation.
 
-| Component | Description |
-|-----------|-------------|
-| `Home.jsx` | Avatar (initials), name, typing animation subtitle, 4 quick stats, CTA buttons |
-| `About.jsx` | Multi-paragraph bio (bold highlights), 4 focus area cards, education table, certifications, awards, social links |
-| `Projects.jsx` | 2-column grid of project cards with type/period, title, description, tech tags, links |
-| `Skills.jsx` | 6 skill categories in a 2-column grid with progress bars + tag cloud |
-| `Experience.jsx` | Vertical timeline with date, role, company, description, tech tags |
-| `Github.jsx` | Fetches 12 repos from GitHub API, stats cards, contribution graph, repo grid with loading/error states |
-| `Contact.jsx` | 7 social platform cards (icon, platform name, handle) |
-| `Readme.jsx` | About section, skill tag badges, connect links, dynamic year |
-
-<a id="v2-hooks"></a>
+<a id="v3-hooks"></a>
 ### Hooks
 
 #### `useTypingAnimation.js`
-Cycles through an array of strings with a typewriter effect.
-- **Params:** `words`, `typingSpeed` (60ms), `deletingSpeed` (40ms), `pauseTime` (2000ms)
-- **Returns:** `displayText`
+Cycles through an array of strings with a typewriter effect (same as v2).
 
 #### `useTheme.js`
-Manages theme state with localStorage persistence.
-- **Storage key:** `portfolio-theme`
-- **Default:** `'default'` (Default Dark+)
-- **Returns:** `{ theme, setTheme }`
-- Sets `document.documentElement.dataset.theme`
+Manages theme state with localStorage persistence (same as v2).
 
-<a id="v2-data-layer"></a>
+<a id="v3-data-layer"></a>
 ### Data Layer
 
-All content centralized in `src/data/content.js` as named exports:
+All content centralized in `src/data/content.js` as named exports (same as v2 — 16 exports).
 
-| Export | Type | Description |
-|--------|------|-------------|
-| `personal` | Object | Name, role, email, phone, location, resume URL |
-| `taglines` | String[] | Typing animation phrases |
-| `bio` | String | Multi-paragraph markdown-formatted bio |
-| `focusAreas` | Object[] | Focus cards with title, description, icon |
-| `quickStats` | Object[] | Stat counters |
-| `education` | Object[] | Education entries |
-| `social` | Object[] | Social platform links |
-| `skills` | Object[] | Skill categories × items with percentage + color |
-| `skillTags` | String[] | Skill tags |
-| `experience` | Object[] | Work experience entries |
-| `projects` | Object[] | Project entries |
-| `certifications` | Object[] | Certification entries |
-| `awards` | Object[] | Award entries |
-| `blogPosts` | Object[] | Blog post entries |
-| `files` | Object[] | File entries for sidebar/tabs |
-| `themes` | Object[] | Theme entries |
-
-<a id="v2-themes"></a>
-### Themes
-
-6 dark themes via CSS Custom Properties on `[data-theme="..."]` selectors.
-
-| Theme | `data-theme` value | Description |
-|-------|--------------------|-------------|
-| Default Dark+ | *(empty string)* | VS Code default dark |
-| Rose Pine | `rose-pine` | Soft rose/pine tones |
-| Tokyo Night | `tokyo-night` | Deep blue/purple night |
-| Catppuccin | `catppuccin` | Warm pastel dark |
-| Nord | `nord` | Arctic, bluish cold |
-| Gruvbox | `gruvbox` | Retro earthy dark |
-
-Variables per theme: `--bg`, `--bg2`, `--bg3`, `--bg4`, `--title`, `--border`, `--text`, `--dim`, `--bright`, `--blue`, `--blue2`, `--green`, `--gcm`, `--yellow`, `--orange`, `--purple`, `--pink`, `--red`.
-
-<a id="v2-keyboard-shortcuts"></a>
+<a id="v3-keyboard-shortcuts"></a>
 ### Keyboard Shortcuts
 
 | Shortcut | Action |
 |----------|--------|
 | `Ctrl/Cmd + P` | Toggle command palette |
 | `Ctrl/Cmd + `` ` | Toggle terminal |
-| `Ctrl/Cmd + B` | Toggle sidebar |
-| `Escape` | Close palette / theme switcher |
+| `Escape` | Close palette / theme switcher / menu |
 
-<a id="v2-interactive-terminal"></a>
+<a id="v3-interactive-terminal"></a>
 ### Interactive Terminal
 
-Opened via `Ctrl+`` ` or the activity bar terminal button.
+Opened via `Ctrl+`` ` or the Tool Window Bar button.
 
 | Command | Description |
 |---------|-------------|
@@ -344,9 +264,7 @@ Opened via `Ctrl+`` ` or the activity bar terminal button.
 | `echo <text>` | Echo back text |
 | `neofetch` | Display system-like info about the developer |
 
-Sections: home, about, projects, skills, experience, github, contact, readme.
-
-<a id="v2-html-entry-point"></a>
+<a id="v3-html-entry-point"></a>
 ### HTML Entry Point (`index.html`)
 
 - **Title:** "Shreyash Pattewar | Mobile & AI Developer"
@@ -356,13 +274,22 @@ Sections: home, about, projects, skills, experience, github, contact, readme.
 - **Icons:** Font Awesome 6.5.1 via CDN
 - **Mounts:** `<div id="root">` with Vite module script
 
-<a id="v2-responsive-breakpoints"></a>
+<a id="v3-responsive-breakpoints"></a>
 ### Responsive Breakpoints
 
 | Breakpoint | Target | Behavior |
 |-----------|--------|----------|
-| <1024px | Tablet | Sidebar becomes slide-in overlay, grids stack |
-| <768px | Mobile | Full-width buttons, smaller text, stacked layouts |
+| <1024px | Tablet | Single column, toolbar hidden, tw-bar hidden, nav as overlay, menu truncates |
+| <768px | Mobile | Compact padding, stacked buttons |
+| <480px | Small mobile | Tighter spacing, 2-col stats
+
+---
+
+---
+
+# v2 — VS Code Theme (archived)
+
+Preserved on the `v2-vscode-theme` branch. Full documentation available in PORTFOLIO.md on that branch.
 
 ---
 

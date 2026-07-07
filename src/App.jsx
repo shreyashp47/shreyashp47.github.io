@@ -34,16 +34,19 @@ const viewComponents = {
   readme: Readme,
 }
 
+const menuItems = ['File', 'Edit', 'View', 'Navigate', 'Code', 'Analyze', 'Refactor', 'Build', 'Run', 'Tools', 'VCS', 'Window', 'Help']
+
 export default function App() {
   const { theme, setTheme } = useTheme()
   const [activeFile, setActiveFile] = useState('home')
-  const [sidebarOpen, setSidebarOpen] = useState(true)
+  const [navOpen, setNavOpen] = useState(true)
   const [terminalOpen, setTerminalOpen] = useState(false)
   const [paletteOpen, setPaletteOpen] = useState(false)
   const [themeSwitcherOpen, setThemeSwitcherOpen] = useState(false)
   const [isMobile, setIsMobile] = useState(window.innerWidth < 1024)
-  const [mobileSidebar, setMobileSidebar] = useState(false)
+  const [mobileNav, setMobileNav] = useState(false)
   const [openTabs, setOpenTabs] = useState([{ id: 'home', name: 'home.tsx', icon: 'fa-brands fa-react' }])
+  const [activeMenu, setActiveMenu] = useState(null)
 
   useEffect(() => {
     const handleResize = () => setIsMobile(window.innerWidth < 1024)
@@ -55,7 +58,7 @@ export default function App() {
     const file = files.find((f) => f.id === id)
     if (!file) return
     setActiveFile(id)
-    setMobileSidebar(false)
+    setMobileNav(false)
     setOpenTabs((tabs) => {
       if (tabs.find((t) => t.id === id)) return tabs
       return [...tabs, { id: file.id, name: file.name, icon: file.icon }]
@@ -81,143 +84,130 @@ export default function App() {
         e.preventDefault()
         setTerminalOpen((v) => !v)
       }
-      if ((e.ctrlKey || e.metaKey) && e.key === 'b') {
-        e.preventDefault()
-        setSidebarOpen((v) => !v)
-      }
       if (e.key === 'Escape') {
         setPaletteOpen(false)
         setThemeSwitcherOpen(false)
+        setActiveMenu(null)
       }
     }
     window.addEventListener('keydown', handleKeyDown)
     return () => window.removeEventListener('keydown', handleKeyDown)
   }, [])
 
-  const currentTheme = theme === 'default' ? 'Default Dark+' : null
   const ActiveView = viewComponents[activeFile] || Home
 
-  const sidebarContent = (
+  const navContent = (
     <>
-      <div className="sidebar-header">
+      <div className="nav-header">
+        <i className="fa-solid fa-folder-open" />
         <span>Portfolio</span>
-        <i className="fa-solid fa-ellipsis" />
+        <i className="fa-solid fa-ellipsis-vertical" style={{ marginLeft: 'auto', opacity: 0.5 }} />
       </div>
-      {files.map((file) => (
-        <div
-          key={file.id}
-          className={`file-item ${activeFile === file.id ? 'active' : ''}`}
-          onClick={() => openFile(file.id)}
-          data-file={file.id}
-        >
-          <span className="file-icon" style={{ color: fileIcons[file.icon] || 'var(--dim)' }}>
-            <i className={file.icon} />
-          </span>
-          <span className="truncate">{file.name}</span>
-        </div>
-      ))}
+      <div className="nav-tree">
+        {files.map((file) => (
+          <div
+            key={file.id}
+            className={`nav-file ${activeFile === file.id ? 'active' : ''}`}
+            onClick={() => openFile(file.id)}
+          >
+            <i className={file.icon} style={{ color: fileIcons[file.icon] || 'var(--as-dim)', width: 16, fontSize: 12 }} />
+            <span>{file.name}</span>
+          </div>
+        ))}
+      </div>
       {isMobile && (
-        <div className="sidebar-divider" />
-      )}
-      {isMobile && (
-        <div className="mobile-actions">
-          <div className="file-item" onClick={() => { setPaletteOpen(true); setMobileSidebar(false) }}>
-            <span className="file-icon" style={{ color: 'var(--dim)' }}><i className="fa-solid fa-search" /></span>
-            <span>Search</span>
+        <>
+          <div className="nav-divider" />
+          <div className="nav-actions">
+            <div className="nav-file" onClick={() => { setPaletteOpen(true); setMobileNav(false) }}>
+              <i className="fa-solid fa-search" style={{ width: 16, fontSize: 12, color: 'var(--as-dim)' }} />
+              <span>Search</span>
+            </div>
+            <div className="nav-file" onClick={() => { setTerminalOpen((v) => !v); setMobileNav(false) }}>
+              <i className="fa-solid fa-terminal" style={{ width: 16, fontSize: 12, color: 'var(--as-dim)' }} />
+              <span>Terminal</span>
+            </div>
+            <div className="nav-file" onClick={() => { setThemeSwitcherOpen(true); setMobileNav(false) }}>
+              <i className="fa-solid fa-palette" style={{ width: 16, fontSize: 12, color: 'var(--as-dim)' }} />
+              <span>Theme</span>
+            </div>
+            <div className="nav-file" onClick={() => { window.open('https://github.com/shreyashp47', '_blank'); setMobileNav(false) }}>
+              <i className="fa-brands fa-github" style={{ width: 16, fontSize: 12, color: 'var(--as-dim)' }} />
+              <span>GitHub</span>
+            </div>
           </div>
-          <div className="file-item" onClick={() => { setTerminalOpen((v) => !v); setMobileSidebar(false) }}>
-            <span className="file-icon" style={{ color: 'var(--dim)' }}><i className="fa-solid fa-terminal" /></span>
-            <span>Terminal</span>
-          </div>
-          <div className="file-item" onClick={() => { setThemeSwitcherOpen(true); setMobileSidebar(false) }}>
-            <span className="file-icon" style={{ color: 'var(--dim)' }}><i className="fa-solid fa-palette" /></span>
-            <span>Theme</span>
-          </div>
-          <div className="file-item" onClick={() => { window.open('https://github.com/shreyashp47', '_blank'); setMobileSidebar(false) }}>
-            <span className="file-icon" style={{ color: 'var(--dim)' }}><i className="fa-brands fa-github" /></span>
-            <span>GitHub</span>
-          </div>
-        </div>
+        </>
       )}
     </>
   )
 
-  const gridClass = [
-    'app-grid',
+  const layoutClass = [
+    'as-layout',
     isMobile ? 'mobile' : '',
-    !sidebarOpen ? 'sidebar-hidden' : '',
+    navOpen ? '' : 'nav-hidden',
     terminalOpen ? 'terminal-open' : '',
   ].filter(Boolean).join(' ')
 
   return (
-    <div className={gridClass}>
-      {/* Title Bar */}
-      <div className="title-bar">
-        <span style={{ opacity: 0.6 }}>
-          <i className="fa-solid fa-file-code" style={{ marginRight: 8 }} />
-          Portfolio - {files.find((f) => f.id === activeFile)?.name || 'home.tsx'}
+    <div className={layoutClass} onClick={() => activeMenu && setActiveMenu(null)}>
+      {/* Menu Bar */}
+      <div className="menu-bar">
+        <span className="menu-logo" style={{ fontWeight: 700, fontSize: 12, letterSpacing: 0.5 }}>
+          <i className="fa-brands fa-android" style={{ fontSize: 14, marginRight: 6, color: 'var(--as-green)' }} />
+          Portfolio
         </span>
+        {menuItems.map((m) => (
+          <span
+            key={m}
+            className={`menu-item ${activeMenu === m ? 'active' : ''}`}
+            onClick={(e) => { e.stopPropagation(); setActiveMenu(activeMenu === m ? null : m) }}
+          >
+            {m}
+          </span>
+        ))}
       </div>
 
-      {/* Activity Bar */}
-      <div className="activity-bar">
-        <button
-          className={`activity-btn ${sidebarOpen ? 'active' : ''}`}
-          onClick={() => setSidebarOpen((v) => !v)}
-          title="Explorer (Ctrl+B)"
-        >
-          <i className="fa-solid fa-files" />
-        </button>
-        <button
-          className={`activity-btn ${paletteOpen ? 'active' : ''}`}
-          onClick={() => setPaletteOpen(true)}
-          title="Search (Ctrl+P)"
-        >
-          <i className="fa-solid fa-search" />
-        </button>
-        <button
-          className={`activity-btn ${terminalOpen ? 'active' : ''}`}
-          onClick={() => setTerminalOpen((v) => !v)}
-          title="Terminal (Ctrl+`)"
-        >
-          <i className="fa-solid fa-terminal" />
-        </button>
-        <div className="activity-spacer" />
-        <button
-          className="activity-btn"
-          onClick={() => setThemeSwitcherOpen(true)}
-          title="Change Theme"
-        >
-          <i className="fa-solid fa-palette" />
-        </button>
-        <button
-          className="activity-btn"
-          onClick={() => window.open('https://github.com/shreyashp47', '_blank')}
-          title="GitHub"
-        >
-          <i className="fa-brands fa-github" />
-        </button>
+      {/* Toolbar */}
+      <div className="toolbar">
+        <div className="toolbar-group">
+          <button className="toolbar-btn" title="Back"><i className="fa-solid fa-arrow-left" /></button>
+          <button className="toolbar-btn" title="Forward"><i className="fa-solid fa-arrow-right" /></button>
+          <span className="toolbar-sep" />
+          <button className="toolbar-btn" onClick={() => setNavOpen((v) => !v)} title="Project"><i className="fa-solid fa-folder-tree" /></button>
+        </div>
+        <div className="toolbar-group">
+          <button className="toolbar-btn" title="Build"><i className="fa-solid fa-hammer" /></button>
+          <button className="toolbar-btn" title="Run"><i className="fa-solid fa-play" style={{ color: 'var(--as-green)' }} /></button>
+          <button className="toolbar-btn" title="Debug"><i className="fa-solid fa-bug" style={{ color: 'var(--as-green)' }} /></button>
+          <span className="toolbar-sep" />
+          <button className="toolbar-btn" title="Stop"><i className="fa-solid fa-stop" style={{ color: 'var(--as-red)' }} /></button>
+        </div>
+        <div className="toolbar-group" style={{ marginLeft: 'auto' }}>
+          <button className="toolbar-btn" onClick={() => setPaletteOpen(true)} title="Search"><i className="fa-solid fa-search" /></button>
+          <button className="toolbar-btn" onClick={() => setThemeSwitcherOpen(true)} title="Theme"><i className="fa-solid fa-palette" /></button>
+          <button className="toolbar-btn" onClick={() => window.open('https://github.com/shreyashp47', '_blank')} title="GitHub"><i className="fa-brands fa-github" /></button>
+        </div>
       </div>
 
-      {/* Sidebar */}
-      {!isMobile && sidebarOpen && (
-        <div className="sidebar">
-          {sidebarContent}
+      {/* Navigation Panel */}
+      {!isMobile && navOpen && (
+        <div className="nav-panel">
+          {navContent}
         </div>
       )}
 
-      {/* Mobile Sidebar */}
-      {isMobile && mobileSidebar && (
+      {/* Mobile Nav Overlay */}
+      {isMobile && mobileNav && (
         <>
-          <div className="mobile-overlay" onClick={() => setMobileSidebar(false)} />
-          <div className={`mobile-sidebar ${mobileSidebar ? 'open' : ''}`}>
-            {sidebarContent}
+          <div className="nav-overlay" onClick={() => setMobileNav(false)} />
+          <div className="mobile-nav">
+            {navContent}
           </div>
         </>
       )}
 
       {/* Editor */}
-      <div className="editor-area" style={terminalOpen && !isMobile ? { gridRow: '2 / 3' } : {}}>
+      <div className="editor">
         <div className="editor-tabs">
           {openTabs.map((tab) => (
             <div
@@ -225,11 +215,11 @@ export default function App() {
               className={`editor-tab ${activeFile === tab.id ? 'active' : ''}`}
               onClick={() => setActiveFile(tab.id)}
             >
-              <i className={tab.icon} style={{ fontSize: 12, color: fileIcons[tab.icon] || 'var(--dim)' }} />
+              <i className={tab.icon} style={{ fontSize: 11, color: fileIcons[tab.icon] || 'var(--as-dim)' }} />
               <span>{tab.name}</span>
               <i
                 className="fa-solid fa-xmark"
-                style={{ fontSize: 12, opacity: 0.5, marginLeft: 4, cursor: 'pointer' }}
+                style={{ fontSize: 11, opacity: 0.5, marginLeft: 4, cursor: 'pointer' }}
                 onClick={(e) => closeTab(e, tab.id)}
               />
             </div>
@@ -240,23 +230,37 @@ export default function App() {
         </div>
       </div>
 
+      {/* Tool Window Bar (bottom) */}
+      <div className="tw-bar">
+        <div className="tw-bar-left">
+          <span className={`tw-item ${terminalOpen ? 'active' : ''}`} onClick={() => setTerminalOpen((v) => !v)}>
+            <i className="fa-solid fa-terminal" /> Terminal
+          </span>
+          <span className="tw-item"><i className="fa-solid fa-list-check" /> TODO</span>
+          <span className="tw-item"><i className="fa-solid fa-bug" /> Logcat</span>
+          <span className="tw-item"><i className="fa-solid fa-hammer" /> Build</span>
+          <span className="tw-item"><i className="fa-solid fa-circle-play" /> Run</span>
+        </div>
+      </div>
+
       {/* Status Bar */}
       <div className="status-bar">
         <div className="status-left">
           <span className="status-item" onClick={() => setTerminalOpen((v) => !v)}>
-            <i className="fa-solid fa-branch" /> v2
+            <i className="fa-solid fa-branch" /> v3
           </span>
           <span className="status-item">
-            <i className="fa-solid fa-code" /> {files.find((f) => f.id === activeFile)?.label || 'TypeScript React'}
+            <i className="fa-solid fa-code" /> {files.find((f) => f.id === activeFile)?.label || 'TypeScript'}
           </span>
         </div>
         <div className="status-right">
-          <span className="status-item" onClick={() => setThemeSwitcherOpen(true)}>
-            <i className="fa-solid fa-palette" /> {theme === 'default' ? 'Default Dark+' : theme}
+          <span className="status-item">
+            <i className="fa-solid fa-indent" /> UTF-8
           </span>
           <span className="status-item">Ln 1, Col 1</span>
-          <span className="status-item">UTF-8</span>
-          <span className="status-item hamburger" onClick={() => setMobileSidebar((v) => !v)}>
+          <span className="status-item">LF</span>
+          <span className="status-item">4 spaces</span>
+          <span className="status-item hamburger" onClick={() => setMobileNav((v) => !v)}>
             <i className="fa-solid fa-bars" />
           </span>
         </div>

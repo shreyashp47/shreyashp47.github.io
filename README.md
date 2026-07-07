@@ -4,7 +4,7 @@
 
 Android Developer with 7+ years of experience building 30+ high-impact apps for enterprise clients.
 
-Built with **React + Vite**, featuring a VS Code-inspired IDE theme.
+Built with **React + Vite**, featuring an Android Studio-inspired IDE theme.
 
 ## Sections
 
@@ -36,31 +36,22 @@ npm run build
 
 Output goes to `dist/`.
 
-## Switch Between v1 & v2
+## Switch Between Versions
 
-Two versions are preserved as branches:
+Three versions are preserved as branches:
 
 | Version | Branch | Description |
 |---------|--------|-------------|
+| **v3 (current)** | `main` | React + Vite Android Studio IDE theme |
+| **v2** | `v2-vscode-theme` | React + Vite VS Code IDE theme |
 | **v1 (classic)** | `v1-classic` | Original static HTML/CSS/JS site |
-| **v2 (current)** | `main` / `v2` | React + Vite VS Code IDE theme |
 
 ### Via GitHub Actions (no code needed)
 
 1. Go to **Actions** tab → **Deploy to GitHub Pages** workflow
 2. Click **Run workflow**
-3. Choose **v1** or **v2** from the dropdown
+3. Choose **v1**, **v2**, or **v3** from the dropdown
 4. Site updates at **shreyashp47.github.io**
-
-### Via CLI
-
-```bash
-# Deploy v1
-git checkout main && git reset --hard v1-classic && git push origin main --force
-
-# Deploy v2
-git checkout main && git reset --hard v2 && git push origin main --force
-```
 
 ## License
 
