@@ -236,7 +236,7 @@ export default function App() {
           ))}
         </div>
         <div className={`editor-content ${isMobile ? 'compact' : ''}`}>
-          <ActiveView />
+          <ActiveView onNavigate={openFile} />
         </div>
       </div>
 

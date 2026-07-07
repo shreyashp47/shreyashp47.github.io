@@ -1,14 +1,8 @@
 import { personal, taglines, bio, focusAreas, quickStats, social } from '../../data/content'
 import { useTypingAnimation } from '../../hooks/useTypingAnimation'
 
-export default function Home() {
+export default function Home({ onNavigate }) {
   const typingText = useTypingAnimation(taglines)
-  const scrollTo = (id) => {
-    const fileBtns = document.querySelectorAll('[data-file]')
-    fileBtns.forEach((btn) => {
-      if (btn.dataset.file === id) btn.click()
-    })
-  }
 
   return (
     <div>
@@ -43,13 +37,13 @@ export default function Home() {
             ))}
           </div>
           <div className="btn-group">
-            <button className="btn btn-primary" onClick={() => scrollTo('projects')}>
+            <button className="btn btn-primary" onClick={() => onNavigate?.('projects')}>
               <i className="fa-solid fa-code" /> See my Projects
             </button>
-            <button className="btn" onClick={() => scrollTo('about')}>
+            <button className="btn" onClick={() => onNavigate?.('about')}>
               <i className="fa-solid fa-user" /> About Me
             </button>
-            <button className="btn" onClick={() => scrollTo('contact')}>
+            <button className="btn" onClick={() => onNavigate?.('contact')}>
               <i className="fa-solid fa-envelope" /> Get In Touch
             </button>
           </div>
