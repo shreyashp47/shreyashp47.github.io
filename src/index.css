@@ -6,21 +6,34 @@
   --as-bg5: #4e5254;
   --as-menu: #3c3f41;
   --as-menu-hover: #4e5254;
-  --as-border: #505354;
-  --as-text: #a8a8a8;
+  --as-menu-selected: #4b6eaf;
+  --as-border: #515151;
+  --as-border2: #646464;
+  --as-text: #a9b7c6;
   --as-text2: #bbbbbb;
-  --as-dim: #777777;
-  --as-bright: #afb1b3;
+  --as-dim: #808080;
+  --as-bright: #ffffff;
   --as-blue: #6897bb;
-  --as-blue2: #589df6;
-  --as-green: #499c54;
-  --as-green2: #6a8759;
+  --as-blue2: #4e8bca;
+  --as-blue3: #579df6;
+  --as-blue4: #4a88c7;
+  --as-selection: #214283;
+  --as-list-select: #2f65ca;
+  --as-green: #6a8759;
+  --as-green2: #499c54;
   --as-yellow: #e8bf6a;
   --as-orange: #cc7832;
   --as-purple: #9876aa;
   --as-pink: #ff6b68;
   --as-red: #bc3f3c;
   --as-red2: #cc6666;
+
+  /* Android ecosystem accent colors */
+  --accent-android: #3ddc84;
+  --accent-kotlin: #7f52ff;
+  --accent-compose: #00c4b4;
+  --accent-gradle: #005eff;
+  --accent-firebase: #ffca28;
 }
 
 *, *:before, *:after {
@@ -109,7 +122,7 @@ body {
 
 .menu-item:hover,
 .menu-item.active {
-  background: var(--as-menu-hover);
+  background: var(--as-menu-selected);
   color: var(--as-bright);
 }
 
@@ -279,8 +292,8 @@ body {
 
 .editor-tab.active {
   background: var(--as-bg);
-  color: var(--as-bright);
-  border-bottom-color: var(--as-bg);
+  color: var(--as-text2);
+  border-bottom: 2px solid var(--as-blue4);
 }
 
 .editor-content {
@@ -332,9 +345,15 @@ body {
 }
 
 .tw-item.active {
-  color: var(--as-bright);
+  color: var(--accent-compose);
   background: var(--as-bg4);
 }
+
+.tw-item:nth-child(1).active { color: var(--accent-compose); }
+.tw-item:nth-child(2).active { color: var(--accent-firebase); }
+.tw-item:nth-child(3).active { color: var(--as-red); }
+.tw-item:nth-child(4).active { color: var(--accent-gradle); }
+.tw-item:nth-child(5).active { color: var(--accent-android); }
 
 /* ── Status Bar ── */
 .status-bar {

@@ -16,7 +16,7 @@ import Readme from './components/views/Readme'
 const fileIcons = {
   'fa-brands fa-android': '#3DDC84',
   'fa-solid fa-mobile-screen': '#6897BB',
-  'fa-solid fa-cubes': '#E8BF6A',
+  'fa-solid fa-cubes': '#005EFF',
   'fa-solid fa-database': '#CC7832',
   'fa-brands fa-github': '#FFFFFF',
   'fa-solid fa-markdown': '#083FA1',
