@@ -597,7 +597,7 @@ body {
 
 .home-content .subtitle {
   font-size: 14px;
-  color: var(--as-blue);
+  color: var(--as-orange);
   margin-bottom: 16px;
   min-height: 24px;
 }
@@ -611,7 +611,7 @@ body {
 }
 
 .home-content .highlight {
-  color: var(--as-blue);
+  color: var(--as-orange);
 }
 
 .quick-stats {
@@ -659,13 +659,13 @@ body {
 }
 
 .btn:hover {
-  border-color: var(--as-blue2);
+  border-color: var(--as-orange);
   color: var(--as-bright);
 }
 
 .btn-primary {
-  background: var(--as-blue2);
-  border-color: var(--as-blue2);
+  background: var(--as-orange);
+  border-color: var(--as-orange);
   color: var(--as-bright);
 }
 

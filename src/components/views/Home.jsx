@@ -11,7 +11,7 @@ export default function Home({ onNavigate }) {
       </div>
       <div className="home-wrapper">
         <div className="home-avatar">
-          <div className="avatar-ring" style={{display: 'flex', alignItems: 'center', justifyContent: 'center', background: 'var(--bg3)', fontSize: 40, fontFamily: 'Syne, sans-serif', fontWeight: 800, color: 'var(--blue2)'}}>
+          <div className="avatar-ring" style={{display: 'flex', alignItems: 'center', justifyContent: 'center', background: 'var(--bg3)', fontSize: 40, fontFamily: 'Syne, sans-serif', fontWeight: 800, color: 'var(--orange)'}}>
             SP
           </div>
           <div className="avatar-glow" />
