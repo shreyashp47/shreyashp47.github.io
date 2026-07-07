@@ -131,7 +131,7 @@ export default function Github() {
                 <i className="fa-brands fa-github" style={{ color: 'var(--dim)', fontSize: 14 }} />
                 <h3 style={{ fontSize: 14, margin: 0 }}>
                   <a href={repo.html_url} target="_blank" rel="noopener noreferrer"
-                    style={{ color: 'var(--blue)', textDecoration: 'none' }}>
+                    style={{ color: 'var(--orange)', textDecoration: 'none' }}>
                     {repo.name}
                   </a>
                 </h3>

@@ -7,7 +7,7 @@ export default function Experience() {
         <div className="filename">{'// experience.kt - professional journey'}</div>
         <h2>Experience</h2>
         <div style={{color: 'var(--dim)', fontSize: 12, marginTop: 4}}>
-          <span style={{color: 'var(--blue)'}}>interface</span> Career <span style={{color: 'var(--blue)'}}>extends</span> Timeline {'{}'}
+          <span style={{color: 'var(--orange)'}}>interface</span> Career <span style={{color: 'var(--orange)'}}>extends</span> Timeline {'{}'}
         </div>
       </div>
       <div className="timeline">

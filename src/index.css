@@ -511,7 +511,7 @@ body {
 }
 
 .section-subtitle {
-  color: var(--as-blue);
+  color: var(--as-orange);
   font-size: 12px;
   margin-bottom: 4px;
 }
@@ -687,7 +687,7 @@ body {
 }
 
 .about-text .highlight {
-  color: var(--as-blue);
+  color: var(--as-orange);
 }
 
 .focus-grid {
@@ -707,12 +707,12 @@ body {
 }
 
 .focus-card:hover {
-  border-color: var(--as-blue2);
+  border-color: var(--as-orange);
   background: var(--as-bg3);
 }
 
 .focus-card h4 {
-  color: var(--as-blue);
+  color: var(--as-orange);
   font-size: 12px;
   margin-bottom: 4px;
 }
@@ -837,7 +837,7 @@ body {
 }
 
 .project-card:hover {
-  border-color: var(--as-blue2);
+  border-color: var(--as-orange);
   background: var(--as-bg3);
 }
 
@@ -875,7 +875,7 @@ body {
   font-size: 10px;
   background: var(--as-bg4);
   border-radius: 2px;
-  color: var(--as-blue);
+  color: var(--as-green);
 }
 
 .project-links {
@@ -893,7 +893,7 @@ body {
 }
 
 .project-links a:hover {
-  color: var(--as-blue);
+  color: var(--as-orange);
 }
 
 /* ── Experience ── */
@@ -928,8 +928,8 @@ body {
   width: 8px;
   height: 8px;
   border-radius: 50%;
-  background: var(--as-blue2);
-  box-shadow: 0 0 0 3px var(--as-bg), 0 0 0 4px var(--as-blue2);
+  background: var(--as-orange);
+  box-shadow: 0 0 0 3px var(--as-bg), 0 0 0 4px var(--as-orange);
 }
 
 .timeline-date {
@@ -947,7 +947,7 @@ body {
 
 .timeline-company {
   font-size: 11px;
-  color: var(--as-blue);
+  color: var(--as-yellow);
   margin-bottom: 6px;
 }
 
@@ -995,7 +995,7 @@ body {
 }
 
 .contact-card:hover {
-  border-color: var(--as-blue2);
+  border-color: var(--as-orange);
   background: var(--as-bg3);
 }
 
@@ -1006,7 +1006,7 @@ body {
   align-items: center;
   justify-content: center;
   font-size: 14px;
-  color: var(--as-blue);
+  color: var(--as-orange);
   flex-shrink: 0;
 }
 
@@ -1044,7 +1044,7 @@ body {
 
 .readme-content h3 {
   font-size: 14px;
-  color: var(--as-blue);
+  color: var(--as-orange);
   font-weight: 500;
   margin-top: 16px;
   margin-bottom: 8px;
@@ -1080,7 +1080,7 @@ body {
   border: 1px solid var(--as-border);
   border-radius: 2px;
   margin: 2px 4px 2px 0;
-  color: var(--as-blue);
+  color: var(--as-green);
 }
 
 /* Mobile terminal: fullscreen overlay */
@@ -1108,7 +1108,7 @@ body {
   }
 
   .as-layout .status-bar {
-    background: var(--as-blue2);
+    background: var(--as-orange);
     border-top: none;
   }
 

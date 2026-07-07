@@ -3,7 +3,7 @@ import { personal, focusAreas, skillTags, social } from '../../data/content'
 export default function Readme() {
   return (
     <div className="readme-content">
-      <h1><span style={{color: 'var(--blue)'}}>#</span> {personal.name} — Portfolio</h1>
+      <h1><span style={{color: 'var(--orange)'}}>#</span> {personal.name} — Portfolio</h1>
 
       <h2>About</h2>
       <p>
@@ -23,7 +23,7 @@ export default function Readme() {
       <p>
         {social.slice(0, 4).map((s) => (
           <span key={s.platform}>
-            <a href={s.url} target="_blank" rel="noopener noreferrer" style={{color: 'var(--blue)'}}>{s.platform}</a>
+            <a href={s.url} target="_blank" rel="noopener noreferrer" style={{color: 'var(--orange)'}}>{s.platform}</a>
             {' | '}
           </span>
         ))}

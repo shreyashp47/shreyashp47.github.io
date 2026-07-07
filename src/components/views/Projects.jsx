@@ -7,7 +7,7 @@ export default function Projects() {
         <div className="filename">{'// build.gradle.kts : things I\'ve built & shipped'}</div>
         <h2>Projects</h2>
         <div style={{color: 'var(--dim)', fontSize: 12, marginTop: 4}}>
-          <span style={{color: 'var(--blue)'}}>const</span> projects <span style={{color: 'var(--dim)'}}>=</span> [<span style={{color: 'var(--orange)'}}>...shipped</span>, <span style={{color: 'var(--green)'}}>...building</span>];
+          <span style={{color: 'var(--orange)'}}>const</span> projects <span style={{color: 'var(--dim)'}}>=</span> [<span style={{color: 'var(--orange)'}}>...shipped</span>, <span style={{color: 'var(--green)'}}>...building</span>];
         </div>
       </div>
       <div className="project-grid">

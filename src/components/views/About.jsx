@@ -21,7 +21,7 @@ export default function About() {
           <div className="focus-grid">
             {focusAreas.map((f) => (
               <div className="focus-card" key={f.title}>
-                <h4><i className="fa-solid fa-circle" style={{fontSize: 8, color: 'var(--blue)', marginRight: 6}} />{f.title}</h4>
+                <h4><i className="fa-solid fa-circle" style={{fontSize: 8, color: 'var(--orange)', marginRight: 6}} />{f.title}</h4>
                 <p>{f.desc}</p>
               </div>
             ))}
@@ -71,7 +71,7 @@ export default function About() {
           <div style={{display: 'flex', flexDirection: 'column', gap: 6}}>
             {social.slice(0, 4).map((s) => (
               <a key={s.platform} href={s.url} target="_blank" rel="noopener noreferrer" style={{color: 'var(--dim)', fontSize: 12, textDecoration: 'none', display: 'flex', alignItems: 'center', gap: 8}}>
-                <i className={s.icon} style={{width: 16, color: 'var(--blue)'}} /> {s.handle}
+                <i className={s.icon} style={{width: 16, color: 'var(--orange)'}} /> {s.handle}
               </a>
             ))}
           </div>
