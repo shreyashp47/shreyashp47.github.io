@@ -263,33 +263,21 @@ export const fileTree = [
     type: 'folder',
     open: true,
     children: [
-      {
-        name: 'About',
-        type: 'folder',
-        open: true,
-        children: [
-          { id: 'bio', name: 'Bio.md', type: 'file', icon: 'fa-solid fa-file-lines' },
-        ],
-      },
-      {
-        name: 'Skills',
-        type: 'folder',
-        open: true,
-        children: [
-          { id: 'techstack', name: 'TechStack.json', type: 'file', icon: 'fa-solid fa-file-code' },
-        ],
-      },
+      { id: 'home', name: 'Home.md', type: 'file', icon: 'fa-solid fa-file-lines' },
+      { id: 'about', name: 'About.md', type: 'file', icon: 'fa-solid fa-file-lines' },
+      { id: 'skills', name: 'Skills.json', type: 'file', icon: 'fa-solid fa-file-code' },
       {
         name: 'Projects',
         type: 'folder',
         open: true,
         children: [
-          { id: 'project1', name: 'Project1.java', type: 'file', icon: 'fa-brands fa-java' },
-          { id: 'project2', name: 'Project2.py', type: 'file', icon: 'fa-brands fa-python' },
-          { id: 'project3', name: 'Project3.js', type: 'file', icon: 'fa-brands fa-js' },
+          { id: 'projects', name: 'Projects.kt', type: 'file', icon: 'fa-brands fa-android' },
+          { id: 'experience', name: 'Experience.kt', type: 'file', icon: 'fa-brands fa-android' },
+          { id: 'github', name: 'Github.json', type: 'file', icon: 'fa-brands fa-github' },
         ],
       },
-      { id: 'contact', name: 'Contact.txt', type: 'file', icon: 'fa-solid fa-file-alt' },
+      { id: 'contact', name: 'Contact.xml', type: 'file', icon: 'fa-solid fa-mobile-screen' },
+      { id: 'readme', name: 'README.md', type: 'file', icon: 'fa-solid fa-markdown' },
     ],
   },
 ]

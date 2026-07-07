@@ -1,13 +1,16 @@
 import { useState, useEffect } from 'react'
+import { fileTree } from '../data/content'
 
-const allFiles = [
-  { id: 'bio', name: 'Bio.md' },
-  { id: 'techstack', name: 'TechStack.json' },
-  { id: 'project1', name: 'Project1.java' },
-  { id: 'project2', name: 'Project2.py' },
-  { id: 'project3', name: 'Project3.js' },
-  { id: 'contact', name: 'Contact.txt' },
-]
+function getAllFiles(nodes) {
+  const result = []
+  for (const n of nodes) {
+    if (n.type === 'file') result.push({ id: n.id, name: n.name, icon: n.icon })
+    if (n.children) result.push(...getAllFiles(n.children))
+  }
+  return result
+}
+
+const allFiles = getAllFiles(fileTree)
 
 export default function CommandPalette({ visible, onClose, onOpenFile }) {
   const [query, setQuery] = useState('')
@@ -44,7 +47,7 @@ export default function CommandPalette({ visible, onClose, onOpenFile }) {
         <div className="command-list">
           {filtered.map((f) => (
             <div key={f.id} className="command-item" onClick={() => handleSelect(f)}>
-              <i className="fa-solid fa-file cmd-icon" />
+              <i className={`${f.icon || 'fa-solid fa-file'} cmd-icon`} />
               <span>{f.name}</span>
             </div>
           ))}

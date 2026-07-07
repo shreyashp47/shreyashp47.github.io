@@ -39,11 +39,6 @@ export default function Terminal({ visible, onToggle, onOpenFile }) {
     if (bodyRef.current) bodyRef.current.scrollTop = bodyRef.current.scrollHeight
   }, [lines])
 
-  const fileMap = {
-    bio: 'bio', techstack: 'techstack', project1: 'project1',
-    project2: 'project2', project3: 'project3', contact: 'contact',
-  }
-
   const processCommand = (cmd) => {
     const parts = cmd.trim().split(/\s+/)
     const command = parts[0].toLowerCase()
@@ -61,7 +56,7 @@ export default function Terminal({ visible, onToggle, onOpenFile }) {
         output.push('  clear             - Clear terminal')
         output.push('  whoami            - Display current user')
         output.push('  ls                - List portfolio files')
-        output.push('  open [file]       - Open a file (Bio.md, TechStack.json, Project1.java, etc.)')
+        output.push('  open [file]       - Open a file (Home.md, About.md, Skills.json, etc.)')
         output.push('  pwd               - Print working directory')
         output.push('  build             - Re-run build')
         output.push('  neofetch          - Display system info')
@@ -73,22 +68,22 @@ export default function Terminal({ visible, onToggle, onOpenFile }) {
         output.push('shreyashp47')
         break
       case 'ls':
-        output.push('About/')
-        output.push('  Bio.md')
-        output.push('Skills/')
-        output.push('  TechStack.json')
+        output.push('Home.md')
+        output.push('About.md')
+        output.push('Skills.json')
         output.push('Projects/')
-        output.push('  Project1.java')
-        output.push('  Project2.py')
-        output.push('  Project3.js')
-        output.push('Contact.txt')
+        output.push('  Projects.kt')
+        output.push('  Experience.kt')
+        output.push('  Github.json')
+        output.push('Contact.xml')
+        output.push('README.md')
         break
       case 'open':
         if (args.length === 0) {
           output.push('open: missing operand')
         } else {
           const target = args[0].replace(/\.\w+$/, '').toLowerCase()
-          const idMap = { bio: 'bio', techstack: 'techstack', project1: 'project1', project2: 'project2', project3: 'project3', contact: 'contact' }
+          const idMap = { home: 'home', about: 'about', skills: 'skills', projects: 'projects', experience: 'experience', github: 'github', contact: 'contact', readme: 'readme' }
           if (idMap[target] && onOpenFile) {
             onOpenFile(idMap[target])
             output.push(`Opening ${args[0]}...`)

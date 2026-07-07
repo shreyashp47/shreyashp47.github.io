@@ -4,20 +4,24 @@ import { useTheme } from './hooks/useTheme'
 import ThemeSwitcher from './components/ThemeSwitcher'
 import Terminal from './components/Terminal'
 import CommandPalette from './components/CommandPalette'
-import BioMd from './components/views/BioMd'
-import TechStackJson from './components/views/TechStackJson'
-import Project1Java from './components/views/Project1Java'
-import Project2Py from './components/views/Project2Py'
-import Project3Js from './components/views/Project3Js'
-import ContactTxt from './components/views/ContactTxt'
+import Home from './components/views/Home'
+import About from './components/views/About'
+import Skills from './components/views/Skills'
+import Projects from './components/views/Projects'
+import Experience from './components/views/Experience'
+import Github from './components/views/Github'
+import Contact from './components/views/Contact'
+import Readme from './components/views/Readme'
 
 const viewComponents = {
-  bio: BioMd,
-  techstack: TechStackJson,
-  project1: Project1Java,
-  project2: Project2Py,
-  project3: Project3Js,
-  contact: ContactTxt,
+  home: Home,
+  about: About,
+  skills: Skills,
+  projects: Projects,
+  experience: Experience,
+  github: Github,
+  contact: Contact,
+  readme: Readme,
 }
 
 const menuItems = ['File', 'Edit', 'View', 'Navigate', 'Code', 'Run', 'Portfolio']
@@ -25,19 +29,17 @@ const menuItems = ['File', 'Edit', 'View', 'Navigate', 'Code', 'Run', 'Portfolio
 const fileIconMap = {
   'fa-solid fa-file-lines': '#A9B7C6',
   'fa-solid fa-file-code': '#6897BB',
-  'fa-brands fa-java': '#ED8B00',
-  'fa-brands fa-python': '#3776AB',
-  'fa-brands fa-js': '#F7DF1E',
-  'fa-solid fa-file-alt': '#CC7832',
+  'fa-brands fa-android': '#3DDC84',
+  'fa-brands fa-github': '#FFFFFF',
+  'fa-solid fa-mobile-screen': '#6897BB',
+  'fa-solid fa-markdown': '#083FA1',
 }
 
 const fileExtIcons = {
   md: { icon: 'fa-solid fa-file-lines', color: '#A9B7C6' },
   json: { icon: 'fa-solid fa-file-code', color: '#6897BB' },
-  java: { icon: 'fa-brands fa-java', color: '#ED8B00' },
-  py: { icon: 'fa-brands fa-python', color: '#3776AB' },
-  js: { icon: 'fa-brands fa-js', color: '#F7DF1E' },
-  txt: { icon: 'fa-solid fa-file-alt', color: '#CC7832' },
+  kt: { icon: 'fa-brands fa-android', color: '#3DDC84' },
+  xml: { icon: 'fa-solid fa-mobile-screen', color: '#6897BB' },
 }
 
 function getFileIcon(name) {
@@ -90,7 +92,7 @@ function TreeNode({ node, activeFile, onOpenFile, expandedFolders, onToggleFolde
 
 export default function App() {
   const { theme, setTheme } = useTheme()
-  const [activeFile, setActiveFile] = useState('bio')
+  const [activeFile, setActiveFile] = useState('home')
   const [navOpen, setNavOpen] = useState(true)
   const [terminalOpen, setTerminalOpen] = useState(false)
   const [paletteOpen, setPaletteOpen] = useState(false)
@@ -98,8 +100,20 @@ export default function App() {
   const [isMobile, setIsMobile] = useState(window.innerWidth < 1024)
   const [mobileNav, setMobileNav] = useState(false)
   const [activeMenu, setActiveMenu] = useState(null)
-  const [expandedFolders, setExpandedFolders] = useState({ Portfolio: true, About: true, Skills: true, Projects: true })
-  const [openTabs, setOpenTabs] = useState([{ id: 'bio', name: 'Bio.md' }])
+  const [expandedFolders, setExpandedFolders] = useState({ Portfolio: true, Projects: true })
+  const [openTabs, setOpenTabs] = useState([{ id: 'home', name: 'Home.md' }])
+
+  const allFiles = useCallback(() => {
+    const result = []
+    const walk = (nodes) => {
+      for (const n of nodes) {
+        if (n.type === 'file') result.push({ id: n.id, name: n.name, icon: n.icon })
+        if (n.children) walk(n.children)
+      }
+    }
+    walk(fileTree)
+    return result
+  }, [])
 
   useEffect(() => {
     const handleResize = () => setIsMobile(window.innerWidth < 1024)
@@ -150,7 +164,7 @@ export default function App() {
     setExpandedFolders((prev) => ({ ...prev, [name]: !prev[name] }))
   }
 
-  const ActiveView = viewComponents[activeFile] || BioMd
+  const ActiveView = viewComponents[activeFile] || Home
 
   const navContent = (
     <>
@@ -264,7 +278,11 @@ export default function App() {
           })}
         </div>
         <div className="editor-content">
-          <ActiveView />
+          <ActiveView onNavigate={(id) => {
+            const files = allFiles()
+            const f = files.find((x) => x.id === id)
+            if (f) openFile(f.id, f.name)
+          }} />
         </div>
       </div>
 
@@ -306,8 +324,9 @@ export default function App() {
         visible={terminalOpen}
         onToggle={() => setTerminalOpen(false)}
         onOpenFile={(id) => {
-          const map = { bio: 'Bio.md', techstack: 'TechStack.json', project1: 'Project1.java', project2: 'Project2.py', project3: 'Project3.js', contact: 'Contact.txt' }
-          openFile(id, map[id])
+          const files = allFiles()
+          const f = files.find((x) => x.id === id)
+          if (f) openFile(f.id, f.name)
         }}
       />
 
@@ -315,10 +334,7 @@ export default function App() {
       <CommandPalette
         visible={paletteOpen}
         onClose={() => setPaletteOpen(false)}
-        onOpenFile={(id) => {
-          const map = { bio: 'Bio.md', techstack: 'TechStack.json', project1: 'Project1.java', project2: 'Project2.py', project3: 'Project3.js', contact: 'Contact.txt' }
-          openFile(id, map[id])
-        }}
+        onOpenFile={(id, name) => openFile(id, name)}
       />
 
       {/* Theme Switcher */}
