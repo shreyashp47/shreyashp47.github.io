@@ -119,7 +119,7 @@ body {
   display: flex;
   align-items: center;
   gap: 4px;
-  background: var(--as-bg2);
+  background: var(--as-bg);
   border-bottom: 1px solid var(--as-border);
   padding: 0 8px;
 }
@@ -1163,22 +1163,7 @@ body {
   }
 
   .as-layout .toolbar {
-    overflow-x: auto;
-    -webkit-overflow-scrolling: touch;
-    gap: 2px;
-    padding: 0 4px;
-  }
-
-  .as-layout .toolbar .toolbar-group:first-child .toolbar-btn:nth-child(-n+2) {
-    display: none;
-  }
-
-  .as-layout .toolbar .toolbar-group:nth-child(2) {
-    display: none;
-  }
-
-  .as-layout .toolbar .toolbar-sep {
-    display: none;
+    justify-content: space-between;
   }
 }
 

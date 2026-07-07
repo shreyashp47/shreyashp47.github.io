@@ -169,17 +169,7 @@ export default function App() {
       {/* Toolbar */}
       <div className="toolbar">
         <div className="toolbar-group">
-          <button className="toolbar-btn" title="Back"><i className="fa-solid fa-arrow-left" /></button>
-          <button className="toolbar-btn" title="Forward"><i className="fa-solid fa-arrow-right" /></button>
-          <span className="toolbar-sep" />
           <button className="toolbar-btn" onClick={() => setNavOpen((v) => !v)} title="Project"><i className="fa-solid fa-folder-tree" /></button>
-        </div>
-        <div className="toolbar-group">
-          <button className="toolbar-btn" title="Build"><i className="fa-solid fa-hammer" /></button>
-          <button className="toolbar-btn" title="Run"><i className="fa-solid fa-play" style={{ color: 'var(--as-green)' }} /></button>
-          <button className="toolbar-btn" title="Debug"><i className="fa-solid fa-bug" style={{ color: 'var(--as-green)' }} /></button>
-          <span className="toolbar-sep" />
-          <button className="toolbar-btn" title="Stop"><i className="fa-solid fa-stop" style={{ color: 'var(--as-red)' }} /></button>
         </div>
         <div className="toolbar-group" style={{ marginLeft: 'auto' }}>
           <button className="toolbar-btn" onClick={() => setPaletteOpen(true)} title="Search"><i className="fa-solid fa-search" /></button>
