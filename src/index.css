@@ -1119,25 +1119,16 @@ body {
   }
 
   .as-layout .status-bar {
-    background: var(--as-bg);
-    border-top-color: var(--as-bg4);
-  }
-
-  .as-layout .menu-bar {
     background: var(--as-blue2);
+    border-top: none;
   }
 
-  .as-layout .menu-item {
-    color: rgba(255,255,255,0.85);
+  .as-layout .status-item {
+    color: rgba(255,255,255,0.9);
   }
 
-  .as-layout .menu-item:hover,
-  .as-layout .menu-item.active {
+  .as-layout .status-item:hover {
     background: rgba(255,255,255,0.15);
-    color: #fff;
-  }
-
-  .as-layout .menu-logo {
     color: #fff;
   }
 
