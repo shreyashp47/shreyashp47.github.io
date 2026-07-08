@@ -1,6 +1,6 @@
 const CONFIG = {
   name: "Shreyash Pattewar",
-  tagline: "Mobile apps and AI developer",
+  tagline: "Building mobile apps and AI agents",
   githubUsername: "shreyashp47",
   githubUrl: "https://github.com/shreyashp47",
   leetcodeUsername: "shreyashp47",
@@ -89,5 +89,5 @@ const CONFIG = {
       url: "https://www.linkedin.com/feed/update/urn:li:activity:7338562065843810304/"
     }
   ],
-  bio: "Android & iOS developer working at Cognizant, passionate about building mobile apps and exploring the world of LLMs, AI agents, and MCP servers. I work with Kotlin, Swift, and Python to bring ideas to life.\n\nCurrently diving deep into iOS development alongside Android. Open to collaborating on mobile app projects and anything at the intersection of mobile and AI. When I'm not coding, you'll find me swimming or playing ping pong."
+  bio: "Mobile app developer working at Cognizant, passionate about building mobile apps and exploring the world of LLMs, AI agents, and MCP servers. I work with Kotlin, Swift, and Python to bring ideas to life.\n\nConstantly exploring new tools and frameworks across mobile platforms. Open to collaborating on mobile app projects and anything at the intersection of mobile and AI. When I'm not coding, you'll find me swimming or playing ping pong."
 };
