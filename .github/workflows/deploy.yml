@@ -8,12 +8,13 @@ on:
       version:
         description: 'Which version to deploy'
         required: true
-        default: 'v3'
+        default: 'v4'
         type: choice
         options:
           - v1
           - v2
           - v3
+          - v4
 
 permissions:
   contents: write
@@ -28,7 +29,7 @@ jobs:
         id: version
         run: |
           if [[ "${{ github.event_name }}" == "push" ]]; then
-            echo "version=v3" >> $GITHUB_OUTPUT
+            echo "version=v4" >> $GITHUB_OUTPUT
           else
             echo "version=${{ inputs.version }}" >> $GITHUB_OUTPUT
           fi
@@ -48,13 +49,13 @@ jobs:
           path: v2-site
 
       - name: Setup Node
-        if: steps.version.outputs.version != 'v1'
+        if: steps.version.outputs.version == 'v2' || steps.version.outputs.version == 'v3'
         uses: actions/setup-node@v4
         with:
           node-version: 20
 
       - name: Build (React)
-        if: steps.version.outputs.version != 'v1'
+        if: steps.version.outputs.version == 'v2' || steps.version.outputs.version == 'v3'
         run: |
           cd ${{ steps.version.outputs.version == 'v2' && 'v2-site' || '.' }}
           npm ci
@@ -64,4 +65,4 @@ jobs:
         uses: peaceiris/actions-gh-pages@v4
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: ${{ steps.version.outputs.version == 'v1' && 'v1-site' || steps.version.outputs.version == 'v2' && 'v2-site/dist' || './dist' }}
+          publish_dir: ${{ steps.version.outputs.version == 'v1' && 'v1-site' || steps.version.outputs.version == 'v2' && 'v2-site/dist' || steps.version.outputs.version == 'v4' && 'v4' || './dist' }}
