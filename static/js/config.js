@@ -1,6 +1,6 @@
 const CONFIG = {
   name: "Shreyash Pattewar",
-  tagline: "Android & iOS developer exploring LLMs and AI agents",
+  tagline: "Mobile apps and AI developer",
   githubUsername: "shreyashp47",
   githubUrl: "https://github.com/shreyashp47",
   leetcodeUsername: "shreyashp47",

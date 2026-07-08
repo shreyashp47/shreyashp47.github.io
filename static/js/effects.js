@@ -67,25 +67,5 @@ const Effects = (() => {
     animate();
   }
 
-  function cardTilt() {
-    document.addEventListener("mousemove", (e) => {
-      const card = e.target.closest(".project-card, .repo-card, .blog-card");
-      if (!card) return;
-      const rect = card.getBoundingClientRect();
-      const x = e.clientX - rect.left;
-      const y = e.clientY - rect.top;
-      const mx = (x / rect.width - 0.5) * 2;
-      const my = (y / rect.height - 0.5) * -2;
-      card.style.transform = `perspective(800px) rotateY(${mx * 6}deg) rotateX(${my * 6}deg)`;
-    });
-    document.addEventListener("mouseout", (e) => {
-      const card = e.target.closest(".project-card, .repo-card, .blog-card");
-      if (!card) return;
-      const related = e.relatedTarget;
-      if (related && (card === related || card.contains(related))) return;
-      card.style.transform = "perspective(800px) rotateY(0deg) rotateX(0deg)";
-    });
-  }
-
-  return { scrollReveal, typewriter, smoothScroll, observe, cursorGlow, cardTilt };
+  return { scrollReveal, typewriter, smoothScroll, observe, cursorGlow };
 })();

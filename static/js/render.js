@@ -2,16 +2,21 @@ const Render = (() => {
   const C = CONFIG;
 
   function hero() {
-    document.getElementById("heroName").textContent = C.name;
-    document.getElementById("heroTagline").textContent = C.tagline;
+    document.getElementById("heroName").textContent = `> ${C.name}`;
+    document.getElementById("heroTagline").textContent = `> "${C.tagline}"`;
   }
 
   function about() {
     const container = document.getElementById("aboutText");
-    C.bio.split("\n\n").forEach(p => {
-      const para = document.createElement("p");
-      para.textContent = p;
-      container.appendChild(para);
+    const lines = C.bio.split("\n\n");
+    lines.forEach((p, i) => {
+      const line = document.createElement("p");
+      line.innerHTML = `<span class="prompt">${i === 0 ? '└─$' : '   '}</span> <span class="cmd">echo</span> <span class="str">"${p.replace(/\n/g, '\\n')}"</span>`;
+      container.appendChild(line);
+      if (i < lines.length - 1) {
+        const br = document.createElement("br");
+        container.appendChild(br);
+      }
     });
 
     const socials = document.getElementById("aboutSocials");
@@ -36,7 +41,7 @@ const Render = (() => {
 
   function footer() {
     document.getElementById("footerText").innerHTML =
-      `&copy; ${new Date().getFullYear()} ${C.name}. Built with &hearts;`;
+      `// &copy; ${new Date().getFullYear()} ${C.name} &mdash; built with &lt;3 and a lot of coffee`;
   }
 
   function skills() {
@@ -92,23 +97,20 @@ const Render = (() => {
       card.className = "project-card reveal";
 
       const techHtml = proj.tech.map(t => `<span class="tech-badge">${t}</span>`).join("");
-      let links = `<a href="${proj.github}" target="_blank" rel="noopener" class="btn btn-small"><i class="fab fa-github"></i> Code</a>`;
+      let links = `<a href="${proj.github}" target="_blank" rel="noopener" class="btn btn-small"><i class="fab fa-github"></i> source</a>`;
       if (proj.demo) {
-        links += `<a href="${proj.demo}" target="_blank" rel="noopener" class="btn btn-small btn-primary"><i class="fas fa-external-link-alt"></i> Live</a>`;
+        links += `<a href="${proj.demo}" target="_blank" rel="noopener" class="btn btn-small btn-primary"><i class="fas fa-external-link-alt"></i> demo</a>`;
       }
 
       let testingHtml = "";
       if (proj.testing) {
         testingHtml = `
           <details class="project-testing">
-            <summary class="testing-summary"><i class="fab fa-google-play"></i> Open Testing on Google Play</summary>
+            <summary class="testing-summary"><i class="fab fa-google-play"></i> // open_testing.kt</summary>
             <div class="testing-content">
-              <p>This app is in open testing. To try it:</p>
-              <ol>
-                <li>Join the tester group: <a href="${proj.testing.group}" target="_blank" rel="noopener">Google Groups</a></li>
-                <li>Once approved, install from <a href="${proj.testing.playStore}" target="_blank" rel="noopener">Google Play</a></li>
-                <li>Report issues on <a href="${proj.github}/issues" target="_blank" rel="noopener">GitHub</a></li>
-              </ol>
+              <p>> join tester group: <a href="${proj.testing.group}" target="_blank" rel="noopener">Google Groups</a></p>
+              <p>> install from <a href="${proj.testing.playStore}" target="_blank" rel="noopener">Google Play</a></p>
+              <p>> report issues: <a href="${proj.github}/issues" target="_blank" rel="noopener">GitHub Issues</a></p>
             </div>
           </details>`;
       }
@@ -130,11 +132,11 @@ const Render = (() => {
       const card = document.createElement("div");
       card.className = "blog-card reveal";
       card.innerHTML = `
-        <p class="blog-date">${post.date}</p>
+        <p class="blog-date">// ${post.date}</p>
         <p class="blog-excerpt">${post.excerpt}</p>
         <div class="blog-meta">
           <span><i class="fas fa-heart"></i> ${post.likes}</span>
-          <a href="${post.url}" target="_blank" rel="noopener" class="btn btn-small">Read on LinkedIn <i class="fas fa-arrow-right"></i></a>
+          <a href="${post.url}" target="_blank" rel="noopener" class="btn btn-small">read <i class="fas fa-arrow-right"></i></a>
         </div>
       `;
       container.appendChild(card);
@@ -167,9 +169,9 @@ const Render = (() => {
   function githubStats() {
     const container = document.getElementById("githubStats");
     const urls = [
-      `https://github-readme-stats.vercel.app/api?username=${C.githubUsername}&show_icons=true&theme=tokyonight&hide_border=true`,
-      `https://github-readme-streak-stats.herokuapp.com/?user=${C.githubUsername}&theme=tokyonight&hide_border=true`,
-      `https://github-readme-stats.vercel.app/api/top-langs/?username=${C.githubUsername}&layout=compact&theme=tokyonight&hide_border=true`,
+      `https://github-readme-stats.vercel.app/api?username=${C.githubUsername}&show_icons=true&theme=radical&hide_border=true`,
+      `https://github-readme-streak-stats.herokuapp.com/?user=${C.githubUsername}&theme=radical&hide_border=true`,
+      `https://github-readme-stats.vercel.app/api/top-langs/?username=${C.githubUsername}&layout=compact&theme=radical&hide_border=true`,
     ];
     urls.forEach(src => {
       const img = document.createElement("img");
@@ -180,7 +182,7 @@ const Render = (() => {
     });
     if (C.leetcodeUsername) {
       const leet = document.createElement("img");
-      leet.src = `https://leetcard.jacoblin.cool/${C.leetcodeUsername}?theme=dark&font=Inter&ext=heatmap&hide_border=true`;
+      leet.src = `https://leetcard.jacoblin.cool/${C.leetcodeUsername}?theme=dark&font=JetBrains%20Mono&ext=heatmap&hide_border=true`;
       leet.alt = "LeetCode Stats";
       leet.loading = "lazy";
       container.appendChild(leet);
@@ -201,7 +203,7 @@ const Render = (() => {
           Ruby: "#701516", Shell: "#89e051", Dockerfile: "#384d54",
         };
         repos.forEach(repo => {
-          const color = langColors[repo.language] || "#f97316";
+          const color = langColors[repo.language] || "#7c3aed";
           const card = document.createElement("div");
           card.className = "repo-card reveal";
           card.innerHTML = `
@@ -217,7 +219,7 @@ const Render = (() => {
           Effects.observe(card);
         });
       })
-      .catch(() => { grid.innerHTML = `<p class="loading-text">Could not load repositories.</p>`; });
+      .catch(() => { grid.innerHTML = `<p class="loading-text">// error: failed to fetch repositories</p>`; });
   }
 
   function contactForm() {
@@ -225,7 +227,7 @@ const Render = (() => {
     if (form) {
       form.addEventListener("submit", () => {
         const btn = form.querySelector(".btn");
-        btn.textContent = "Sending...";
+        btn.textContent = "sending...";
         btn.disabled = true;
       });
     }

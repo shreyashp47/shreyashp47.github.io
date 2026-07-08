@@ -1,6 +1,4 @@
 document.addEventListener("DOMContentLoaded", () => {
-
-  // Render content
   Render.hero();
   Render.about();
   Render.footer();
@@ -12,13 +10,10 @@ document.addEventListener("DOMContentLoaded", () => {
   Render.githubRepos();
   Render.contactForm();
 
-  // Attach effects
   Effects.typewriter();
   Effects.scrollReveal();
   Effects.smoothScroll();
   Effects.cursorGlow();
-  Effects.cardTilt();
 
-  // Bootstrap navigation
   Navigation.init();
 });
