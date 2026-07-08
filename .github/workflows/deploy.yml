@@ -52,6 +52,13 @@ jobs:
           ref: v2-vscode-theme
           path: v2-site
 
+      - name: Checkout v3 (Android Studio theme)
+        if: steps.version.outputs.version == 'v3'
+        uses: actions/checkout@v4
+        with:
+          ref: v3-android-studio
+          path: v3-site
+
       - name: Setup Node
         if: steps.version.outputs.version == 'v2' || steps.version.outputs.version == 'v3'
         uses: actions/setup-node@v4
@@ -61,7 +68,7 @@ jobs:
       - name: Build (React)
         if: steps.version.outputs.version == 'v2' || steps.version.outputs.version == 'v3'
         run: |
-          cd ${{ steps.version.outputs.version == 'v2' && 'v2-site' || '.' }}
+          cd ${{ steps.version.outputs.version == 'v2' && 'v2-site' || 'v3-site' }}
           npm ci
           npm run build
 
@@ -69,4 +76,4 @@ jobs:
         uses: peaceiris/actions-gh-pages@v4
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: ${{ steps.version.outputs.version == 'v1' && 'v1-site' || steps.version.outputs.version == 'v2' && 'v2-site/dist' || steps.version.outputs.version == 'v4' && 'v4' || './dist' }}
+          publish_dir: ${{ steps.version.outputs.version == 'v1' && 'v1-site' || steps.version.outputs.version == 'v2' && 'v2-site/dist' || steps.version.outputs.version == 'v3' && 'v3-site/dist' || 'v4' }}

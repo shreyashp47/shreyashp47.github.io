@@ -6,17 +6,10 @@
   "scripts": {
     "dev": "serve v4 -l 3000",
     "dev:v1": "serve v1 -l 3001",
-    "dev:v3": "vite",
-    "build": "vite build",
-    "preview": "vite preview"
-  },
-  "dependencies": {
-    "react": "^18.3.1",
-    "react-dom": "^18.3.1"
+    "build": "echo 'Use CI to build versions; for local dev use npm run dev'",
+    "preview": "serve v4 -l 3000"
   },
   "devDependencies": {
-    "@vitejs/plugin-react": "^4.3.4",
-    "serve": "^14.2.6",
-    "vite": "^6.0.0"
+    "serve": "^14.2.6"
   }
 }
