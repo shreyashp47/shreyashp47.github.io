@@ -23,11 +23,7 @@ const CONFIG = {
       description: "A modern task management Android app built with Clean Architecture and Jetpack Compose that turns your wallpaper into a dynamic to-do list.",
       tech: ["Kotlin", "Jetpack Compose", "Room", "Hilt"],
       github: "https://github.com/shreyashp47/DoTrack",
-      demo: "",
-      testing: {
-        playStore: "https://play.google.com/store/apps/details?id=com.shreyash.dotrack",
-        group: "https://groups.google.com/g/testers-community"
-      }
+      demo: "https://play.google.com/store/apps/details?id=com.shreyash.dotrack"
     },
     {
       title: "chatgpt-analysis",
@@ -48,11 +44,7 @@ const CONFIG = {
       description: "A Kotlin-based Android app for reading and visualizing device sensor data in real time.",
       tech: ["Kotlin", "Android Sensors"],
       github: "https://github.com/shreyashp47/Sensor-App",
-      demo: "",
-      testing: {
-        playStore: "https://play.google.com/store/apps/details?id=com.shreyash.sensorapp",
-        group: "https://groups.google.com/g/testers-community"
-      }
+      demo: "https://play.google.com/store/apps/details?id=com.shreyash.sensorapp"
     },
     {
       title: "OpenCodeLeet",
