@@ -99,7 +99,10 @@ const Render = (() => {
       const techHtml = proj.tech.map(t => `<span class="tech-badge">${t}</span>`).join("");
       let links = `<a href="${proj.github}" target="_blank" rel="noopener" class="btn btn-small"><i class="fab fa-github"></i> source</a>`;
       if (proj.demo) {
-        links += `<a href="${proj.demo}" target="_blank" rel="noopener" class="btn btn-small btn-primary"><i class="fas fa-external-link-alt"></i> demo</a>`;
+        const isPlayStore = proj.demo.includes("play.google.com");
+        const icon = isPlayStore ? "fab fa-google-play" : "fas fa-external-link-alt";
+        const label = isPlayStore ? "Play Store" : "demo";
+        links += `<a href="${proj.demo}" target="_blank" rel="noopener" class="btn btn-small btn-primary"><i class="${icon}"></i> ${label}</a>`;
       }
 
       let testingHtml = "";
