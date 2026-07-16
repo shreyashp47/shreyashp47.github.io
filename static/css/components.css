@@ -366,6 +366,13 @@
   font-size: 0.72rem;
   font-weight: 500;
   font-family: var(--font-mono);
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.tech-badge i {
+  font-size: 0.7rem;
 }
 
 .project-links { display: flex; gap: 10px; }

@@ -96,7 +96,24 @@ const Render = (() => {
       const card = document.createElement("div");
       card.className = "project-card reveal";
 
-      const techHtml = proj.tech.map(t => `<span class="tech-badge">${t}</span>`).join("");
+      const techIcons = {
+        "Kotlin": "fab fa-android",
+        "Android Sensors": "fab fa-android",
+        "Jetpack Compose": "fab fa-android",
+        "Room": "fab fa-android",
+        "Hilt": "fab fa-android",
+        "Python": "fab fa-python",
+        "TypeScript": "fab fa-js",
+        "Flask": "fas fa-flask",
+        "HTML": "fab fa-html5",
+        "Tailwind CSS": "fab fa-css3-alt",
+        "LLM": "fas fa-brain",
+        "MCP": "fas fa-server"
+      };
+      const techHtml = proj.tech.map(t => {
+        const icon = techIcons[t] ? `<i class="${techIcons[t]}"></i> ` : "";
+        return `<span class="tech-badge">${icon}${t}</span>`;
+      }).join("");
       let links = `<a href="${proj.github}" target="_blank" rel="noopener" class="btn btn-small"><i class="fab fa-github"></i> source</a>`;
       if (proj.demo) {
         const isPlayStore = proj.demo.includes("play.google.com");
