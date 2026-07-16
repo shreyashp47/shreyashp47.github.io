@@ -26,6 +26,13 @@ const CONFIG = {
       demo: "https://play.google.com/store/apps/details?id=com.shreyash.dotrack"
     },
     {
+      title: "Sensor-App",
+      description: "A Kotlin-based Android app for reading and visualizing device sensor data in real time.",
+      tech: ["Kotlin", "Android Sensors"],
+      github: "https://github.com/shreyashp47/Sensor-App",
+      demo: "https://play.google.com/store/apps/details?id=com.shreyash.sensorapp"
+    },
+    {
       title: "chatgpt-analysis",
       description: "A ChatGPT clone built with TypeScript — deployed on Vercel. Full-stack web exploration alongside mobile development.",
       tech: ["TypeScript"],
@@ -38,13 +45,6 @@ const CONFIG = {
       tech: ["Kotlin", "Android Sensors"],
       github: "https://github.com/shreyashp47/Anti-Theft-Alarm-App",
       demo: ""
-    },
-    {
-      title: "Sensor-App",
-      description: "A Kotlin-based Android app for reading and visualizing device sensor data in real time.",
-      tech: ["Kotlin", "Android Sensors"],
-      github: "https://github.com/shreyashp47/Sensor-App",
-      demo: "https://play.google.com/store/apps/details?id=com.shreyash.sensorapp"
     },
     {
       title: "OpenCodeLeet",
