@@ -13,8 +13,13 @@ const Render = (() => {
   }
 
   function hero() {
-    document.getElementById("heroName").textContent = `> ${C.name}`;
-    document.getElementById("heroTagline").textContent = `> "${C.tagline}"`;
+    // Name/tagline are pre-rendered in index.html for crawlers; only sync if config differs.
+    const setText = (id, text) => {
+      const el = document.getElementById(id);
+      if (el && el.textContent !== text) el.textContent = text;
+    };
+    setText("heroName", `> ${C.name}`);
+    setText("heroTagline", `> "${C.tagline}"`);
   }
 
   function about() {
