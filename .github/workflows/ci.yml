@@ -1,0 +1,37 @@
+name: CI
+
+on:
+  pull_request:
+  push:
+    branches-ignore: [main, gh-pages]
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  check-v4:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Validate HTML
+        run: npx --yes html-validate@8 v4/index.html v4/404.html
+
+      - name: Syntax-check JS
+        run: |
+          for f in v4/static/js/*.js; do
+            echo "node --check $f"
+            node --check "$f"
+          done
+
+      - name: Check local links
+        run: node .github/scripts/check-links.mjs v4/index.html v4/404.html

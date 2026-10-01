@@ -1,12 +1,22 @@
 {
   "name": "shreyash-portfolio",
   "private": true,
-  "version": "3.0.0",
+  "version": "4.0.0",
+  "description": "Personal developer portfolio of Shreyash Pattewar: a static HTML/CSS/vanilla JS site deployed to GitHub Pages.",
+  "author": "Shreyash Pattewar (https://shreyashp47.github.io/)",
+  "homepage": "https://shreyashp47.github.io/",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/shreyashp47/shreyashp47.github.io.git"
+  },
+  "bugs": {
+    "url": "https://github.com/shreyashp47/shreyashp47.github.io/issues"
+  },
   "type": "module",
   "scripts": {
     "dev": "serve v4 -l 3000",
     "dev:v1": "serve v1 -l 3001",
-    "build": "echo 'Use CI to build versions; for local dev use npm run dev'",
+    "build": "echo 'No build step: v4 is static and deployed as-is by CI (.github/workflows/deploy.yml). Use npm run dev to serve locally.'",
     "preview": "serve v4 -l 3000"
   },
   "devDependencies": {

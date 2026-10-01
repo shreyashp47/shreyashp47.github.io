@@ -1,7 +1,7 @@
 # Shreyash Pattewar — Portfolio
 
 > **Website:** https://shreyashp47.github.io/  
-> **Role:** Android Developer — 7+ years, 30+ apps
+> **Current version:** v4 — Developer Dark Theme (static HTML/CSS/JS)
 
 ---
 
@@ -13,7 +13,16 @@
   - [Deployment](#deployment)
   - [Git Branches](#git-branches)
   - [License](#license)
-- [v3 — Android Studio Theme (current)](#v3--android-studio-theme-current)
+- [v4 — Developer Dark Theme (current)](#v4--developer-dark-theme-current)
+  - [Tech Stack](#v4-tech-stack)
+  - [Commands](#v4-commands)
+  - [Project Structure](#v4-project-structure)
+  - [Architecture & Data Flow](#v4-architecture--data-flow)
+  - [Files](#v4-files)
+  - [Themes](#v4-themes)
+  - [External Services](#v4-external-services)
+  - [Responsive Breakpoints](#v4-responsive-breakpoints)
+- [v3 — Android Studio Theme (archived)](#v3--android-studio-theme-archived)
   - [Tech Stack](#v3-tech-stack)
   - [Commands](#v3-commands)
   - [Project Structure](#v3-project-structure)
@@ -26,7 +35,7 @@
   - [HTML Entry Point](#v3-html-entry-point)
   - [Responsive Breakpoints](#v3-responsive-breakpoints)
 - [v2 — VS Code Theme (archived)](#v2--vs-code-theme-archived)
-- [v1 — Classic Static Site](#v1--classic-static-site)
+- [v1 — Classic Static Site (archived)](#v1--classic-static-site-archived)
 
 ---
 
@@ -34,7 +43,8 @@
 
 | Version | Branch | Stack | Status |
 |---------|--------|-------|--------|
-| **v3** | `main` | React + Vite | **current** |
+| **v4** | `main`, `v4-developer-theme` | Static HTML/CSS/JS | **current** |
+| **v3** | `v3-android-studio` | React + Vite | archived |
 | **v2** | `v2-vscode-theme` | React + Vite | archived |
 | **v1** | `v1-classic` | Static HTML/CSS/JS | archived |
 
@@ -52,34 +62,35 @@ Info that applies across all versions.
 | Email | spattewar47@gmail.com |
 | Phone | +91-9011559148 |
 | Location | Pune, India |
-| Resume | `public/Shreyash_Pattewar_Android_Resume.pdf` |
+| Resume | `v4/static/assets/resume.pdf` |
 | GitHub | https://github.com/shreyashp47 |
 
 ### Deployment
 
 #### Automatic
-Push to `main` → GitHub Actions builds and deploys current version to `gh-pages`.
+Push to `main` or `v4-developer-theme` → GitHub Actions publishes the `v4/` directory to the `gh-pages` branch (served at the site root).
 
 #### Manual
 1. Go to GitHub Actions → "Deploy to GitHub Pages" workflow
 2. Click "Run workflow"
-3. Choose version from dropdown
+3. Choose version from dropdown (v1, v2, v3 or v4). v1–v3 are checked out from their archive branches; v2/v3 are built with `npm ci && npm run build` and their `dist/` is published.
 
 #### Workflow File (`.github/workflows/deploy.yml`)
-- **Triggers:** `push` on `main`, `workflow_dispatch`
-- On push: auto-deploys whichever version is on `main`
-- On manual dispatch: prompts for version selection
+- **Triggers:** `push` on `main` / `v4-developer-theme`, `workflow_dispatch`
+- On push: deploys v4 (the `v4/` directory, no build step)
+- On manual dispatch: prompts for version selection (default `v4`)
 - Uses `peaceiris/actions-gh-pages@v4`
 
 ### Git Branches
 
 | Branch | Description |
 |--------|-------------|
-| `main` | v3 — React + Vite Android Studio theme |
+| `main` | v4 — static developer dark theme (current) |
+| `v4-developer-theme` | v4 — developer dark theme (also auto-deploys) |
+| `v3-android-studio` | v3 — React + Vite Android Studio theme |
 | `v2-vscode-theme` | v2 — React + Vite VS Code IDE theme |
 | `v1-classic` | v1 — Static HTML/CSS/JS portfolio |
 | `gh-pages` (remote) | GitHub Pages deployment branch |
-| `update-portfolio-content` | Feature branch for content updates |
 
 ### License
 
@@ -89,7 +100,109 @@ Push to `main` → GitHub Actions builds and deploys current version to `gh-page
 
 ---
 
-# v3 — Android Studio Theme (current)
+# v4 — Developer Dark Theme (current)
+
+Static, framework-free site in `v4/`, published as-is to the GitHub Pages root. Dark, terminal-inspired design with switchable accent themes.
+
+<a id="v4-tech-stack"></a>
+### Tech Stack
+
+| Tool | Version | Purpose |
+|------|---------|---------|
+| HTML5 / CSS3 | — | Markup and styling (CSS custom properties, no framework) |
+| Vanilla JS | — | All logic, no bundler or build step |
+| Font Awesome | 6.5.1 | UI and social icons (CDN) |
+| Devicon | — | Technology icons (jsDelivr CDN) |
+| Inter / JetBrains Mono | — | Body and code fonts (Google Fonts) |
+| serve | ^14.2.6 | Local static server (dev only) |
+
+<a id="v4-commands"></a>
+### Commands
+
+```bash
+npm install
+npm run dev       # serve v4/ on http://localhost:3000
+npm run preview   # same as dev
+```
+
+<a id="v4-project-structure"></a>
+### Project Structure
+
+```
+v4/
+├── index.html                # Page shell and section markup
+└── static/
+    ├── assets/               # profile.png, profile.webp, resume.pdf
+    ├── css/
+    │   ├── base.css          # Reset, variables, typography, layout, reduced motion
+    │   ├── components.css    # Navbar, hero, cards, marquee, forms, footer
+    │   └── responsive.css    # Media queries
+    └── js/
+        ├── config.js         # All site content
+        ├── themes.js         # Accent themes + localStorage persistence
+        ├── effects.js        # Typewriter, scroll reveal
+        ├── render.js         # DOM rendering from CONFIG + GitHub data
+        ├── navigation.js     # Scroll progress, mobile menu, scroll-spy, dropdowns, theme toggle
+        └── main.js           # Entry point
+```
+
+<a id="v4-architecture--data-flow"></a>
+### Architecture & Data Flow
+
+1. `index.html` provides the static shell: navbar, sections (`#hero`, `#about`, `#skills`, `#projects`, `#blog`, `#github`, `#contact`) and empty containers (`#skillsContainer`, `#projectsContainer`, `#blogContainer`, `#githubStats`, `#repoGrid`, …).
+2. `themes.js` loads in `<head>` and applies the saved theme before first paint.
+3. At the end of `<body>`, scripts load in order: `config.js` → `effects.js` → `render.js` → `navigation.js` → `main.js`.
+4. `config.js` defines a global `CONFIG` object (single source of truth for content).
+5. `render.js` reads `CONFIG` and fills each container: hero, about/bio, socials, skills marquee, project cards, LinkedIn post cards, contact details, footer, and GitHub stats cards. It fetches `https://api.github.com/users/<githubUsername>/repos` and shows the top repos sorted by stars, then by most recent push.
+6. The contact form posts to formsubmit.co over AJAX (`/ajax/` endpoint) with status shown in a live region, and falls back to a regular form POST.
+7. `navigation.js` and `effects.js` add interactivity: scroll progress, scroll-spy, mobile menu, dropdowns, theme toggle, typewriter and reveal-on-scroll (the typewriter shows static text and CSS disables animations under `prefers-reduced-motion`).
+
+CSS/JS are referenced with `?v=N` cache-busting query strings, so bump them when a file changes.
+
+<a id="v4-files"></a>
+### Files
+
+| File | Description |
+|------|-------------|
+| `config.js` | `name`, `tagline`, `bio`, social URLs, `email`, `resumePath`, `githubUsername`, `leetcodeUsername`, `skills` (by category), `projects`, `linkedinPosts` |
+| `themes.js` | Theme definitions, `apply`/`next`, persistence in `localStorage` |
+| `effects.js` | Scroll reveal (IntersectionObserver) and hero typewriter (static text under reduced motion) |
+| `render.js` | All DOM rendering, skill icon mapping (Devicon), GitHub repo fetch, contact form submission |
+| `navigation.js` | Scroll progress bar, mobile hamburger menu, scroll-spy, accessible dropdowns, theme toggle button |
+| `main.js` | Bootstraps the modules on page load |
+
+<a id="v4-themes"></a>
+### Themes
+
+| Theme | Description |
+|-------|-------------|
+| Purple Haze | Purple accent (first in the list) |
+| Matrix Green | Green accent |
+| Cyber Blue | Blue accent |
+
+<a id="v4-external-services"></a>
+### External Services
+
+| Service | Use |
+|---------|-----|
+| GitHub REST API | Live repository list |
+| github-readme-stats | Stats and top-languages cards |
+| streak-stats.demolab.com | Contribution streak card |
+| leetcard.jacoblin.cool | LeetCode stats card |
+| formsubmit.co | Contact form delivery |
+
+<a id="v4-responsive-breakpoints"></a>
+### Responsive Breakpoints
+
+Defined in `responsive.css` at `max-width` 1024px, 900px (nav collapses to hamburger), 768px and 480px.
+
+---
+
+---
+
+# v3 — Android Studio Theme (archived)
+
+Preserved on the `v3-android-studio` branch. The documentation below describes that branch.
 
 <a id="v3-tech-stack"></a>
 ### Tech Stack
@@ -295,7 +408,9 @@ Preserved on the `v2-vscode-theme` branch. Full documentation available in PORTF
 
 ---
 
-# v1 — Classic Static Site
+# v1 — Classic Static Site (archived)
+
+Preserved on the `v1-classic` branch.
 
 <a id="v1-tech-stack"></a>
 ### Tech Stack
@@ -403,7 +518,7 @@ Traditional single-page layout with smooth scrolling navigation. Header with nav
 
 ## Template — Adding a New Version
 
-Copy the block below when adding v3, v4, etc. Fill in every section.
+Copy the block below when adding v5, etc. Fill in every section.
 
 ```
 # v<N> — <Framework/Description>
