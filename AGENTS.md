@@ -9,6 +9,12 @@
 ## Editing v4
 - All site content (bio, projects, skills, LinkedIn posts, social links) lives in `v4/static/js/config.js`; `render.js` renders it.
 - When changing any CSS/JS file, bump its `?v=` cache-busting query param in `v4/index.html`.
+- Don't change site text/content unless asked; keep layouts working down to 320px and touch targets ~44px.
+- Work on a feature branch; pushing to `main` deploys immediately.
+
+## CI
+- `.github/workflows/ci.yml` runs html-validate, `node --check` on JS, and a local link check on PRs / non-main pushes
+- Run locally: `npx --yes html-validate@8 v4/index.html v4/404.html && node .github/scripts/check-links.mjs v4/index.html v4/404.html`
 
 ## Deploy
 - **Auto**: Push to `main` or `v4-developer-theme` → publishes the `v4/` directory to the site root (https://shreyashp47.github.io/)

@@ -2,6 +2,7 @@
 
 [![Live site](https://img.shields.io/badge/live-shreyashp47.github.io-7c3aed?style=flat-square&logo=githubpages&logoColor=white)](https://shreyashp47.github.io/)
 [![Deploy](https://img.shields.io/github/actions/workflow/status/shreyashp47/shreyashp47.github.io/deploy.yml?branch=main&style=flat-square&label=deploy)](https://github.com/shreyashp47/shreyashp47.github.io/actions/workflows/deploy.yml)
+[![CI](https://img.shields.io/github/actions/workflow/status/shreyashp47/shreyashp47.github.io/ci.yml?style=flat-square&label=ci)](https://github.com/shreyashp47/shreyashp47.github.io/actions/workflows/ci.yml)
 ![HTML5](https://img.shields.io/badge/HTML5-E34F26?style=flat-square&logo=html5&logoColor=white)
 ![CSS3](https://img.shields.io/badge/CSS3-1572B6?style=flat-square&logo=css3&logoColor=white)
 ![JavaScript](https://img.shields.io/badge/JavaScript-F7DF1E?style=flat-square&logo=javascript&logoColor=black)
@@ -20,8 +21,10 @@ Personal portfolio of Shreyash Pattewar, a mobile app developer working on Andro
 - **GitHub section** with stats cards (GitHub stats, top languages, streak, LeetCode) and the top repositories loaded live from the GitHub REST API
 - **Contact form** via formsubmit.co, sent over AJAX with a fallback to a normal form POST
 - **Navigation:** scroll-spy active links, a scroll progress bar and a responsive hamburger menu
-- **Accessibility:** respects `prefers-reduced-motion`, keyboard-accessible dropdowns and menus, ARIA labels and live regions
-- **Responsive** layout with breakpoints at 1024px, 768px and 480px
+- **Accessibility:** skip link, visible focus styles, labelled form fields and icon links, keyboard-accessible dropdowns and menus, live regions, and `prefers-reduced-motion` support (Lighthouse accessibility score: 100)
+- **Mobile-first details:** full-width hero and stacked buttons on phones, dropdown menus that fit 320px screens, 44px touch targets on touch devices, and no horizontal overflow from 320px up
+- **Performance:** 16 KB WebP profile photo with PNG fallback, lazy-loaded stats cards with reserved dimensions, and a pinned Devicon version
+- **SEO:** meta description, Open Graph tags, `robots.txt`, `sitemap.xml` and a custom terminal-style 404 page
 
 ## Tech Stack
 
@@ -30,7 +33,8 @@ Personal portfolio of Shreyash Pattewar, a mobile app developer working on Andro
 | Markup | HTML5 |
 | Styling | CSS3 with custom properties for theming (no CSS framework) |
 | Logic | Vanilla JavaScript (no framework, no bundler) |
-| Fonts & icons | Google Fonts (Inter, JetBrains Mono), Font Awesome 6.5.1, Devicon |
+| Fonts & icons | Google Fonts (Inter, JetBrains Mono), Font Awesome 6.5.1, Devicon 2.16.0 |
+| Quality checks | html-validate, `node --check`, local link checker (GitHub Actions) |
 | Hosting | GitHub Pages, deployed with GitHub Actions |
 | Local dev | [`serve`](https://www.npmjs.com/package/serve) |
 
@@ -81,6 +85,18 @@ npm run dev        # serves v4/ at http://localhost:3000
 ```
 
 Since the site is plain static files, you can also open it with any static file server pointed at `v4/`.
+
+## Quality Checks
+
+[`.github/workflows/ci.yml`](.github/workflows/ci.yml) runs on every pull request and on pushes to branches other than `main`. To run the same checks locally:
+
+```bash
+npx --yes html-validate@8 v4/index.html v4/404.html          # HTML validation (.htmlvalidate.json)
+for f in v4/static/js/*.js; do node --check "$f"; done         # JS syntax
+node .github/scripts/check-links.mjs v4/index.html v4/404.html # local href/src exist
+```
+
+Recommended workflow: make changes on a feature branch, let CI pass on the pull request, then merge into `main` to deploy.
 
 ## Editing Content
 

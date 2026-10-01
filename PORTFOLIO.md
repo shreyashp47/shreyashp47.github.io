@@ -22,6 +22,7 @@
   - [Themes](#v4-themes)
   - [External Services](#v4-external-services)
   - [Responsive Breakpoints](#v4-responsive-breakpoints)
+  - [Quality Checks (CI)](#v4-quality-checks)
 - [v3 — Android Studio Theme (archived)](#v3--android-studio-theme-archived)
   - [Tech Stack](#v3-tech-stack)
   - [Commands](#v3-commands)
@@ -80,6 +81,8 @@ Push to `main` or `v4-developer-theme` → GitHub Actions publishes the `v4/` di
 - On push: deploys v4 (the `v4/` directory, no build step)
 - On manual dispatch: prompts for version selection (default `v4`)
 - Uses `peaceiris/actions-gh-pages@v4`
+- One deploy at a time (`concurrency: pages-deploy`, queued rather than cancelled), 15-minute timeout
+- The version step also outputs `publish_dir` (`v1-site`, `v2-site/dist`, `v3-site/dist` or `v4`) and fails on an unknown version
 
 ### Git Branches
 
@@ -112,7 +115,7 @@ Static, framework-free site in `v4/`, published as-is to the GitHub Pages root. 
 | HTML5 / CSS3 | — | Markup and styling (CSS custom properties, no framework) |
 | Vanilla JS | — | All logic, no bundler or build step |
 | Font Awesome | 6.5.1 | UI and social icons (CDN) |
-| Devicon | — | Technology icons (jsDelivr CDN) |
+| Devicon | 2.16.0 | Technology icons (jsDelivr CDN, pinned) |
 | Inter / JetBrains Mono | — | Body and code fonts (Google Fonts) |
 | serve | ^14.2.6 | Local static server (dev only) |
 
@@ -131,8 +134,11 @@ npm run preview   # same as dev
 ```
 v4/
 ├── index.html                # Page shell and section markup
+├── 404.html                  # Terminal-style not-found page (served by GitHub Pages)
+├── robots.txt                # Allows all crawlers, points to sitemap
+├── sitemap.xml               # Single root URL
 └── static/
-    ├── assets/               # profile.png, profile.webp, resume.pdf
+    ├── assets/               # profile.png (fallback), profile.webp (400×400, ~16 KB), resume.pdf
     ├── css/
     │   ├── base.css          # Reset, variables, typography, layout, reduced motion
     │   ├── components.css    # Navbar, hero, cards, marquee, forms, footer
@@ -194,7 +200,30 @@ CSS/JS are referenced with `?v=N` cache-busting query strings, so bump them when
 <a id="v4-responsive-breakpoints"></a>
 ### Responsive Breakpoints
 
-Defined in `responsive.css` at `max-width` 1024px, 900px (nav collapses to hamburger), 768px and 480px.
+Defined in `responsive.css`:
+
+| Query | Changes |
+|-------|---------|
+| `max-width: 1024px` | Projects grid to 2 columns, hero card widens to 88vw |
+| `max-width: 900px` | Nav links collapse into the hamburger menu |
+| `max-width: 768px` | Single-column layout, full-width hero card, stacked CTA buttons, dropdown menus span the CTA row so they fit 320px screens |
+| `max-width: 480px` | Tighter gutters (16px) and smaller hero type |
+| `pointer: coarse` | Touch targets enlarged to ~44px (theme toggle, hamburger, back-to-top, social icons, small buttons) |
+
+Verified with no horizontal overflow at 320, 360, 390, 414 and 768px. Lighthouse (mobile): Accessibility 100, Best Practices 100, SEO 100.
+
+<a id="v4-quality-checks"></a>
+### Quality Checks (CI)
+
+`.github/workflows/ci.yml` runs on pull requests and on pushes to non-`main` branches:
+
+| Check | Command |
+|-------|---------|
+| HTML validation | `npx --yes html-validate@8 v4/index.html v4/404.html` (config: `.htmlvalidate.json`) |
+| JS syntax | `node --check` on each `v4/static/js/*.js` |
+| Local links | `node .github/scripts/check-links.mjs v4/index.html v4/404.html` |
+
+`.github/dependabot.yml` opens monthly update PRs for GitHub Actions and npm.
 
 ---
 
