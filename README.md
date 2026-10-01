@@ -25,7 +25,7 @@ Personal portfolio of Shreyash Pattewar, a software engineer working on AI and m
 - **Accessibility:** skip link, visible focus styles, labelled form fields and icon links, keyboard-accessible dropdowns and menus, live regions, and `prefers-reduced-motion` support (Lighthouse accessibility score: 100)
 - **Mobile-first details:** full-width hero and stacked buttons on phones, dropdown menus that fit 320px screens, 44px touch targets on touch devices, and no horizontal overflow from 320px up
 - **Performance:** 16 KB WebP profile photo with PNG fallback, lazy-loaded stats cards with reserved dimensions, and a pinned Devicon version
-- **SEO:** meta description, Open Graph tags, `robots.txt`, `sitemap.xml` and a custom terminal-style 404 page
+- **SEO:** content pre-rendered into the HTML (visible to crawlers and link previews without JavaScript), JSON-LD (`ProfilePage`, `Person`, `WebSite`, projects), Open Graph profile and X card tags with a 1200×630 preview image, `rel="me"` profile links, canonical URL, favicons and web manifest, `robots.txt`, `sitemap.xml`, `llms.txt` and a custom 404 page
 
 ## Tech Stack
 
@@ -51,11 +51,13 @@ Personal portfolio of Shreyash Pattewar, a software engineer working on AI and m
 ├── .htmlvalidate.json             # html-validate config used by CI
 ├── AGENTS.md                      # Short conventions for contributors / AI agents
 ├── PORTFOLIO.md                   # Detailed docs for every version
-├── package.json                   # Dev scripts (serve)
+├── package.json                   # Dev scripts (serve, prerender)
+├── scripts/prerender.mjs          # Writes config.js content, JSON-LD and llms.txt into v4/
 └── v4/                            # The live site (published to the site root)
     ├── index.html                 # Page shell, section markup, script/style tags
     ├── 404.html                   # Terminal-style "not found" page
     ├── robots.txt / sitemap.xml   # Crawler hints
+    ├── llms.txt                   # Generated plain-text profile for AI tools
     └── static/
         ├── assets/
         │   ├── profile.png        # Profile photo
@@ -96,6 +98,7 @@ Since the site is plain static files, you can also open it with any static file 
 npx --yes html-validate@8 v4/index.html v4/404.html          # HTML validation (.htmlvalidate.json)
 for f in v4/static/js/*.js; do node --check "$f"; done         # JS syntax
 node .github/scripts/check-links.mjs v4/index.html v4/404.html # local href/src exist
+npm run prerender:check                                         # pre-rendered HTML matches config.js
 ```
 
 Recommended workflow: make changes on a feature branch, let CI pass on the pull request, then merge into `main` to deploy.
@@ -107,6 +110,8 @@ All content lives in **`v4/static/js/config.js`**: name, tagline, bio, social li
 - **Add a project:** append an object to `projects` with `title`, `description`, `tech`, `github` and `demo` (use `""` when there is no demo).
 - **Add a skill:** add it to the matching category array in `skills`.
 - **Replace the resume or photo:** overwrite the files in `v4/static/assets/`.
+
+**After editing `config.js`, run `npm run prerender`.** It writes the content into `index.html` (between `<!-- prerender:… -->` markers) and regenerates the JSON-LD and `v4/llms.txt`, using the same templates as `render.js`. CI fails if you forget (`npm run prerender:check`). Don't hand-edit between the markers.
 
 **Cache busting:** `index.html` loads CSS and JS with `?v=N` query strings. After changing a stylesheet or script, bump its `?v=` number so returning visitors get the new file instead of a cached copy from GitHub Pages.
 

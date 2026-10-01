@@ -17,7 +17,9 @@
     "dev": "serve v4 -l 3000",
     "dev:v1": "serve v1 -l 3001",
     "build": "echo 'No build step: v4 is static and deployed as-is by CI (.github/workflows/deploy.yml). Use npm run dev to serve locally.'",
-    "preview": "serve v4 -l 3000"
+    "preview": "serve v4 -l 3000",
+    "prerender": "node scripts/prerender.mjs",
+    "prerender:check": "node scripts/prerender.mjs --check"
   },
   "devDependencies": {
     "serve": "^14.2.6"

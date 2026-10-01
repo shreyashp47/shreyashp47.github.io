@@ -1,6 +1,10 @@
 const CONFIG = {
   name: "Shreyash Pattewar",
   tagline: "Building mobile apps and AI agents",
+  // Used for SEO metadata (JSON-LD, llms.txt) by scripts/prerender.mjs; not shown on the page.
+  jobTitle: "Software Engineer (AI & Mobile)",
+  company: "Cognizant",
+  siteUrl: "https://shreyashp47.github.io/",
   githubUsername: "shreyashp47",
   githubUrl: "https://github.com/shreyashp47",
   leetcodeUsername: "shreyashp47",

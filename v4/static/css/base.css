@@ -135,6 +135,11 @@ code { font-family: var(--font-mono); }
   transition-delay: var(--reveal-delay, 0ms);
 }
 .js .reveal.visible { opacity: 1; transform: translateY(0); }
+[data-stagger="1"] { --reveal-delay: 70ms; }
+[data-stagger="2"] { --reveal-delay: 140ms; }
+[data-stagger="3"] { --reveal-delay: 210ms; }
+[data-stagger="4"] { --reveal-delay: 280ms; }
+[data-stagger="5"] { --reveal-delay: 350ms; }
 
 #bg-grid {
   position: fixed; inset: 0; z-index: -1;

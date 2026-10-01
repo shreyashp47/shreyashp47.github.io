@@ -33,5 +33,8 @@ jobs:
             node --check "$f"
           done
 
+      - name: Check pre-rendered content is up to date
+        run: node scripts/prerender.mjs --check
+
       - name: Check local links
         run: node .github/scripts/check-links.mjs v4/index.html v4/404.html

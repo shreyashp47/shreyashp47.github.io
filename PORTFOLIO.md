@@ -156,13 +156,14 @@ v4/
 <a id="v4-architecture--data-flow"></a>
 ### Architecture & Data Flow
 
-1. `index.html` provides the static shell: navbar, sections (`#hero`, `#about`, `#skills`, `#projects`, `#blog`, `#github`, `#contact`) and empty containers (`#skillsContainer`, `#projectsContainer`, `#blogContainer`, `#githubStats`, `#repoGrid`, …).
+1. `index.html` provides the static shell: navbar, sections (`#hero`, `#about`, `#skills`, `#projects`, `#blog`, `#github`, `#contact`) and content containers, pre-filled by `scripts/prerender.mjs` (`#skillsContainer`, `#projectsContainer`, `#blogContainer`, `#githubStats`, `#repoGrid`, …).
 2. `themes.js` loads in `<head>` and applies the saved theme before first paint.
 3. At the end of `<body>`, scripts load in order: `config.js` → `effects.js` → `render.js` → `navigation.js` → `main.js`.
 4. `config.js` defines a global `CONFIG` object (single source of truth for content).
-5. `render.js` reads `CONFIG` and fills each container: hero, about/bio, socials, skills marquee, project cards, LinkedIn post cards, contact details, footer, and GitHub stats cards. It fetches `https://api.github.com/users/<githubUsername>/repos` and shows the top repos sorted by stars, then by most recent push.
-6. The contact form posts to formsubmit.co over AJAX (`/ajax/` endpoint) with status shown in a live region, and falls back to a regular form POST.
-7. `navigation.js` and `effects.js` add interactivity: scroll progress, scroll-spy, mobile menu, dropdowns, theme toggle, typewriter and reveal-on-scroll (the typewriter shows static text and CSS disables animations under `prefers-reduced-motion`).
+5. **Pre-rendering:** `scripts/prerender.mjs` (run with `npm run prerender`) executes `config.js` + `render.js` in a Node sandbox and writes the output of `Render.templates` into `index.html` between `<!-- prerender:NAME -->` markers (about, socials, skills lists, projects, blog, contact), plus the JSON-LD graph and `v4/llms.txt`. Crawlers without JavaScript see the full content; CI runs `--check` so it can't drift from `config.js`.
+6. `render.js` reads `CONFIG` and fills each container: hero, about/bio, socials, skills marquee, project cards, LinkedIn post cards, contact details, footer, and GitHub stats cards. It fetches `https://api.github.com/users/<githubUsername>/repos` and shows the top repos sorted by stars, then by most recent push.
+7. The contact form posts to formsubmit.co over AJAX (`/ajax/` endpoint) with status shown in a live region, and falls back to a regular form POST.
+8. `navigation.js` and `effects.js` add interactivity: scroll progress, scroll-spy, mobile menu, dropdowns, theme toggle, typewriter and reveal-on-scroll (the typewriter shows static text and CSS disables animations under `prefers-reduced-motion`).
 
 CSS/JS are referenced with `?v=N` cache-busting query strings, so bump them when a file changes.
 
