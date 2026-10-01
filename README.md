@@ -9,7 +9,7 @@
 
 **Live:** https://shreyashp47.github.io/
 
-Personal portfolio of Shreyash Pattewar, a mobile app developer working on Android, iOS and AI agents. The current version (**v4**) is a dark, terminal-inspired developer theme built as a static site with plain HTML, CSS and vanilla JavaScript: no framework and no build step.
+Personal portfolio of Shreyash Pattewar, a software engineer working on AI and mobile (Android, iOS and AI agents). The current version (**v4**) is a dark, terminal-inspired developer theme built as a static site with plain HTML, CSS and vanilla JavaScript: no framework and no build step.
 
 ## Features
 

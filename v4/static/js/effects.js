@@ -25,7 +25,7 @@ const Effects = (() => {
     const el = document.getElementById("typewriter");
     if (!el) return;
     const phrases = [
-      "Mobile & AI Developer",
+      "Software Engineer — AI & Mobile",
       "Mobile + AI Developer",
       "Mobile Apps & AI Agents",
       "Open Source Contributor"
