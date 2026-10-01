@@ -60,38 +60,59 @@ const Render = (() => {
       `// &copy; ${new Date().getFullYear()} ${C.name} &mdash; built with &lt;3 and a lot of coffee`;
   }
 
+  // "svg:<name>" → local colored SVG at static/assets/icons/<name>.svg; anything else is a Font Awesome class.
   const SKILL_ICONS = {
-    Kotlin: "devicon-kotlin-plain colored",
-    Java: "devicon-java-plain colored",
-    Swift: "devicon-swift-plain colored",
-    Dart: "devicon-dart-plain colored",
-    Flutter: "devicon-flutter-plain colored",
-    Python: "devicon-python-plain colored",
-    Firebase: "devicon-firebase-plain colored",
-    Git: "devicon-git-plain colored",
-    Docker: "devicon-docker-plain colored",
-    Figma: "devicon-figma-plain colored",
+    Kotlin: "svg:kotlin",
+    Java: "svg:java",
+    Swift: "svg:swift",
+    Dart: "svg:dart",
+    Flutter: "svg:flutter",
+    Python: "svg:python",
+    Firebase: "svg:firebase",
+    Git: "svg:git",
+    Docker: "svg:docker",
+    Figma: "svg:figma",
     OpenAI: "fas fa-microchip",
     MCP: "fas fa-plug",
     LangChain: "fas fa-link",
     SQLite: "fas fa-database",
     Realm: "fas fa-server",
-    Swagger: "devicon-swagger-plain colored",
+    Swagger: "svg:swagger",
     "Jetpack Compose": "fas fa-mobile-alt",
-    TypeScript: "devicon-typescript-plain colored",
+    TypeScript: "svg:typescript",
     "CI/CD": "fas fa-sync-alt",
     Notion: "fas fa-sticky-note",
   };
 
   function skills() {
     const container = document.getElementById("skillsContainer");
+    const iconHtml = (tech) => {
+      const icon = SKILL_ICONS[tech] || "fas fa-code";
+      return icon.startsWith("svg:")
+        ? `<img src="static/assets/icons/${icon.slice(4)}.svg" alt="" width="16" height="16" loading="lazy" decoding="async">`
+        : `<i class="${icon}"></i>`;
+    };
+
     Object.entries(C.skills).forEach(([category, techList], idx) => {
+      const group = document.createElement("div");
+      group.className = "skills-group";
+
+      // Visible category label (JSON-key style) is also the heading for the screen-reader list.
+      const labelId = `skills-cat-${idx}`;
+      const label = document.createElement("h3");
+      label.className = "skills-category";
+      label.id = labelId;
+      label.innerHTML = `<span class="skills-category-punct" aria-hidden="true">"</span>` +
+        `<span class="skills-category-key">${esc(category)}</span>` +
+        `<span class="skills-category-punct" aria-hidden="true">":</span>`;
+      group.appendChild(label);
+
       // Screen readers get a plain list; the animated marquee is decorative.
       const list = document.createElement("ul");
       list.className = "visually-hidden";
-      list.setAttribute("aria-label", category);
+      list.setAttribute("aria-labelledby", labelId);
       list.innerHTML = techList.map(t => `<li>${esc(t)}</li>`).join("");
-      container.appendChild(list);
+      group.appendChild(list);
 
       const track = document.createElement("div");
       track.className = `skills-marquee${idx % 2 ? " reverse" : ""}`;
@@ -105,15 +126,15 @@ const Render = (() => {
       inner.style.setProperty("--marquee-duration", `${set.length * 3.5}s`);
 
       [...set, ...set].forEach((tech, i) => {
-        const cls = SKILL_ICONS[tech] || `devicon-${tech.toLowerCase().replace(/ /g, "-")}-plain colored`;
         const item = document.createElement("div");
         item.className = `skill-marquee-item${i >= techList.length ? " dup" : ""}`;
-        item.innerHTML = `<i class="${cls}"></i><span>${esc(tech)}</span>`;
+        item.innerHTML = `${iconHtml(tech)}<span>${esc(tech)}</span>`;
         inner.appendChild(item);
       });
 
       track.appendChild(inner);
-      container.appendChild(track);
+      group.appendChild(track);
+      container.appendChild(group);
     });
   }
 

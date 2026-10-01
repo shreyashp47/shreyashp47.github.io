@@ -66,11 +66,16 @@
   </script>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" crossorigin="anonymous" />
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/devicons/devicon@2.16.0/devicon.min.css" crossorigin="anonymous" />
+  <link rel="preconnect" href="https://cdnjs.cloudflare.com" crossorigin />
+  <!-- Third-party CSS loads without blocking first paint (preload, then swap to stylesheet). -->
+  <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&display=swap" onload="this.onload=null;this.rel='stylesheet'" />
+  <link rel="preload" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" crossorigin="anonymous" onload="this.onload=null;this.rel='stylesheet'" />
+  <noscript>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&display=swap" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" crossorigin="anonymous" />
+  </noscript>
   <link rel="stylesheet" href="static/css/base.css?v=3" />
-  <link rel="stylesheet" href="static/css/components.css?v=9" />
+  <link rel="stylesheet" href="static/css/components.css?v=10" />
   <link rel="stylesheet" href="static/css/responsive.css?v=4" />
   <script src="static/js/themes.js?v=3"></script>
 </head>
@@ -267,7 +272,7 @@
 
   <script src="static/js/config.js?v=3"></script>
   <script src="static/js/effects.js?v=3"></script>
-  <script src="static/js/render.js?v=3"></script>
+  <script src="static/js/render.js?v=4"></script>
   <script src="static/js/navigation.js?v=3"></script>
   <script src="static/js/main.js?v=3"></script>
 </body>
