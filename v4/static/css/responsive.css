@@ -1,47 +1,80 @@
 @media (max-width: 1024px) {
   .project-grid { grid-template-columns: repeat(2, 1fr); }
+  .hero-content { width: min(88vw, 1400px); }
 }
 
-@media (max-width: 768px) {
-  .hero-name { font-size: 1.6rem; }
-  .terminal-body { padding: 20px; }
-  .terminal-line { font-size: 0.78rem; }
-
+/* Six nav links no longer fit beside the logo below ~900px */
+@media (max-width: 900px) {
   .nav-links {
     position: fixed; top: var(--nav-height); left: 0; width: 100%;
     flex-direction: column;
-    background: rgba(10, 10, 15, 0.95);
+    background: rgba(10, 10, 15, 0.97);
     backdrop-filter: blur(20px);
     -webkit-backdrop-filter: blur(20px);
     padding: 16px; gap: 4px;
     transform: translateY(-110%); opacity: 0;
-    transition: all var(--transition);
-    pointer-events: none;
+    visibility: hidden;
+    transition: transform var(--transition), opacity var(--transition), visibility var(--transition);
     border-bottom: 1px solid var(--border);
+    box-shadow: 0 16px 32px rgba(0, 0, 0, 0.4);
   }
 
-  .nav-links.open { transform: translateY(0); opacity: 1; pointer-events: all; }
-  .hamburger { display: flex; }
+  .nav-links.open { transform: translateY(0); opacity: 1; visibility: visible; }
+  .nav-container { gap: 8px; }
+  .nav-logo { margin-right: auto; }
+  .hamburger { display: flex; width: 36px; height: 36px; align-items: center; justify-content: center; }
+  .nav-link { display: block; font-size: 0.85rem; padding: 12px 14px; }
+}
+
+@media (max-width: 768px) {
+  .hero { align-items: flex-start; padding-top: calc(var(--nav-height) + 24px); }
+  .hero-content { width: calc(100% - 32px); }
+  .hero-name { font-size: 1.6rem; }
+  .terminal-body { padding: 20px; }
+  .terminal-line { font-size: 0.78rem; }
 
   .about-layout { grid-template-columns: 1fr; gap: 32px; }
   .avatar-frame { width: 140px; height: 140px; margin: 0 auto; }
+  .about-socials { justify-content: center; }
   .code-body { padding: 16px; font-size: 0.8rem; }
 
   .project-grid { grid-template-columns: 1fr; }
   .contact-grid { grid-template-columns: 1fr; gap: 32px; }
+  .contact-form .btn { align-self: stretch; justify-content: center; }
   .repo-grid { grid-template-columns: 1fr; }
-  .section { padding: 60px 0; }
-  .hero-cta { flex-direction: column; align-items: stretch; }
-  .hero-cta .btn { justify-content: center; }
+  .section { padding: 64px 0; }
   .blog-scroll { grid-template-columns: 1fr; }
   .nav-logo { font-size: 1rem; }
-  .nav-link { font-size: 0.85rem; padding: 10px 14px; }
-  .section-title { font-size: 0.95rem; }
+  .section-title { font-size: 0.95rem; margin-bottom: 32px; }
+
+  /* Text buttons take a full row each; icon dropdowns sit side by side below.
+     Menus span the CTA row so they never run off narrow screens. */
+  .hero-cta { position: relative; }
+  .hero-cta > .btn { flex: 1 1 100%; justify-content: center; padding-block: 12px; }
+  .dropdown { position: static; }
+  .dropdown-menu { left: 0; right: 0; min-width: 0; --dd-x: 0; }
+  .dropdown--play .dropdown-menu { --dd-arrow: 22px; }
+  .dropdown--web .dropdown-menu { --dd-arrow: 78px; }
+  .dropdown-item { white-space: normal; }
+
+  .contact-detail-item:hover { transform: none; }
+}
+
+/* Comfortable touch targets (~44px) on touch screens */
+@media (pointer: coarse) {
+  .theme-toggle, .hamburger, .back-to-top { width: 44px; height: 44px; }
+  .btn-small { min-height: 40px; padding-inline: 18px; }
+  .nav-logo { padding: 8px 0; }
+  .about-socials a { width: 44px; height: 44px; }
 }
 
 @media (max-width: 480px) {
-  .hero-name { font-size: 1.3rem; }
+  .container { padding: 0 16px; }
+  .navbar { padding: 0 16px; }
+  .hero-name { font-size: 1.3rem; letter-spacing: -0.5px; }
   .terminal-body { padding: 16px; }
-  .terminal-line { font-size: 0.72rem; }
+  .terminal-line { font-size: 0.75rem; }
   .hero-role { font-size: 0.85rem; }
+  .blog-meta { flex-wrap: wrap; }
+  .footer { padding: 24px 16px; }
 }

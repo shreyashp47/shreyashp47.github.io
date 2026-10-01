@@ -12,8 +12,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
   Effects.typewriter();
   Effects.scrollReveal();
-  Effects.smoothScroll();
-  Effects.cursorGlow();
 
   Navigation.init();
 });

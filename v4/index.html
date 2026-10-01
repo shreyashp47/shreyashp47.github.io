@@ -4,22 +4,31 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Shreyash Pattewar | Developer</title>
+  <meta name="description" content="Shreyash Pattewar — Building mobile apps and AI agents. Kotlin, Swift, Python, Jetpack Compose, LLMs and MCP." />
+  <meta name="theme-color" content="#0a0a0f" />
+  <meta property="og:type" content="website" />
+  <meta property="og:title" content="Shreyash Pattewar | Developer" />
+  <meta property="og:description" content="Building mobile apps and AI agents" />
+  <meta name="twitter:card" content="summary" />
   <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='6' fill='%230a0a0f'/%3E%3Ctext x='16' y='22' text-anchor='middle' font-family='monospace' font-weight='800' font-size='16' fill='%237c3aed'%3ESP%3C/text%3E%3C/svg%3E" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" crossorigin="anonymous" />
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/devicon.min.css" crossorigin="anonymous" />
-  <link rel="stylesheet" href="static/css/base.css?v=2" />
-  <link rel="stylesheet" href="static/css/components.css?v=7" />
-  <link rel="stylesheet" href="static/css/responsive.css?v=2" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/devicons/devicon@2.16.0/devicon.min.css" crossorigin="anonymous" />
+  <link rel="stylesheet" href="static/css/base.css?v=3" />
+  <link rel="stylesheet" href="static/css/components.css?v=9" />
+  <link rel="stylesheet" href="static/css/responsive.css?v=4" />
+  <script src="static/js/themes.js?v=3"></script>
 </head>
 <body>
+  <a href="#main" class="skip-link">Skip to content</a>
+  <div class="scroll-progress" id="scrollProgress" aria-hidden="true"></div>
   <div id="bg-grid" aria-hidden="true"></div>
 
-  <nav class="navbar" id="navbar">
+  <nav class="navbar" id="navbar" aria-label="Primary">
     <div class="nav-container">
-      <a href="#hero" class="nav-logo">
+      <a href="#hero" class="nav-logo" aria-label="SP, back to top">
         <span class="nav-logo-bracket">&lt;</span>
         <span class="nav-logo-text">SP</span>
         <span class="nav-logo-bracket"> /&gt;</span>
@@ -32,19 +41,19 @@
         <li><a href="#github" class="nav-link">$ ./stats</a></li>
         <li><a href="#contact" class="nav-link">$ ping me</a></li>
       </ul>
-      <button class="theme-toggle" id="themeToggle" aria-label="Toggle theme">
+      <button class="theme-toggle" id="themeToggle" type="button" aria-label="Switch color theme" title="Switch color theme">
         <i class="fas fa-terminal"></i>
       </button>
-      <button class="hamburger" id="hamburger" aria-label="Menu">
+      <button class="hamburger" id="hamburger" type="button" aria-label="Menu" aria-expanded="false" aria-controls="navLinks">
         <span></span><span></span><span></span>
       </button>
     </div>
   </nav>
 
-  <main>
+  <main id="main">
     <section class="hero section" id="hero">
       <div class="hero-content">
-        <div class="terminal-bar">
+        <div class="terminal-bar" aria-hidden="true">
           <span class="terminal-dot dot-red"></span>
           <span class="terminal-dot dot-yellow"></span>
           <span class="terminal-dot dot-green"></span>
@@ -58,56 +67,56 @@
           <p class="hero-tagline" id="heroTagline"></p>
           <p class="terminal-line"><span class="prompt">└─$</span> <span class="cmd">./typewriter</span></p>
           <h2 class="hero-role" id="heroRole">
-            <span class="typewriter" id="typewriter"></span><span class="cursor">█</span>
+            <span class="typewriter" id="typewriter"></span><span class="cursor" aria-hidden="true">█</span>
           </h2>
           <div class="hero-cta">
             <a href="#projects" class="btn btn-primary">
               <i class="fas fa-folder-open"></i> view projects
             </a>
-            <a href="static/assets/resume.pdf" class="btn btn-secondary" target="_blank" rel="noopener">
+            <a href="static/assets/resume.pdf" class="btn btn-secondary" target="_blank" rel="noopener" download>
               <i class="fas fa-download"></i> download cv
             </a>
-            <div class="playstore-dropdown">
-              <button class="btn btn-secondary playstore-btn" aria-label="View Play Store apps">
+            <div class="dropdown dropdown--play">
+              <button class="btn btn-secondary dropdown-btn" type="button" aria-label="View Play Store apps" title="Play Store apps" aria-haspopup="true" aria-expanded="false">
                 <i class="fab fa-google-play"></i>
               </button>
-              <div class="playstore-menu">
-                <a href="https://play.google.com/store/apps/details?id=com.shreyash.dotrack" target="_blank" rel="noopener" class="playstore-item">
+              <div class="dropdown-menu">
+                <a href="https://play.google.com/store/apps/details?id=com.shreyash.dotrack" target="_blank" rel="noopener" class="dropdown-item">
                   <i class="fab fa-android"></i>
                   <span>DoTrack</span>
-                  <i class="fas fa-external-link-alt"></i>
+                  <i class="fas fa-external-link-alt" aria-hidden="true"></i>
                 </a>
-                <a href="https://play.google.com/store/apps/details?id=com.shreyash.sensorapp" target="_blank" rel="noopener" class="playstore-item">
+                <a href="https://play.google.com/store/apps/details?id=com.shreyash.sensorapp" target="_blank" rel="noopener" class="dropdown-item">
                   <i class="fab fa-android"></i>
                   <span>Sensor-App</span>
-                  <i class="fas fa-external-link-alt"></i>
+                  <i class="fas fa-external-link-alt" aria-hidden="true"></i>
                 </a>
               </div>
             </div>
-            <div class="website-dropdown">
-              <button class="btn btn-secondary website-btn" aria-label="View websites">
+            <div class="dropdown dropdown--web">
+              <button class="btn btn-secondary dropdown-btn" type="button" aria-label="View websites" title="Live websites" aria-haspopup="true" aria-expanded="false">
                 <i class="fas fa-globe"></i>
               </button>
-              <div class="website-menu">
-                <a href="https://local-image-resizer.vercel.app/" target="_blank" rel="noopener" class="website-item">
+              <div class="dropdown-menu">
+                <a href="https://local-image-resizer.vercel.app/" target="_blank" rel="noopener" class="dropdown-item">
                   <i class="fas fa-image"></i>
                   <span>Local Image Resizer</span>
-                  <i class="fas fa-external-link-alt"></i>
+                  <i class="fas fa-external-link-alt" aria-hidden="true"></i>
                 </a>
-                <a href="https://shreyashp47.github.io/raceWithMe/" target="_blank" rel="noopener" class="website-item">
+                <a href="https://shreyashp47.github.io/raceWithMe/" target="_blank" rel="noopener" class="dropdown-item">
                   <i class="fas fa-running"></i>
                   <span>Race With Me</span>
-                  <i class="fas fa-external-link-alt"></i>
+                  <i class="fas fa-external-link-alt" aria-hidden="true"></i>
                 </a>
-                <a href="https://chatgpt-analysis-private.vercel.app/" target="_blank" rel="noopener" class="website-item">
+                <a href="https://chatgpt-analysis-private.vercel.app/" target="_blank" rel="noopener" class="dropdown-item">
                   <i class="fas fa-brain"></i>
                   <span>ChatGPT Analysis</span>
-                  <i class="fas fa-external-link-alt"></i>
+                  <i class="fas fa-external-link-alt" aria-hidden="true"></i>
                 </a>
-                <a href="https://opencodeleet.onrender.com/" target="_blank" rel="noopener" class="website-item">
+                <a href="https://opencodeleet.onrender.com/" target="_blank" rel="noopener" class="dropdown-item">
                   <i class="fas fa-code"></i>
                   <span>OpenCodeLeet</span>
-                  <i class="fas fa-external-link-alt"></i>
+                  <i class="fas fa-external-link-alt" aria-hidden="true"></i>
                 </a>
               </div>
             </div>
@@ -122,7 +131,10 @@
         <div class="about-layout">
           <div class="about-avatar reveal">
             <div class="avatar-frame">
-              <img src="static/assets/profile.png" alt="Shreyash Pattewar" class="avatar-img" />
+              <picture>
+                <source srcset="static/assets/profile.webp" type="image/webp" />
+                <img src="static/assets/profile.png" alt="Shreyash Pattewar" class="avatar-img" width="400" height="400" decoding="async" />
+              </picture>
             </div>
           </div>
           <div class="about-code reveal">
@@ -163,7 +175,7 @@
       <div class="container">
         <h2 class="section-title"><span class="section-comment">// stats.sh</span></h2>
         <div class="github-stats" id="githubStats"></div>
-        <div class="repo-grid" id="repoGrid">
+        <div class="repo-grid" id="repoGrid" aria-live="polite">
           <p class="loading-text">fetching repos...</p>
         </div>
       </div>
@@ -177,10 +189,14 @@
           <form class="contact-form reveal" id="contactForm" action="https://formsubmit.co/shreyashp47@gmail.com" method="POST">
             <input type="hidden" name="_captcha" value="false" />
             <input type="hidden" name="_template" value="table" />
-            <input type="text" name="name" placeholder="$ name" required />
-            <input type="email" name="email" placeholder="$ email" required />
-            <textarea name="message" rows="5" placeholder="$ message" required></textarea>
-            <button type="submit" class="btn btn-primary"><i class="fas fa-paper-plane"></i> send</button>
+            <label class="visually-hidden" for="cfName">Name</label>
+            <input type="text" id="cfName" name="name" placeholder="$ name" autocomplete="name" required />
+            <label class="visually-hidden" for="cfEmail">Email</label>
+            <input type="email" id="cfEmail" name="email" placeholder="$ email" autocomplete="email" required />
+            <label class="visually-hidden" for="cfMessage">Message</label>
+            <textarea id="cfMessage" name="message" rows="5" placeholder="$ message" required></textarea>
+            <button type="submit" class="btn btn-primary"><i class="fas fa-paper-plane" aria-hidden="true"></i> <span class="btn-label">send</span></button>
+            <p class="form-status" id="formStatus" role="status" aria-live="polite"></p>
           </form>
         </div>
       </div>
@@ -196,11 +212,10 @@
     </div>
   </footer>
 
-  <script src="static/js/config.js?v=2"></script>
-  <script src="static/js/themes.js?v=2"></script>
-  <script src="static/js/effects.js?v=2"></script>
-  <script src="static/js/render.js?v=2"></script>
-  <script src="static/js/navigation.js?v=2"></script>
-  <script src="static/js/main.js?v=2"></script>
+  <script src="static/js/config.js?v=3"></script>
+  <script src="static/js/effects.js?v=3"></script>
+  <script src="static/js/render.js?v=3"></script>
+  <script src="static/js/navigation.js?v=3"></script>
+  <script src="static/js/main.js?v=3"></script>
 </body>
 </html>

@@ -19,24 +19,42 @@ on:
 permissions:
   contents: write
 
+# One deploy at a time; queue rather than cancel so a half-finished
+# push to gh-pages is never interrupted.
+concurrency:
+  group: pages-deploy
+  cancel-in-progress: false
+
 jobs:
   deploy:
     runs-on: ubuntu-latest
+    timeout-minutes: 15
     steps:
       - uses: actions/checkout@v4
 
+      # Push triggers are limited to main / v4-developer-theme, both of which
+      # deploy v4. Manual runs deploy whichever version was picked.
       - name: Determine version
         id: version
+        env:
+          EVENT: ${{ github.event_name }}
+          INPUT_VERSION: ${{ inputs.version }}
         run: |
-          if [[ "${{ github.event_name }}" == "push" ]]; then
-            if [[ "${{ github.ref_name }}" == "v4-developer-theme" ]] || [[ "${{ github.ref_name }}" == "main" ]]; then
-              echo "version=v4" >> $GITHUB_OUTPUT
-            else
-              echo "version=v1" >> $GITHUB_OUTPUT
-            fi
+          if [[ "$EVENT" == "workflow_dispatch" ]]; then
+            version="$INPUT_VERSION"
           else
-            echo "version=${{ inputs.version }}" >> $GITHUB_OUTPUT
+            version="v4"
           fi
+          case "$version" in
+            v1) dir="v1-site" ;;
+            v2) dir="v2-site/dist" ;;
+            v3) dir="v3-site/dist" ;;
+            v4) dir="v4" ;;
+            *) echo "::error::Unknown version '$version'"; exit 1 ;;
+          esac
+          echo "version=$version" >> "$GITHUB_OUTPUT"
+          echo "publish_dir=$dir" >> "$GITHUB_OUTPUT"
+          echo "Deploying $version from $dir"
 
       - name: Checkout v1 (static site)
         if: steps.version.outputs.version == 'v1'
@@ -64,11 +82,13 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: 20
+          cache: npm
+          cache-dependency-path: ${{ steps.version.outputs.version }}-site/package-lock.json
 
       - name: Build (React)
         if: steps.version.outputs.version == 'v2' || steps.version.outputs.version == 'v3'
+        working-directory: ${{ steps.version.outputs.version }}-site
         run: |
-          cd ${{ steps.version.outputs.version == 'v2' && 'v2-site' || 'v3-site' }}
           npm ci
           npm run build
 
@@ -76,4 +96,4 @@ jobs:
         uses: peaceiris/actions-gh-pages@v4
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: ${{ steps.version.outputs.version == 'v1' && 'v1-site' || steps.version.outputs.version == 'v2' && 'v2-site/dist' || steps.version.outputs.version == 'v3' && 'v3-site/dist' || 'v4' }}
+          publish_dir: ${{ steps.version.outputs.publish_dir }}
