@@ -44,7 +44,7 @@
 
 | Version | Branch | Stack | Status |
 |---------|--------|-------|--------|
-| **v4** | `main`, `v4-developer-theme` | Static HTML/CSS/JS | **current** |
+| **v4** | `main` | Static HTML/CSS/JS | **current** |
 | **v3** | `v3-android-studio` | React + Vite | archived |
 | **v2** | `v2-vscode-theme` | React + Vite | archived |
 | **v1** | `v1-classic` | Static HTML/CSS/JS | archived |
@@ -69,7 +69,7 @@ Info that applies across all versions.
 ### Deployment
 
 #### Automatic
-Push to `main` or `v4-developer-theme` → GitHub Actions publishes the `v4/` directory to the `gh-pages` branch (served at the site root).
+Push to `main` → GitHub Actions publishes the `v4/` directory to the `gh-pages` branch (served at the site root).
 
 #### Manual
 1. Go to GitHub Actions → "Deploy to GitHub Pages" workflow
@@ -77,7 +77,7 @@ Push to `main` or `v4-developer-theme` → GitHub Actions publishes the `v4/` di
 3. Choose version from dropdown (v1, v2, v3 or v4). v1–v3 are checked out from their archive branches; v2/v3 are built with `npm ci && npm run build` and their `dist/` is published.
 
 #### Workflow File (`.github/workflows/deploy.yml`)
-- **Triggers:** `push` on `main` / `v4-developer-theme`, `workflow_dispatch`
+- **Triggers:** `push` on `main`, `workflow_dispatch`
 - On push: deploys v4 (the `v4/` directory, no build step)
 - On manual dispatch: prompts for version selection (default `v4`)
 - Uses `peaceiris/actions-gh-pages@v4`
@@ -89,7 +89,7 @@ Push to `main` or `v4-developer-theme` → GitHub Actions publishes the `v4/` di
 | Branch | Description |
 |--------|-------------|
 | `main` | v4 — static developer dark theme (current) |
-| `v4-developer-theme` | v4 — developer dark theme (also auto-deploys) |
+| `v4-developer-theme` | v4 — original snapshot of the developer dark theme (archived, does not deploy) |
 | `v3-android-studio` | v3 — React + Vite Android Studio theme |
 | `v2-vscode-theme` | v2 — React + Vite VS Code IDE theme |
 | `v1-classic` | v1 — Static HTML/CSS/JS portfolio |

@@ -1,7 +1,8 @@
 # Project Conventions
 
 ## Versions
-- **main** / **v4-developer-theme** — Current: v4 static developer dark theme (HTML/CSS/vanilla JS) in `v4/`
+- **main** — Current: v4 static developer dark theme (HTML/CSS/vanilla JS) in `v4/`. The only branch that auto-deploys
+- **v4-developer-theme** — Original v4 snapshot (archived)
 - **v3-android-studio** — React + Vite Android Studio IDE theme (archived)
 - **v2-vscode-theme** — React + Vite VS Code IDE theme (archived)
 - **v1-classic** — Original static HTML/CSS/JS portfolio (archived)
@@ -17,7 +18,7 @@
 - Run locally: `npx --yes html-validate@8 v4/index.html v4/404.html && node .github/scripts/check-links.mjs v4/index.html v4/404.html`
 
 ## Deploy
-- **Auto**: Push to `main` or `v4-developer-theme` → publishes the `v4/` directory to the site root (https://shreyashp47.github.io/)
+- **Auto**: Push to `main` → publishes the `v4/` directory to the site root (https://shreyashp47.github.io/)
 - **Manual**: GitHub Actions → "Deploy to GitHub Pages" → pick v1, v2, v3, or v4 (built from the branches above)
 
 ## Commands

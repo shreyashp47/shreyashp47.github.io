@@ -118,12 +118,12 @@ Themes are defined in `v4/static/js/themes.js`, and each one sets CSS custom pro
 
 The site deploys to GitHub Pages through [`.github/workflows/deploy.yml`](.github/workflows/deploy.yml), using `peaceiris/actions-gh-pages` to publish to the `gh-pages` branch.
 
-- **Automatic:** pushing to `main` or `v4-developer-theme` publishes the `v4/` directory as the site root.
+- **Automatic:** pushing to `main` publishes the `v4/` directory as the site root.
 - **Manual:** open **Actions → Deploy to GitHub Pages → Run workflow** and choose a version.
 
 | Version | Branch | Stack | Status |
 |---------|--------|-------|--------|
-| **v4** | `main`, `v4-developer-theme` | Static HTML / CSS / vanilla JS: developer dark theme | **Current** |
+| **v4** | `main` | Static HTML / CSS / vanilla JS: developer dark theme | **Current** |
 | v3 | `v3-android-studio` | React + Vite: Android Studio IDE theme | Archived |
 | v2 | `v2-vscode-theme` | React + Vite: VS Code IDE theme | Archived |
 | v1 | `v1-classic` | Static HTML / CSS / JS: original classic site | Archived |
