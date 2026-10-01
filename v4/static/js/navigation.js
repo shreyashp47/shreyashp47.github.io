@@ -3,7 +3,30 @@ const Navigation = (() => {
   function onScroll() {
     const navbar = document.getElementById("navbar");
     const progress = document.getElementById("scrollProgress");
+    const fab = document.getElementById("fabTop");
+    const footer = document.querySelector(".footer");
     let ticking = false;
+    let fabShown = false;
+
+    // Floating back-to-top: visible once past the hero, hidden again when the
+    // footer (which has its own back-to-top link) scrolls into view.
+    function setFab(show) {
+      if (!fab || show === fabShown) return;
+      fabShown = show;
+      fab.classList.toggle("show", show);
+      fab.setAttribute("aria-hidden", String(!show));
+      fab.tabIndex = show ? 0 : -1;
+      if (!show && document.activeElement === fab) fab.blur();
+    }
+
+    if (fab) {
+      fab.addEventListener("click", () => {
+        const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+        window.scrollTo({ top: 0, behavior: reduce ? "auto" : "smooth" });
+        const logo = document.querySelector(".nav-logo");
+        if (logo) logo.focus({ preventScroll: true });
+      });
+    }
 
     function update() {
       const y = window.scrollY;
@@ -11,6 +34,10 @@ const Navigation = (() => {
       if (progress) {
         const max = document.documentElement.scrollHeight - window.innerHeight;
         progress.style.transform = `scaleX(${max > 0 ? y / max : 0})`;
+      }
+      if (fab) {
+        const footerVisible = footer && footer.getBoundingClientRect().top < window.innerHeight;
+        setFab(y > window.innerHeight * 0.85 && !footerVisible);
       }
       ticking = false;
     }
@@ -87,14 +114,42 @@ const Navigation = (() => {
     });
   }
 
+  // Brief terminal-style toast in a polite live region.
+  let toastTimer = 0;
+  let toastClear = 0;
+  function toast(name) {
+    const el = document.getElementById("toast");
+    if (!el) return;
+    clearTimeout(toastTimer);
+    clearTimeout(toastClear);
+    el.textContent = "";
+    const part = (cls, text) => {
+      const s = document.createElement("span");
+      s.className = cls;
+      if (text) s.textContent = text;
+      return s;
+    };
+    const swatch = part("toast-swatch");
+    swatch.setAttribute("aria-hidden", "true");
+    const line = document.createElement("span");
+    line.append(part("toast-prompt", "$ "), "theme \u2192 ", part("toast-value", name));
+    el.append(swatch, line);
+    el.classList.add("show");
+    toastTimer = setTimeout(() => {
+      el.classList.remove("show");
+      toastClear = setTimeout(() => { el.textContent = ""; }, 300);
+    }, 1800);
+  }
+
   function themeToggle() {
     const btn = document.getElementById("themeToggle");
     if (!btn) return;
     const label = () => `Switch color theme (current: ${THEMES[Theme.current()].name})`;
     btn.title = label();
     btn.addEventListener("click", () => {
-      Theme.next();
+      const t = Theme.next();
       btn.title = label();
+      if (t) toast(t.name);
       btn.classList.remove("spin");
       void btn.offsetWidth;
       btn.classList.add("spin");

@@ -45,7 +45,7 @@
   .section { padding: 64px 0; }
   .blog-scroll { grid-template-columns: 1fr; }
   .nav-logo { font-size: 1rem; }
-  .section-title { font-size: 0.95rem; margin-bottom: 32px; }
+  .section-title { margin-bottom: 32px; gap: 0.5em; }
 
   /* Text buttons take a full row each; icon dropdowns sit side by side below.
      Menus span the CTA row so they never run off narrow screens. */
@@ -77,4 +77,6 @@
   .hero-role { font-size: 0.85rem; }
   .blog-meta { flex-wrap: wrap; }
   .footer { padding: 24px 16px; }
+  .toast { right: 16px; left: 16px; max-width: none; justify-content: center; }
+  .fab-top { right: max(16px, calc(env(safe-area-inset-right, 0px) + 12px)); bottom: max(16px, calc(env(safe-area-inset-bottom, 0px) + 12px)); }
 }
