@@ -3,62 +3,23 @@ const Render = (() => {
 
   const esc = (str) => String(str).replace(/[&<>"']/g, ch => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[ch]));
 
-  // Staggers reveal animations for items in the same grid.
-  const stagger = (el, i) => el.style.setProperty("--reveal-delay", `${Math.min(i, 5) * 70}ms`);
+  // Staggers reveal animations for items in the same grid (see [data-stagger] in base.css).
+  const stagger = (i) => ` data-stagger="${Math.min(i, 5)}"`;
 
-  // Opens external links in a new tab; mailto links stay in place.
-  function linkAttrs(a, url) {
-    a.href = url;
-    if (!url.startsWith("mailto:")) { a.target = "_blank"; a.rel = "noopener"; }
-  }
+  // External links open in a new tab; mailto links stay in place. rel="me" ties profiles to this site.
+  const linkAttrs = (url, me = false) => url.startsWith("mailto:")
+    ? `href="${esc(url)}"`
+    : `href="${esc(url)}" target="_blank" rel="noopener${me ? " me" : ""}"`;
 
-  function hero() {
-    // Name/tagline are pre-rendered in index.html for crawlers; only sync if config differs.
-    const setText = (id, text) => {
-      const el = document.getElementById(id);
-      if (el && el.textContent !== text) el.textContent = text;
-    };
-    setText("heroName", `> ${C.name}`);
-    setText("heroTagline", `> "${C.tagline}"`);
-  }
-
-  function about() {
-    const container = document.getElementById("aboutText");
-    const lines = C.bio.split("\n\n");
-    lines.forEach((p, i) => {
-      const line = document.createElement("p");
-      line.innerHTML = `<span class="prompt">${i === 0 ? '└─$' : '   '}</span> <span class="cmd">echo</span> <span class="str">"${p.replace(/\n/g, '\\n')}"</span>`;
-      container.appendChild(line);
-      if (i < lines.length - 1) {
-        const br = document.createElement("br");
-        container.appendChild(br);
-      }
-    });
-
-    const socials = document.getElementById("aboutSocials");
-    const links = [
-      { icon: "fab fa-github", url: C.githubUrl, label: "GitHub" },
-      { icon: "fab fa-linkedin-in", url: C.linkedinUrl, label: "LinkedIn" },
-      { icon: "fab fa-x-twitter", url: C.twitterUrl, label: "X (Twitter)" },
-      { icon: "fab fa-medium-m", url: C.mediumUrl, label: "Medium" },
-      { icon: "fab fa-stack-overflow", url: C.stackoverflowUrl, label: "Stack Overflow" },
-      { icon: "fab fa-instagram", url: C.instagramUrl, label: "Instagram" },
-      { icon: "fas fa-envelope", url: `mailto:${C.email}`, label: "Email" },
-    ];
-    links.forEach(s => {
-      const a = document.createElement("a");
-      linkAttrs(a, s.url);
-      a.setAttribute("aria-label", s.label);
-      a.title = s.label;
-      a.innerHTML = `<i class="${s.icon}" aria-hidden="true"></i>`;
-      socials.appendChild(a);
-    });
-  }
-
-  function footer() {
-    document.getElementById("footerText").innerHTML =
-      `// &copy; ${new Date().getFullYear()} ${C.name} &mdash; built with &lt;3 and a lot of coffee`;
-  }
+  const SOCIALS = [
+    { icon: "fab fa-github", url: C.githubUrl, label: "GitHub", value: C.githubUsername },
+    { icon: "fab fa-linkedin-in", url: C.linkedinUrl, label: "LinkedIn", value: C.linkedinUrl.replace("https://", "") },
+    { icon: "fab fa-x-twitter", url: C.twitterUrl, label: "X (Twitter)", value: `@${C.twitterUrl.split("/").pop()}` },
+    { icon: "fab fa-medium-m", url: C.mediumUrl, label: "Medium", value: "medium.com/@shreyashp47" },
+    { icon: "fab fa-stack-overflow", url: C.stackoverflowUrl, label: "Stack Overflow", value: "Stack Overflow" },
+    { icon: "fab fa-instagram", url: C.instagramUrl, label: "Instagram", value: "@shreyashpattewar_" },
+    { icon: "fas fa-envelope", url: `mailto:${C.email}`, label: "Email", value: C.email },
+  ];
 
   // "svg:<name>" → local colored SVG at static/assets/icons/<name>.svg; anything else is a Font Awesome class.
   const SKILL_ICONS = {
@@ -84,155 +45,137 @@ const Render = (() => {
     Notion: "fas fa-sticky-note",
   };
 
-  function skills() {
-    const container = document.getElementById("skillsContainer");
-    const iconHtml = (tech) => {
-      const icon = SKILL_ICONS[tech] || "fas fa-code";
-      return icon.startsWith("svg:")
-        ? `<img src="static/assets/icons/${icon.slice(4)}.svg" alt="" width="16" height="16" loading="lazy" decoding="async">`
-        : `<i class="${icon}"></i>`;
-    };
+  const TECH_ICONS = {
+    "Kotlin": "fab fa-android",
+    "Android Sensors": "fab fa-android",
+    "Jetpack Compose": "fab fa-android",
+    "Room": "fab fa-android",
+    "Hilt": "fab fa-android",
+    "Python": "fab fa-python",
+    "TypeScript": "fab fa-js",
+    "Flask": "fas fa-flask",
+    "HTML": "fab fa-html5",
+    "Tailwind CSS": "fab fa-css3-alt",
+    "LLM": "fas fa-brain",
+    "MCP": "fas fa-server"
+  };
 
-    Object.entries(C.skills).forEach(([category, techList], idx) => {
-      const group = document.createElement("div");
-      group.className = "skills-group";
+  // HTML templates shared by the browser and scripts/prerender.mjs, so the
+  // pre-rendered markup in index.html is identical to what the page renders.
+  const templates = {
+    about: () => C.bio.split("\n\n").map((p, i) =>
+      `<p><span class="prompt">${i === 0 ? "└─$" : "   "}</span> <span class="cmd">echo</span> <span class="str">"${esc(p).replace(/\n/g, "\\n")}"</span></p>`
+    ).join("<br>"),
 
-      // Visible category label (JSON-key style) is also the heading for the screen-reader list.
-      const labelId = `skills-cat-${idx}`;
-      const label = document.createElement("h3");
-      label.className = "skills-category";
-      label.id = labelId;
-      label.innerHTML = `<span class="skills-category-punct" aria-hidden="true">"</span>` +
-        `<span class="skills-category-key">${esc(category)}</span>` +
-        `<span class="skills-category-punct" aria-hidden="true">":</span>`;
-      group.appendChild(label);
+    socials: () => SOCIALS.map(s =>
+      `<a ${linkAttrs(s.url, true)} aria-label="${s.label}" title="${s.label}"><i class="${s.icon}" aria-hidden="true"></i></a>`
+    ).join(""),
 
-      // Screen readers get a plain list; the animated marquee is decorative.
-      const list = document.createElement("ul");
-      list.className = "visually-hidden";
-      list.setAttribute("aria-labelledby", labelId);
-      list.innerHTML = techList.map(t => `<li>${esc(t)}</li>`).join("");
-      group.appendChild(list);
+    contact: () => SOCIALS.map(s =>
+      `<a ${linkAttrs(s.url, true)} class="contact-detail-item"><i class="${s.icon}" aria-hidden="true"></i> <span>${esc(s.value)}</span><i class="fas fa-arrow-right contact-arrow" aria-hidden="true"></i></a>`
+    ).join(""),
 
-      const track = document.createElement("div");
-      track.className = `skills-marquee${idx % 2 ? " reverse" : ""}`;
-      track.setAttribute("aria-hidden", "true");
-      const inner = document.createElement("div");
-      inner.className = "skills-marquee-track";
+    footer: (year) => `// &copy; ${year} ${esc(C.name)} &mdash; built with &lt;3 and a lot of coffee`,
 
+    // withMarquee=false (pre-render) omits the decorative rows so crawlers see each skill once.
+    skills: (withMarquee = true) => Object.entries(C.skills).map(([category, techList], idx) => {
+      const iconHtml = (tech) => {
+        const icon = SKILL_ICONS[tech] || "fas fa-code";
+        return icon.startsWith("svg:")
+          ? `<img src="static/assets/icons/${icon.slice(4)}.svg" alt="" width="16" height="16" loading="lazy" decoding="async">`
+          : `<i class="${icon}"></i>`;
+      };
       // One "set" must be wider than the viewport; two identical sets make the -50% loop seamless.
       const set = [];
       while (set.length < 10) set.push(...techList);
-      inner.style.setProperty("--marquee-duration", `${set.length * 3.5}s`);
+      const items = [...set, ...set].map((tech, i) =>
+        `<div class="skill-marquee-item${i >= techList.length ? " dup" : ""}">${iconHtml(tech)}<span>${esc(tech)}</span></div>`
+      ).join("");
+      const labelId = `skills-cat-${idx}`;
+      // Visible category label (JSON-key style) heads the screen-reader list; the marquee is decorative.
+      return `<div class="skills-group">` +
+        `<h3 class="skills-category" id="${labelId}"><span class="skills-category-punct" aria-hidden="true">"</span><span class="skills-category-key">${esc(category)}</span><span class="skills-category-punct" aria-hidden="true">":</span></h3>` +
+        `<ul class="visually-hidden" aria-labelledby="${labelId}">${techList.map(t => `<li>${esc(t)}</li>`).join("")}</ul>` +
+        (withMarquee ? `<div class="skills-marquee${idx % 2 ? " reverse" : ""}" aria-hidden="true"><div class="skills-marquee-track" data-duration="${set.length * 3.5}">${items}</div></div>` : "") +
+        `</div>`;
+    }).join(""),
 
-      [...set, ...set].forEach((tech, i) => {
-        const item = document.createElement("div");
-        item.className = `skill-marquee-item${i >= techList.length ? " dup" : ""}`;
-        item.innerHTML = `${iconHtml(tech)}<span>${esc(tech)}</span>`;
-        inner.appendChild(item);
-      });
-
-      track.appendChild(inner);
-      group.appendChild(track);
-      container.appendChild(group);
-    });
-  }
-
-  function projects() {
-    const container = document.getElementById("projectsContainer");
-    C.projects.forEach((proj, i) => {
-      const card = document.createElement("article");
-      card.className = "project-card reveal";
-      stagger(card, i % 3);
-
-      const techIcons = {
-        "Kotlin": "fab fa-android",
-        "Android Sensors": "fab fa-android",
-        "Jetpack Compose": "fab fa-android",
-        "Room": "fab fa-android",
-        "Hilt": "fab fa-android",
-        "Python": "fab fa-python",
-        "TypeScript": "fab fa-js",
-        "Flask": "fas fa-flask",
-        "HTML": "fab fa-html5",
-        "Tailwind CSS": "fab fa-css3-alt",
-        "LLM": "fas fa-brain",
-        "MCP": "fas fa-server"
-      };
+    projects: () => C.projects.map((proj, i) => {
       const techHtml = proj.tech.map(t => {
-        const icon = techIcons[t] ? `<i class="${techIcons[t]}" aria-hidden="true"></i> ` : "";
-        return `<span class="tech-badge">${icon}${t}</span>`;
+        const icon = TECH_ICONS[t] ? `<i class="${TECH_ICONS[t]}" aria-hidden="true"></i> ` : "";
+        return `<span class="tech-badge">${icon}${esc(t)}</span>`;
       }).join("");
-      let links = `<a href="${proj.github}" target="_blank" rel="noopener" class="btn btn-small btn-ghost"><i class="fab fa-github" aria-hidden="true"></i> source</a>`;
+      let links = `<a ${linkAttrs(proj.github)} class="btn btn-small btn-ghost"><i class="fab fa-github" aria-hidden="true"></i> source</a>`;
       if (proj.demo) {
         const isPlayStore = proj.demo.includes("play.google.com");
         const icon = isPlayStore ? "fab fa-google-play" : "fas fa-external-link-alt";
         const label = isPlayStore ? "Play Store" : "demo";
-        links += `<a href="${proj.demo}" target="_blank" rel="noopener" class="btn btn-small btn-primary"><i class="${icon}" aria-hidden="true"></i> ${label}</a>`;
+        links += `<a ${linkAttrs(proj.demo)} class="btn btn-small btn-primary"><i class="${icon}" aria-hidden="true"></i> ${label}</a>`;
       }
-
       let testingHtml = "";
       if (proj.testing) {
-        testingHtml = `
-          <details class="project-testing">
-            <summary class="testing-summary"><i class="fab fa-google-play"></i> // open_testing.kt</summary>
-            <div class="testing-content">
-              <p>> join tester group: <a href="${proj.testing.group}" target="_blank" rel="noopener">Google Groups</a></p>
-              <p>> install from <a href="${proj.testing.playStore}" target="_blank" rel="noopener">Google Play</a></p>
-              <p>> report issues: <a href="${proj.github}/issues" target="_blank" rel="noopener">GitHub Issues</a></p>
-            </div>
-          </details>`;
+        testingHtml = `<details class="project-testing">` +
+          `<summary class="testing-summary"><i class="fab fa-google-play"></i> // open_testing.kt</summary>` +
+          `<div class="testing-content">` +
+          `<p>&gt; join tester group: <a ${linkAttrs(proj.testing.group)}>Google Groups</a></p>` +
+          `<p>&gt; install from <a ${linkAttrs(proj.testing.playStore)}>Google Play</a></p>` +
+          `<p>&gt; report issues: <a ${linkAttrs(`${proj.github}/issues`)}>GitHub Issues</a></p>` +
+          `</div></details>`;
       }
+      return `<article class="project-card reveal"${stagger(i % 3)}>` +
+        `<h3 class="project-title">${esc(proj.title)}</h3>` +
+        `<p class="project-desc">${esc(proj.description)}</p>` +
+        `<div class="project-tech">${techHtml}</div>` +
+        `<div class="project-links">${links}</div>` +
+        `${testingHtml}</article>`;
+    }).join(""),
 
-      card.innerHTML = `
-        <h3 class="project-title">${proj.title}</h3>
-        <p class="project-desc">${proj.description}</p>
-        <div class="project-tech">${techHtml}</div>
-        <div class="project-links">${links}</div>
-        ${testingHtml}
-      `;
-      container.appendChild(card);
-    });
+    blog: () => C.linkedinPosts.map((post, i) =>
+      `<article class="blog-card reveal"${stagger(i)}>` +
+      `<p class="blog-date">// ${esc(post.date)}</p>` +
+      `<p class="blog-excerpt">${esc(post.excerpt)}</p>` +
+      `<div class="blog-meta">` +
+      `<span><i class="fas fa-heart" aria-hidden="true"></i> ${post.likes}</span>` +
+      `<a ${linkAttrs(post.url)} class="btn btn-small btn-ghost">read <i class="fas fa-arrow-right" aria-hidden="true"></i></a>` +
+      `</div></article>`
+    ).join(""),
+  };
+
+  const fill = (id, html) => {
+    const el = document.getElementById(id);
+    if (el && el.innerHTML !== html) el.innerHTML = html;
+  };
+
+  function hero() {
+    // Name/tagline are pre-rendered in index.html for crawlers; only sync if config differs.
+    const setText = (id, text) => {
+      const el = document.getElementById(id);
+      if (el && el.textContent !== text) el.textContent = text;
+    };
+    setText("heroName", `> ${C.name}`);
+    setText("heroTagline", `> "${C.tagline}"`);
   }
 
-  function blog() {
-    const container = document.getElementById("blogContainer");
-    C.linkedinPosts.forEach((post, i) => {
-      const card = document.createElement("article");
-      card.className = "blog-card reveal";
-      stagger(card, i);
-      card.innerHTML = `
-        <p class="blog-date">// ${post.date}</p>
-        <p class="blog-excerpt">${post.excerpt}</p>
-        <div class="blog-meta">
-          <span><i class="fas fa-heart" aria-hidden="true"></i> ${post.likes}</span>
-          <a href="${post.url}" target="_blank" rel="noopener" class="btn btn-small btn-ghost">read <i class="fas fa-arrow-right" aria-hidden="true"></i></a>
-        </div>
-      `;
-      container.appendChild(card);
-    });
+  function about() {
+    fill("aboutText", templates.about());
+    fill("aboutSocials", templates.socials());
   }
 
-  function contact() {
-    const container = document.getElementById("contactDetails");
-    if (!container) return;
-    const items = [
-      { icon: "fab fa-github", value: C.githubUsername, url: C.githubUrl },
-      { icon: "fab fa-linkedin-in", value: C.linkedinUrl.replace("https://", ""), url: C.linkedinUrl },
-      { icon: "fab fa-x-twitter", value: `@${C.twitterUrl.split("/").pop()}`, url: C.twitterUrl },
-      { icon: "fab fa-medium-m", value: "medium.com/@shreyashp47", url: C.mediumUrl },
-      { icon: "fab fa-stack-overflow", value: "Stack Overflow", url: C.stackoverflowUrl },
-      { icon: "fab fa-instagram", value: "@shreyashpattewar_", url: C.instagramUrl },
-      { icon: "fas fa-envelope", value: C.email, url: `mailto:${C.email}` },
-    ];
-    items.forEach(d => {
-      const a = document.createElement("a");
-      linkAttrs(a, d.url);
-      a.className = "contact-detail-item";
-      a.innerHTML = `<i class="${d.icon}" aria-hidden="true"></i> <span>${esc(d.value)}</span><i class="fas fa-arrow-right contact-arrow" aria-hidden="true"></i>`;
-      container.appendChild(a);
-    });
+  function footer() {
+    fill("footerText", templates.footer(new Date().getFullYear()));
   }
+
+  function skills() {
+    fill("skillsContainer", templates.skills());
+    document.querySelectorAll(".skills-marquee-track[data-duration]").forEach(t =>
+      t.style.setProperty("--marquee-duration", `${t.dataset.duration}s`));
+  }
+
+  function projects() { fill("projectsContainer", templates.projects()); }
+
+  function blog() { fill("blogContainer", templates.blog()); }
+
+  function contact() { fill("contactDetails", templates.contact()); }
 
   function githubStats() {
     const container = document.getElementById("githubStats");
@@ -286,7 +229,7 @@ const Render = (() => {
             const color = langColors[repo.language] || "#7c3aed";
             const card = document.createElement("article");
             card.className = "repo-card reveal";
-            stagger(card, i % 3);
+            card.dataset.stagger = Math.min(i % 3, 5);
             card.innerHTML = `
               <h3 class="repo-name"><i class="far fa-folder" aria-hidden="true"></i> <a href="${esc(repo.html_url)}" target="_blank" rel="noopener">${esc(repo.name)}</a></h3>
               <p class="repo-desc">${esc(repo.description || "No description provided.")}</p>
@@ -337,5 +280,5 @@ const Render = (() => {
     });
   }
 
-  return { hero, about, footer, skills, projects, blog, contact, githubStats, githubRepos, contactForm };
+  return { hero, about, footer, skills, projects, blog, contact, githubStats, githubRepos, contactForm, templates };
 })();
