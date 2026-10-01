@@ -1,0 +1,132 @@
+/* ── Motion ──
+   Entrance, hover and theme-switch animations. Everything here is neutralised
+   by the global prefers-reduced-motion block in base.css. */
+
+:root {
+  --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+  --transition: 0.35s var(--ease-out);
+}
+
+/* ── Reveal: softer rise with a light blur ── */
+.js .reveal {
+  filter: blur(6px);
+  transition: opacity 0.7s var(--ease-out), transform 0.7s var(--ease-out), filter 0.7s var(--ease-out);
+  transition-delay: var(--reveal-delay, 0ms);
+}
+.js .reveal.visible { filter: none; }
+.js .reveal.settled { transition: all var(--transition); transition-delay: 0s; }
+
+/* ── Page load: navbar and hero terminal ── */
+@keyframes nav-in { from { opacity: 0; transform: translateY(-100%); } }
+@keyframes terminal-in { from { opacity: 0; transform: translateY(28px) scale(0.97); } }
+@keyframes line-in { from { opacity: 0; transform: translateX(-10px); } }
+
+.js .navbar { animation: nav-in 0.7s var(--ease-out) both; }
+.js .hero-content { animation: terminal-in 0.9s var(--ease-out) both; }
+.js .terminal-body > * { animation: line-in 0.5s var(--ease-out) both; }
+.js .terminal-body > :nth-child(1) { animation-delay: 0.15s; }
+.js .terminal-body > :nth-child(2) { animation-delay: 0.22s; }
+.js .terminal-body > :nth-child(3) { animation-delay: 0.29s; }
+.js .terminal-body > :nth-child(4) { animation-delay: 0.36s; }
+.js .terminal-body > :nth-child(5) { animation-delay: 0.43s; }
+.js .terminal-body > :nth-child(6) { animation-delay: 0.5s; }
+.js .terminal-body > :nth-child(7) { animation-delay: 0.57s; }
+.js .terminal-body > :nth-child(8) { animation-delay: 0.64s; }
+
+/* ── Section titles: accent rule draws in from the left ── */
+.js .section-title::after {
+  transform: scaleX(0);
+  transform-origin: 0 50%;
+  transition: transform 1.1s var(--ease-out) 0.15s;
+}
+.js .section-title.visible::after { transform: scaleX(1); }
+
+/* ── Sliding active-link indicator (desktop nav) ── */
+.nav-links { position: relative; }
+.nav-links::after {
+  content: '';
+  position: absolute;
+  top: 0; left: 0;
+  height: 100%;
+  width: var(--ind-w, 0);
+  transform: translateX(var(--ind-x, 0));
+  border-radius: 6px;
+  background: rgba(var(--accent-2-rgb), 0.1);
+  box-shadow: inset 0 -2px 0 var(--accent-2);
+  opacity: var(--ind-o, 0);
+  transition: transform 0.45s var(--ease-out), width 0.45s var(--ease-out), opacity 0.3s ease;
+  pointer-events: none;
+}
+.nav-link { position: relative; z-index: 1; }
+@media (min-width: 901px) {
+  .nav-links.has-indicator .nav-link.active { background: transparent; }
+}
+@media (max-width: 900px) {
+  .nav-links::after { display: none; }
+}
+
+/* ── Cursor spotlight on cards ── */
+.project-card, .blog-card, .repo-card { position: relative; }
+.project-card::before, .blog-card::before, .repo-card::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  pointer-events: none;
+  background: radial-gradient(380px circle at var(--mx, 50%) var(--my, 50%), rgba(var(--accent-1-rgb), 0.12), transparent 45%);
+  opacity: 0;
+  transition: opacity 0.4s ease;
+}
+@media (hover: hover) and (pointer: fine) {
+  .project-card:hover::before, .blog-card:hover::before, .repo-card:hover::before { opacity: 1; }
+}
+
+/* ── Primary button shine ── */
+.btn-primary { position: relative; overflow: hidden; isolation: isolate; }
+.btn-primary::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background: linear-gradient(115deg, transparent 30%, rgba(255, 255, 255, 0.28) 50%, transparent 70%);
+  transform: translateX(-120%);
+  transition: transform 0.8s var(--ease-out);
+}
+.btn-primary:hover::after { transform: translateX(120%); }
+
+/* ── Tech badges pop in after their card ── */
+.js .reveal .tech-badge {
+  opacity: 0;
+  transform: translateY(6px) scale(0.96);
+  transition: opacity 0.45s var(--ease-out), transform 0.45s var(--ease-out);
+}
+.js .reveal.visible .tech-badge { opacity: 1; transform: none; }
+.js .reveal.visible .tech-badge:nth-child(1) { transition-delay: calc(var(--reveal-delay, 0ms) + 250ms); }
+.js .reveal.visible .tech-badge:nth-child(2) { transition-delay: calc(var(--reveal-delay, 0ms) + 300ms); }
+.js .reveal.visible .tech-badge:nth-child(3) { transition-delay: calc(var(--reveal-delay, 0ms) + 350ms); }
+.js .reveal.visible .tech-badge:nth-child(4) { transition-delay: calc(var(--reveal-delay, 0ms) + 400ms); }
+.js .reveal.visible .tech-badge:nth-child(n+5) { transition-delay: calc(var(--reveal-delay, 0ms) + 450ms); }
+
+/* ── Avatar: rotating gradient ring ── */
+@keyframes ring-spin { to { transform: rotate(360deg); } }
+.avatar-frame { background: none; isolation: isolate; }
+.avatar-frame::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  border-radius: 50%;
+  background: conic-gradient(from 0deg, var(--accent-1), var(--accent-2), var(--accent-green), var(--accent-1));
+  animation: ring-spin 8s linear infinite;
+}
+
+/* ── Contact status message ── */
+@keyframes status-in { from { opacity: 0; transform: translateY(4px); } }
+.form-status.success { animation: status-in 0.5s var(--ease-out); }
+
+/* ── Theme switch: new palette grows out from the toggle (View Transitions) ── */
+::view-transition-old(root),
+::view-transition-new(root) {
+  animation: none;
+  mix-blend-mode: normal;
+}
