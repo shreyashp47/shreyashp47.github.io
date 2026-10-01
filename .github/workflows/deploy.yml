@@ -30,7 +30,7 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 15
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
 
       # Push triggers are limited to main / v4-developer-theme, both of which
       # deploy v4. Manual runs deploy whichever version was picked.
@@ -58,21 +58,21 @@ jobs:
 
       - name: Checkout v1 (static site)
         if: steps.version.outputs.version == 'v1'
-        uses: actions/checkout@v4
+        uses: actions/checkout@v7
         with:
           ref: v1-classic
           path: v1-site
 
       - name: Checkout v2 (VS Code theme)
         if: steps.version.outputs.version == 'v2'
-        uses: actions/checkout@v4
+        uses: actions/checkout@v7
         with:
           ref: v2-vscode-theme
           path: v2-site
 
       - name: Checkout v3 (Android Studio theme)
         if: steps.version.outputs.version == 'v3'
-        uses: actions/checkout@v4
+        uses: actions/checkout@v7
         with:
           ref: v3-android-studio
           path: v3-site
