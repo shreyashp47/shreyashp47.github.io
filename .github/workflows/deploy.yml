@@ -79,7 +79,7 @@ jobs:
 
       - name: Setup Node
         if: steps.version.outputs.version == 'v2' || steps.version.outputs.version == 'v3'
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@v7
         with:
           node-version: 20
           cache: npm
