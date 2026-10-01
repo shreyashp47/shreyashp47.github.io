@@ -2,7 +2,7 @@ name: Deploy to GitHub Pages
 
 on:
   push:
-    branches: [main, v4-developer-theme]
+    branches: [main]
   workflow_dispatch:
     inputs:
       version:
@@ -32,8 +32,7 @@ jobs:
     steps:
       - uses: actions/checkout@v7
 
-      # Push triggers are limited to main / v4-developer-theme, both of which
-      # deploy v4. Manual runs deploy whichever version was picked.
+      # Pushes to main deploy v4. Manual runs deploy whichever version was picked.
       - name: Determine version
         id: version
         env:
