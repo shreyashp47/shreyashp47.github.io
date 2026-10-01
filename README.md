@@ -20,6 +20,7 @@ Personal portfolio of Shreyash Pattewar, a software engineer working on AI and m
 - **LinkedIn post cards** for recent writing
 - **GitHub section** with stats cards (GitHub stats, top languages, streak, LeetCode) and the top repositories loaded live from the GitHub REST API
 - **Contact form** via formsubmit.co, sent over AJAX with a fallback to a normal form POST
+- **Motion:** hero terminal entrance with line-by-line reveal, circular theme-switch transition (View Transitions API), sliding nav indicator, cursor spotlight on cards, drawing section rules, rotating avatar ring, all disabled under `prefers-reduced-motion`
 - **Navigation:** scroll-spy active links, a scroll progress bar and a responsive hamburger menu
 - **Accessibility:** skip link, visible focus styles, labelled form fields and icon links, keyboard-accessible dropdowns and menus, live regions, and `prefers-reduced-motion` support (Lighthouse accessibility score: 100)
 - **Mobile-first details:** full-width hero and stacked buttons on phones, dropdown menus that fit 320px screens, 44px touch targets on touch devices, and no horizontal overflow from 320px up
@@ -63,7 +64,8 @@ Personal portfolio of Shreyash Pattewar, a software engineer working on AI and m
         ├── css/
         │   ├── base.css           # Reset, variables, typography, layout, reduced motion
         │   ├── components.css     # Navbar, hero, cards, marquee, forms, footer
-        │   └── responsive.css     # Breakpoints (1024 / 900 / 768 / 480px)
+        │   ├── responsive.css     # Breakpoints (1024 / 900 / 768 / 480px)
+        │   └── motion.css         # Entrance, hover and theme-switch animations
         └── js/
             ├── config.js          # All site content (single source of truth)
             ├── themes.js          # Accent theme definitions + persistence

@@ -71,17 +71,45 @@ const Navigation = (() => {
 
   // Highlight the nav link for the section currently in view.
   function scrollSpy() {
+    const nav = document.getElementById("navLinks");
     const links = new Map();
     document.querySelectorAll('.nav-link[href^="#"]').forEach(a => links.set(a.getAttribute("href").slice(1), a));
+    let current = null;
+
+    // Slide the pill-shaped indicator (.nav-links::after) under the active link.
+    function moveIndicator() {
+      if (!nav) return;
+      nav.classList.add("has-indicator");
+      nav.style.setProperty("--ind-o", current ? "1" : "0");
+      if (!current) return;
+      nav.style.setProperty("--ind-x", `${current.offsetLeft}px`);
+      nav.style.setProperty("--ind-w", `${current.offsetWidth}px`);
+    }
+
     const spy = new IntersectionObserver((entries) => {
       entries.forEach(entry => {
         if (!entry.isIntersecting) return;
         links.forEach(a => { a.classList.remove("active"); a.removeAttribute("aria-current"); });
-        const link = links.get(entry.target.id);
-        if (link) { link.classList.add("active"); link.setAttribute("aria-current", "true"); }
+        current = links.get(entry.target.id) || null;
+        if (current) { current.classList.add("active"); current.setAttribute("aria-current", "true"); }
+        moveIndicator();
       });
     }, { rootMargin: "-45% 0px -50% 0px" });
     document.querySelectorAll("main section[id]").forEach(s => spy.observe(s));
+    window.addEventListener("resize", moveIndicator, { passive: true });
+    if (document.fonts) document.fonts.ready.then(moveIndicator);
+  }
+
+  // Soft glow that follows the pointer across cards.
+  function spotlight() {
+    if (!window.matchMedia("(hover: hover) and (pointer: fine)").matches) return;
+    document.addEventListener("pointermove", (e) => {
+      const card = e.target.closest && e.target.closest(".project-card, .blog-card, .repo-card");
+      if (!card) return;
+      const r = card.getBoundingClientRect();
+      card.style.setProperty("--mx", `${e.clientX - r.left}px`);
+      card.style.setProperty("--my", `${e.clientY - r.top}px`);
+    }, { passive: true });
   }
 
   function dropdowns() {
@@ -146,10 +174,31 @@ const Navigation = (() => {
     if (!btn) return;
     const label = () => `Switch color theme (current: ${THEMES[Theme.current()].name})`;
     btn.title = label();
+    const reduce = window.matchMedia("(prefers-reduced-motion: reduce)");
     btn.addEventListener("click", () => {
-      const t = Theme.next();
-      btn.title = label();
-      if (t) toast(t.name);
+      let t;
+      if (document.startViewTransition && !reduce.matches) {
+        // New palette grows out of the toggle as an expanding circle.
+        const r = btn.getBoundingClientRect();
+        const x = r.left + r.width / 2, y = r.top + r.height / 2;
+        const radius = Math.hypot(Math.max(x, innerWidth - x), Math.max(y, innerHeight - y));
+        let applied = false;
+        const apply = () => { if (!applied) { applied = true; t = Theme.next(); } };
+        const vt = document.startViewTransition(apply);
+        // Safety net: never leave the theme unchanged if the transition stalls.
+        setTimeout(() => { if (!applied) { apply(); btn.title = label(); if (t) toast(t.name); } }, 400);
+        vt.ready.then(() => {
+          document.documentElement.animate(
+            { clipPath: [`circle(0px at ${x}px ${y}px)`, `circle(${radius}px at ${x}px ${y}px)`] },
+            { duration: 650, easing: "cubic-bezier(0.16, 1, 0.3, 1)", pseudoElement: "::view-transition-new(root)" }
+          );
+        }).catch(() => {});
+        vt.updateCallbackDone.then(() => { btn.title = label(); if (t) toast(t.name); });
+      } else {
+        t = Theme.next();
+        btn.title = label();
+        if (t) toast(t.name);
+      }
       btn.classList.remove("spin");
       void btn.offsetWidth;
       btn.classList.add("spin");
@@ -162,6 +211,7 @@ const Navigation = (() => {
     scrollSpy();
     dropdowns();
     themeToggle();
+    spotlight();
   }
 
   return { init };

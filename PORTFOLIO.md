@@ -142,7 +142,8 @@ v4/
     ├── css/
     │   ├── base.css          # Reset, variables, typography, layout, reduced motion
     │   ├── components.css    # Navbar, hero, cards, marquee, forms, footer
-    │   └── responsive.css    # Media queries
+    │   ├── responsive.css    # Media queries
+    │   └── motion.css        # Animations (entrance, hover, theme switch); neutralised by reduced motion
     └── js/
         ├── config.js         # All site content
         ├── themes.js         # Accent themes + localStorage persistence
