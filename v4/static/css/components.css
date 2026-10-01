@@ -415,8 +415,31 @@
 }
 
 /* ── Skills ── */
+/* Each category: a JSON-key style label ("Mobile":) + its marquee row.
+   Stacked on phones; label in a fixed left column on wider screens. */
+.skills-group { margin-bottom: 14px; min-width: 0; }
+.skills-group:last-child { margin-bottom: 0; }
+
+.skills-category {
+  margin: 0 0 2px 2px;
+  font-family: var(--font-mono);
+  font-size: 0.78rem; font-weight: 500; line-height: 1.4;
+  letter-spacing: 0.01em;
+  white-space: nowrap;
+}
+.skills-category-key { color: var(--accent-2); }
+.skills-category-punct { color: var(--text-dim); }
+
+@media (min-width: 769px) {
+  .skills-group {
+    display: grid; grid-template-columns: 10.5rem minmax(0, 1fr);
+    align-items: center; column-gap: 12px;
+  }
+  .skills-category { margin: 0; text-align: right; }
+}
+
 .skills-marquee {
-  display: flex; overflow: hidden; margin-bottom: 12px; padding: 4px 0;
+  display: flex; overflow: hidden; padding: 4px 0;
   -webkit-mask-image: linear-gradient(90deg, transparent, #000 6%, #000 94%, transparent);
   mask-image: linear-gradient(90deg, transparent, #000 6%, #000 94%, transparent);
 }
@@ -457,6 +480,7 @@
 }
 
 .skill-marquee-item i { font-size: 1rem; color: var(--accent-2); }
+.skill-marquee-item img { width: 16px; height: 16px; flex-shrink: 0; display: block; }
 .skill-marquee-item span { font-weight: 500; color: var(--text-muted); }
 .skill-marquee-item:hover span { color: var(--text-primary); }
 
