@@ -1,67 +1,112 @@
 const Navigation = (() => {
 
-  function init() {
+  function onScroll() {
     const navbar = document.getElementById("navbar");
-    window.addEventListener("scroll", () => {
-      navbar.classList.toggle("scrolled", window.pageYOffset > 50);
-    });
+    const progress = document.getElementById("scrollProgress");
+    let ticking = false;
 
+    function update() {
+      const y = window.scrollY;
+      navbar.classList.toggle("scrolled", y > 50);
+      if (progress) {
+        const max = document.documentElement.scrollHeight - window.innerHeight;
+        progress.style.transform = `scaleX(${max > 0 ? y / max : 0})`;
+      }
+      ticking = false;
+    }
+
+    window.addEventListener("scroll", () => {
+      if (!ticking) { ticking = true; requestAnimationFrame(update); }
+    }, { passive: true });
+    update();
+  }
+
+  function mobileMenu() {
     const hamburger = document.getElementById("hamburger");
     const navLinks = document.getElementById("navLinks");
+    if (!hamburger || !navLinks) return;
 
-    if (hamburger) {
-      hamburger.addEventListener("click", () => {
-        hamburger.classList.toggle("active");
-        navLinks.classList.toggle("open");
-      });
-      document.querySelectorAll(".nav-link").forEach(link => {
-        link.addEventListener("click", () => {
-          hamburger.classList.remove("active");
-          navLinks.classList.remove("open");
-        });
-      });
+    function setOpen(open) {
+      hamburger.classList.toggle("active", open);
+      navLinks.classList.toggle("open", open);
+      hamburger.setAttribute("aria-expanded", String(open));
     }
 
-    const themeBtn = document.getElementById("themeToggle");
-    if (themeBtn) {
-      themeBtn.addEventListener("click", () => {
-        const html = document.documentElement;
-        const current = html.getAttribute("data-theme") || "0";
-        const next = (parseInt(current) + 1) % 3;
-        html.setAttribute("data-theme", next.toString());
+    hamburger.addEventListener("click", () => setOpen(!navLinks.classList.contains("open")));
+    navLinks.querySelectorAll(".nav-link").forEach(link => link.addEventListener("click", () => setOpen(false)));
+    document.addEventListener("click", (e) => {
+      if (navLinks.classList.contains("open") && !navLinks.contains(e.target) && !hamburger.contains(e.target)) setOpen(false);
+    });
+    document.addEventListener("keydown", (e) => {
+      if (e.key === "Escape" && navLinks.classList.contains("open")) { setOpen(false); hamburger.focus(); }
+    });
+  }
 
-        const t = THEMES[next];
-        const r = html.style;
-        r.setProperty("--accent-1", t.accent1);
-        r.setProperty("--accent-1-rgb", t.accent1rgb);
-        r.setProperty("--accent-2", t.accent2);
-        r.setProperty("--accent-2-rgb", t.accent2rgb);
-        r.setProperty("--accent-green", t.green);
-        r.setProperty("--accent-green-rgb", t.greenrgb);
-        r.setProperty("--accent-orange", t.orange);
-        r.setProperty("--border", t.border);
-        r.setProperty("--border-light", t.borderLight);
-
-        localStorage.setItem("v4-theme", next);
+  // Highlight the nav link for the section currently in view.
+  function scrollSpy() {
+    const links = new Map();
+    document.querySelectorAll('.nav-link[href^="#"]').forEach(a => links.set(a.getAttribute("href").slice(1), a));
+    const spy = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (!entry.isIntersecting) return;
+        links.forEach(a => { a.classList.remove("active"); a.removeAttribute("aria-current"); });
+        const link = links.get(entry.target.id);
+        if (link) { link.classList.add("active"); link.setAttribute("aria-current", "true"); }
       });
+    }, { rootMargin: "-45% 0px -50% 0px" });
+    document.querySelectorAll("main section[id]").forEach(s => spy.observe(s));
+  }
 
-      const saved = localStorage.getItem("v4-theme");
-      if (saved !== null) {
-        const idx = parseInt(saved);
-        const t = THEMES[idx];
-        document.documentElement.setAttribute("data-theme", idx.toString());
-        const r = document.documentElement.style;
-        r.setProperty("--accent-1", t.accent1);
-        r.setProperty("--accent-1-rgb", t.accent1rgb);
-        r.setProperty("--accent-2", t.accent2);
-        r.setProperty("--accent-2-rgb", t.accent2rgb);
-        r.setProperty("--accent-green", t.green);
-        r.setProperty("--accent-green-rgb", t.greenrgb);
-        r.setProperty("--accent-orange", t.orange);
-        r.setProperty("--border", t.border);
-        r.setProperty("--border-light", t.borderLight);
-      }
+  function dropdowns() {
+    const all = document.querySelectorAll(".dropdown");
+
+    function close(dd) {
+      dd.classList.remove("open");
+      dd.querySelector(".dropdown-btn").setAttribute("aria-expanded", "false");
     }
+
+    all.forEach(dd => {
+      const btn = dd.querySelector(".dropdown-btn");
+      btn.addEventListener("click", (e) => {
+        e.stopPropagation();
+        const open = !dd.classList.contains("open");
+        all.forEach(close);
+        dd.classList.toggle("open", open);
+        btn.setAttribute("aria-expanded", String(open));
+      });
+      dd.addEventListener("focusout", (e) => {
+        if (!dd.contains(e.relatedTarget)) close(dd);
+      });
+      dd.addEventListener("keydown", (e) => {
+        if (e.key === "Escape" && dd.classList.contains("open")) { close(dd); btn.focus(); }
+      });
+    });
+
+    document.addEventListener("click", (e) => {
+      all.forEach(dd => { if (!dd.contains(e.target)) close(dd); });
+    });
+  }
+
+  function themeToggle() {
+    const btn = document.getElementById("themeToggle");
+    if (!btn) return;
+    const label = () => `Switch color theme (current: ${THEMES[Theme.current()].name})`;
+    btn.title = label();
+    btn.addEventListener("click", () => {
+      Theme.next();
+      btn.title = label();
+      btn.classList.remove("spin");
+      void btn.offsetWidth;
+      btn.classList.add("spin");
+    });
+  }
+
+  function init() {
+    onScroll();
+    mobileMenu();
+    scrollSpy();
+    dropdowns();
+    themeToggle();
   }
 
   return { init };

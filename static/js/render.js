@@ -1,6 +1,17 @@
 const Render = (() => {
   const C = CONFIG;
 
+  const esc = (str) => String(str).replace(/[&<>"']/g, ch => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[ch]));
+
+  // Staggers reveal animations for items in the same grid.
+  const stagger = (el, i) => el.style.setProperty("--reveal-delay", `${Math.min(i, 5) * 70}ms`);
+
+  // Opens external links in a new tab; mailto links stay in place.
+  function linkAttrs(a, url) {
+    a.href = url;
+    if (!url.startsWith("mailto:")) { a.target = "_blank"; a.rel = "noopener"; }
+  }
+
   function hero() {
     document.getElementById("heroName").textContent = `> ${C.name}`;
     document.getElementById("heroTagline").textContent = `> "${C.tagline}"`;
@@ -21,20 +32,20 @@ const Render = (() => {
 
     const socials = document.getElementById("aboutSocials");
     const links = [
-      { icon: "fab fa-github", url: C.githubUrl },
-      { icon: "fab fa-linkedin-in", url: C.linkedinUrl },
-      { icon: "fab fa-twitter", url: C.twitterUrl },
-      { icon: "fab fa-medium-m", url: C.mediumUrl },
-      { icon: "fab fa-stack-overflow", url: C.stackoverflowUrl },
-      { icon: "fab fa-instagram", url: C.instagramUrl },
-      { icon: "fas fa-envelope", url: `mailto:${C.email}` },
+      { icon: "fab fa-github", url: C.githubUrl, label: "GitHub" },
+      { icon: "fab fa-linkedin-in", url: C.linkedinUrl, label: "LinkedIn" },
+      { icon: "fab fa-x-twitter", url: C.twitterUrl, label: "X (Twitter)" },
+      { icon: "fab fa-medium-m", url: C.mediumUrl, label: "Medium" },
+      { icon: "fab fa-stack-overflow", url: C.stackoverflowUrl, label: "Stack Overflow" },
+      { icon: "fab fa-instagram", url: C.instagramUrl, label: "Instagram" },
+      { icon: "fas fa-envelope", url: `mailto:${C.email}`, label: "Email" },
     ];
     links.forEach(s => {
       const a = document.createElement("a");
-      a.href = s.url;
-      a.target = "_blank";
-      a.rel = "noopener";
-      a.innerHTML = `<i class="${s.icon}"></i>`;
+      linkAttrs(a, s.url);
+      a.setAttribute("aria-label", s.label);
+      a.title = s.label;
+      a.innerHTML = `<i class="${s.icon}" aria-hidden="true"></i>`;
       socials.appendChild(a);
     });
   }
@@ -44,57 +55,69 @@ const Render = (() => {
       `// &copy; ${new Date().getFullYear()} ${C.name} &mdash; built with &lt;3 and a lot of coffee`;
   }
 
+  const SKILL_ICONS = {
+    Kotlin: "devicon-kotlin-plain colored",
+    Java: "devicon-java-plain colored",
+    Swift: "devicon-swift-plain colored",
+    Dart: "devicon-dart-plain colored",
+    Flutter: "devicon-flutter-plain colored",
+    Python: "devicon-python-plain colored",
+    Firebase: "devicon-firebase-plain colored",
+    Git: "devicon-git-plain colored",
+    Docker: "devicon-docker-plain colored",
+    Figma: "devicon-figma-plain colored",
+    OpenAI: "fas fa-microchip",
+    MCP: "fas fa-plug",
+    LangChain: "fas fa-link",
+    SQLite: "fas fa-database",
+    Realm: "fas fa-server",
+    Swagger: "devicon-swagger-plain colored",
+    "Jetpack Compose": "fas fa-mobile-alt",
+    TypeScript: "devicon-typescript-plain colored",
+    "CI/CD": "fas fa-sync-alt",
+    Notion: "fas fa-sticky-note",
+  };
+
   function skills() {
     const container = document.getElementById("skillsContainer");
-    let idx = 0;
-    Object.entries(C.skills).forEach(([, techList]) => {
+    Object.entries(C.skills).forEach(([category, techList], idx) => {
+      // Screen readers get a plain list; the animated marquee is decorative.
+      const list = document.createElement("ul");
+      list.className = "visually-hidden";
+      list.setAttribute("aria-label", category);
+      list.innerHTML = techList.map(t => `<li>${esc(t)}</li>`).join("");
+      container.appendChild(list);
+
       const track = document.createElement("div");
-      track.className = `skills-marquee ${idx % 2 === 0 ? "" : "reverse"}`;
+      track.className = `skills-marquee${idx % 2 ? " reverse" : ""}`;
+      track.setAttribute("aria-hidden", "true");
       const inner = document.createElement("div");
       inner.className = "skills-marquee-track";
 
-      const iconMap = {
-        Kotlin: "devicon-kotlin-plain colored",
-        Java: "devicon-java-plain colored",
-        Swift: "devicon-swift-plain colored",
-        Dart: "devicon-dart-plain colored",
-        Flutter: "devicon-flutter-plain colored",
-        Python: "devicon-python-plain colored",
-        Firebase: "devicon-firebase-plain colored",
-        Git: "devicon-git-plain colored",
-        Docker: "devicon-docker-plain colored",
-        Figma: "devicon-figma-plain colored",
-        OpenAI: "fas fa-microchip",
-        MCP: "fas fa-plug",
-        LangChain: "fas fa-link",
-        SQLite: "fas fa-database",
-        Realm: "fas fa-server",
-        Swagger: "devicon-swagger-plain colored",
-        "Jetpack Compose": "fas fa-mobile-alt",
-        TypeScript: "devicon-typescript-plain colored",
-        "CI/CD": "fas fa-sync-alt",
-        Notion: "fas fa-sticky-note",
-      };
+      // One "set" must be wider than the viewport; two identical sets make the -50% loop seamless.
+      const set = [];
+      while (set.length < 10) set.push(...techList);
+      inner.style.setProperty("--marquee-duration", `${set.length * 3.5}s`);
 
-      [...techList, ...techList, ...techList].forEach(tech => {
-        const cls = iconMap[tech] || `devicon-${tech.toLowerCase().replace(/ /g, "-")}-plain colored`;
+      [...set, ...set].forEach((tech, i) => {
+        const cls = SKILL_ICONS[tech] || `devicon-${tech.toLowerCase().replace(/ /g, "-")}-plain colored`;
         const item = document.createElement("div");
-        item.className = "skill-marquee-item";
-        item.innerHTML = `<i class="${cls}"></i><span>${tech}</span>`;
+        item.className = `skill-marquee-item${i >= techList.length ? " dup" : ""}`;
+        item.innerHTML = `<i class="${cls}"></i><span>${esc(tech)}</span>`;
         inner.appendChild(item);
       });
 
       track.appendChild(inner);
       container.appendChild(track);
-      idx++;
     });
   }
 
   function projects() {
     const container = document.getElementById("projectsContainer");
-    C.projects.forEach(proj => {
-      const card = document.createElement("div");
+    C.projects.forEach((proj, i) => {
+      const card = document.createElement("article");
       card.className = "project-card reveal";
+      stagger(card, i % 3);
 
       const techIcons = {
         "Kotlin": "fab fa-android",
@@ -111,15 +134,15 @@ const Render = (() => {
         "MCP": "fas fa-server"
       };
       const techHtml = proj.tech.map(t => {
-        const icon = techIcons[t] ? `<i class="${techIcons[t]}"></i> ` : "";
+        const icon = techIcons[t] ? `<i class="${techIcons[t]}" aria-hidden="true"></i> ` : "";
         return `<span class="tech-badge">${icon}${t}</span>`;
       }).join("");
-      let links = `<a href="${proj.github}" target="_blank" rel="noopener" class="btn btn-small"><i class="fab fa-github"></i> source</a>`;
+      let links = `<a href="${proj.github}" target="_blank" rel="noopener" class="btn btn-small btn-ghost"><i class="fab fa-github" aria-hidden="true"></i> source</a>`;
       if (proj.demo) {
         const isPlayStore = proj.demo.includes("play.google.com");
         const icon = isPlayStore ? "fab fa-google-play" : "fas fa-external-link-alt";
         const label = isPlayStore ? "Play Store" : "demo";
-        links += `<a href="${proj.demo}" target="_blank" rel="noopener" class="btn btn-small btn-primary"><i class="${icon}"></i> ${label}</a>`;
+        links += `<a href="${proj.demo}" target="_blank" rel="noopener" class="btn btn-small btn-primary"><i class="${icon}" aria-hidden="true"></i> ${label}</a>`;
       }
 
       let testingHtml = "";
@@ -148,15 +171,16 @@ const Render = (() => {
 
   function blog() {
     const container = document.getElementById("blogContainer");
-    C.linkedinPosts.forEach(post => {
-      const card = document.createElement("div");
+    C.linkedinPosts.forEach((post, i) => {
+      const card = document.createElement("article");
       card.className = "blog-card reveal";
+      stagger(card, i);
       card.innerHTML = `
         <p class="blog-date">// ${post.date}</p>
         <p class="blog-excerpt">${post.excerpt}</p>
         <div class="blog-meta">
-          <span><i class="fas fa-heart"></i> ${post.likes}</span>
-          <a href="${post.url}" target="_blank" rel="noopener" class="btn btn-small">read <i class="fas fa-arrow-right"></i></a>
+          <span><i class="fas fa-heart" aria-hidden="true"></i> ${post.likes}</span>
+          <a href="${post.url}" target="_blank" rel="noopener" class="btn btn-small btn-ghost">read <i class="fas fa-arrow-right" aria-hidden="true"></i></a>
         </div>
       `;
       container.appendChild(card);
@@ -169,7 +193,7 @@ const Render = (() => {
     const items = [
       { icon: "fab fa-github", value: C.githubUsername, url: C.githubUrl },
       { icon: "fab fa-linkedin-in", value: C.linkedinUrl.replace("https://", ""), url: C.linkedinUrl },
-      { icon: "fab fa-twitter", value: `@${C.twitterUrl.split("/").pop()}`, url: C.twitterUrl },
+      { icon: "fab fa-x-twitter", value: `@${C.twitterUrl.split("/").pop()}`, url: C.twitterUrl },
       { icon: "fab fa-medium-m", value: "medium.com/@shreyashp47", url: C.mediumUrl },
       { icon: "fab fa-stack-overflow", value: "Stack Overflow", url: C.stackoverflowUrl },
       { icon: "fab fa-instagram", value: "@shreyashpattewar_", url: C.instagramUrl },
@@ -177,41 +201,48 @@ const Render = (() => {
     ];
     items.forEach(d => {
       const a = document.createElement("a");
-      a.href = d.url;
-      a.target = "_blank";
-      a.rel = "noopener";
+      linkAttrs(a, d.url);
       a.className = "contact-detail-item";
-      a.innerHTML = `<i class="${d.icon}"></i> <span>${d.value}</span>`;
+      a.innerHTML = `<i class="${d.icon}" aria-hidden="true"></i> <span>${esc(d.value)}</span><i class="fas fa-arrow-right contact-arrow" aria-hidden="true"></i>`;
       container.appendChild(a);
     });
   }
 
   function githubStats() {
     const container = document.getElementById("githubStats");
-    const urls = [
-      `https://github-readme-stats.vercel.app/api?username=${C.githubUsername}&show_icons=true&theme=radical&hide_border=true`,
-      `https://github-readme-streak-stats.herokuapp.com/?user=${C.githubUsername}&theme=radical&hide_border=true`,
-      `https://github-readme-stats.vercel.app/api/top-langs/?username=${C.githubUsername}&layout=compact&theme=radical&hide_border=true`,
+    const cards = [
+      { src: `https://github-readme-stats.vercel.app/api?username=${C.githubUsername}&show_icons=true&theme=radical&hide_border=true`, alt: "GitHub stats", w: 467, h: 195 },
+      { src: `https://streak-stats.demolab.com/?user=${C.githubUsername}&theme=radical&hide_border=true`, alt: "GitHub contribution streak", w: 495, h: 195 },
+      { src: `https://github-readme-stats.vercel.app/api/top-langs/?username=${C.githubUsername}&layout=compact&theme=radical&hide_border=true`, alt: "Most used languages", w: 300, h: 165 },
     ];
-    urls.forEach(src => {
+    if (C.leetcodeUsername) {
+      cards.push({ src: `https://leetcard.jacoblin.cool/${C.leetcodeUsername}?theme=dark&font=JetBrains%20Mono&ext=heatmap&hide_border=true`, alt: "LeetCode stats", w: 500, h: 400 });
+    }
+    cards.forEach(c => {
       const img = document.createElement("img");
-      img.src = src;
-      img.alt = "GitHub Stats";
+      img.src = c.src;
+      img.alt = c.alt;
+      img.width = c.w;
+      img.height = c.h;
       img.loading = "lazy";
+      img.decoding = "async";
+      img.addEventListener("load", () => img.classList.add("loaded"));
+      img.addEventListener("error", () => img.remove());
       container.appendChild(img);
     });
-    if (C.leetcodeUsername) {
-      const leet = document.createElement("img");
-      leet.src = `https://leetcard.jacoblin.cool/${C.leetcodeUsername}?theme=dark&font=JetBrains%20Mono&ext=heatmap&hide_border=true`;
-      leet.alt = "LeetCode Stats";
-      leet.loading = "lazy";
-      container.appendChild(leet);
-    }
   }
 
   function githubRepos() {
     const grid = document.getElementById("repoGrid");
-    fetch(`https://api.github.com/users/${C.githubUsername}/repos?sort=stars&per_page=6`)
+    grid.setAttribute("aria-busy", "true");
+    grid.innerHTML = Array.from({ length: 6 }, () => `
+      <div class="repo-card skeleton" aria-hidden="true">
+        <div class="sk-line sk-title"></div>
+        <div class="sk-line"></div>
+        <div class="sk-line sk-short"></div>
+      </div>`).join("");
+
+    fetch(`https://api.github.com/users/${C.githubUsername}/repos?per_page=100`)
       .then(res => { if (!res.ok) throw new Error(); return res.json(); })
       .then(repos => {
         grid.innerHTML = "";
@@ -222,35 +253,62 @@ const Render = (() => {
           Go: "#00ADD8", Rust: "#dea584", "C++": "#f34b7d",
           Ruby: "#701516", Shell: "#89e051", Dockerfile: "#384d54",
         };
-        repos.forEach(repo => {
-          const color = langColors[repo.language] || "#7c3aed";
-          const card = document.createElement("div");
-          card.className = "repo-card reveal";
-          card.innerHTML = `
-            <h3 class="repo-name"><a href="${repo.html_url}" target="_blank" rel="noopener">${repo.name}</a></h3>
-            <p class="repo-desc">${repo.description || "No description provided."}</p>
-            <div class="repo-meta">
-              ${repo.language ? `<span class="repo-lang" style="color:${color}">${repo.language}</span>` : ""}
-              <span>⭐ ${repo.stargazers_count}</span>
-              <span>🍴 ${repo.forks_count}</span>
-            </div>
-          `;
-          grid.appendChild(card);
-          Effects.observe(card);
-        });
+        repos
+          .sort((a, b) => b.stargazers_count - a.stargazers_count || new Date(b.pushed_at) - new Date(a.pushed_at))
+          .slice(0, 6)
+          .forEach((repo, i) => {
+            const color = langColors[repo.language] || "#7c3aed";
+            const card = document.createElement("article");
+            card.className = "repo-card reveal";
+            stagger(card, i % 3);
+            card.innerHTML = `
+              <h3 class="repo-name"><i class="far fa-folder" aria-hidden="true"></i> <a href="${esc(repo.html_url)}" target="_blank" rel="noopener">${esc(repo.name)}</a></h3>
+              <p class="repo-desc">${esc(repo.description || "No description provided.")}</p>
+              <div class="repo-meta">
+                ${repo.language ? `<span class="repo-lang"><span class="lang-dot" style="background:${color}"></span>${esc(repo.language)}</span>` : ""}
+                <span aria-label="${repo.stargazers_count} stars">⭐ ${repo.stargazers_count}</span>
+                <span aria-label="${repo.forks_count} forks">🍴 ${repo.forks_count}</span>
+              </div>
+            `;
+            grid.appendChild(card);
+            Effects.observe(card);
+          });
       })
-      .catch(() => { grid.innerHTML = `<p class="loading-text">// error: failed to fetch repositories</p>`; });
+      .catch(() => { grid.innerHTML = `<p class="loading-text">// error: failed to fetch repositories</p>`; })
+      .finally(() => grid.removeAttribute("aria-busy"));
   }
 
   function contactForm() {
     const form = document.getElementById("contactForm");
-    if (form) {
-      form.addEventListener("submit", () => {
-        const btn = form.querySelector(".btn");
-        btn.textContent = "sending...";
-        btn.disabled = true;
-      });
-    }
+    if (!form) return;
+    const btn = form.querySelector('button[type="submit"]');
+    const label = btn.querySelector(".btn-label");
+    const status = document.getElementById("formStatus");
+
+    form.addEventListener("submit", (e) => {
+      e.preventDefault();
+      btn.disabled = true;
+      label.textContent = "sending...";
+      status.className = "form-status";
+      status.textContent = "";
+
+      // Submit in the background so visitors stay on the page; fall back to a normal post on failure.
+      fetch(form.action.replace("formsubmit.co/", "formsubmit.co/ajax/"), {
+        method: "POST",
+        headers: { Accept: "application/json" },
+        body: new FormData(form),
+      })
+        .then(res => res.ok ? res.json() : Promise.reject())
+        .then(data => {
+          if (data.success === false || data.success === "false") throw new Error();
+          form.reset();
+          status.classList.add("success");
+          status.textContent = "// message sent — thanks! I'll get back to you soon.";
+          btn.disabled = false;
+          label.textContent = "send";
+        })
+        .catch(() => form.submit());
+    });
   }
 
   return { hero, about, footer, skills, projects, blog, contact, githubStats, githubRepos, contactForm };

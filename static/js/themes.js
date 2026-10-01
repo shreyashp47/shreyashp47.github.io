@@ -36,3 +36,44 @@ const THEMES = [
     borderLight: "rgba(59, 130, 246, 0.25)",
   },
 ];
+
+const Theme = (() => {
+  const KEY = "v4-theme";
+
+  function apply(idx) {
+    const t = THEMES[idx];
+    if (!t) return;
+    const html = document.documentElement;
+    const r = html.style;
+    html.setAttribute("data-theme", String(idx));
+    r.setProperty("--accent-1", t.accent1);
+    r.setProperty("--accent-1-rgb", t.accent1rgb);
+    r.setProperty("--accent-2", t.accent2);
+    r.setProperty("--accent-2-rgb", t.accent2rgb);
+    r.setProperty("--accent-green", t.green);
+    r.setProperty("--accent-green-rgb", t.greenrgb);
+    r.setProperty("--accent-orange", t.orange);
+    r.setProperty("--border", t.border);
+    r.setProperty("--border-light", t.borderLight);
+  }
+
+  function current() {
+    return parseInt(document.documentElement.getAttribute("data-theme"), 10) || 0;
+  }
+
+  function next() {
+    const idx = (current() + 1) % THEMES.length;
+    apply(idx);
+    try { localStorage.setItem(KEY, idx); } catch (e) { /* storage unavailable */ }
+    return THEMES[idx];
+  }
+
+  // Runs in <head> so a saved theme is applied before first paint.
+  document.documentElement.classList.add("js");
+  try {
+    const saved = parseInt(localStorage.getItem(KEY), 10);
+    if (THEMES[saved]) apply(saved);
+  } catch (e) { /* storage unavailable */ }
+
+  return { apply, current, next };
+})();

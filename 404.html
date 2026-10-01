@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>404 | Shreyash Pattewar</title>
+  <meta name="robots" content="noindex">
+  <meta name="theme-color" content="#0a0a0f">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&amp;family=JetBrains+Mono:wght@400;600&amp;display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/static/css/base.css">
+  <style>
+    :root {
+      --bg-primary: #0a0a0f;
+      --bg-secondary: #12121a;
+      --accent-1: #7c3aed;
+      --accent-2: #06b6d4;
+      --text-primary: #e4e4e7;
+      --text-muted: #8b8b96;
+      --font: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+      --font-mono: 'JetBrains Mono', 'Fira Code', ui-monospace, monospace;
+    }
+    body {
+      margin: 0;
+      min-height: 100vh;
+      display: grid;
+      place-items: center;
+      padding: 1.5rem;
+      box-sizing: border-box;
+      background:
+        radial-gradient(ellipse at top, rgba(124, 58, 237, 0.15), transparent 60%),
+        var(--bg-primary);
+      color: var(--text-primary);
+      font-family: var(--font);
+    }
+    main { width: 100%; max-width: 560px; text-align: center; }
+    .code {
+      font-family: var(--font-mono);
+      font-size: clamp(3.5rem, 14vw, 6rem);
+      font-weight: 800;
+      line-height: 1;
+      margin: 0 0 1.5rem;
+      background: linear-gradient(90deg, var(--accent-1), var(--accent-2));
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+    }
+    .terminal {
+      text-align: left;
+      background: var(--bg-secondary);
+      border: 1px solid rgba(124, 58, 237, 0.25);
+      border-radius: 12px;
+      overflow: hidden;
+      box-shadow: 0 0 40px rgba(124, 58, 237, 0.15);
+    }
+    .terminal-bar {
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+      padding: 0.6rem 0.9rem;
+      border-bottom: 1px solid rgba(124, 58, 237, 0.12);
+    }
+    .dot { width: 0.7rem; height: 0.7rem; border-radius: 50%; }
+    .dot:nth-child(1) { background: #ef4444; }
+    .dot:nth-child(2) { background: #f59e0b; }
+    .dot:nth-child(3) { background: #10b981; }
+    .terminal-bar span:last-child {
+      margin-left: auto;
+      font: 0.75rem var(--font-mono);
+      color: var(--text-muted);
+    }
+    .terminal pre {
+      margin: 0;
+      padding: 1.1rem 1.2rem;
+      font: 0.9rem/1.8 var(--font-mono);
+      white-space: pre-wrap;
+      word-break: break-all;
+    }
+    .prompt { color: var(--accent-1); }
+    .path { color: var(--accent-2); }
+    .err { color: #f87171; }
+    .home {
+      display: inline-block;
+      margin-top: 1.75rem;
+      padding: 0.7rem 1.4rem;
+      border-radius: 8px;
+      background: var(--accent-1);
+      color: #fff;
+      font: 600 0.95rem var(--font-mono);
+      text-decoration: none;
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+    .home:hover { transform: translateY(-2px); box-shadow: 0 0 24px rgba(124, 58, 237, 0.45); }
+    .home:focus-visible { outline: 2px solid var(--accent-2); outline-offset: 3px; }
+    @media (prefers-reduced-motion: reduce) { .home { transition: none; } .home:hover { transform: none; } }
+  </style>
+</head>
+<body>
+  <main>
+    <h1 class="code">404</h1>
+    <section class="terminal" aria-label="Terminal output">
+      <div class="terminal-bar" aria-hidden="true">
+        <span class="dot"></span><span class="dot"></span><span class="dot"></span>
+        <span>zsh — portfolio</span>
+      </div>
+      <pre><span class="prompt">$</span> cd <span class="path" id="missingPath">/this-page</span>
+<span class="err">zsh: no such file or directory</span></pre>
+    </section>
+    <a class="home" href="/">$ cd ~</a>
+  </main>
+  <script>
+    (function () {
+      var p = location.pathname || '/';
+      try { p = decodeURI(p); } catch (e) { /* keep raw path */ }
+      document.getElementById('missingPath').textContent = p;
+    })();
+  </script>
+</body>
+</html>

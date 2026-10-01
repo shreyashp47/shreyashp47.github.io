@@ -1,4 +1,6 @@
 const Effects = (() => {
+  const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
   const observer = new IntersectionObserver(
     (entries) => {
       entries.forEach(entry => {
@@ -8,7 +10,7 @@ const Effects = (() => {
         }
       });
     },
-    { threshold: 0.1 }
+    { threshold: 0.1, rootMargin: "0px 0px -40px 0px" }
   );
 
   function scrollReveal() {
@@ -28,6 +30,7 @@ const Effects = (() => {
       "Mobile Apps & AI Agents",
       "Open Source Contributor"
     ];
+    if (reducedMotion) { el.textContent = phrases[0]; return; }
     let idx = 0, char = 0, deleting = false;
 
     function type() {
@@ -42,30 +45,5 @@ const Effects = (() => {
     type();
   }
 
-  function smoothScroll() {
-    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-      anchor.addEventListener("click", function (e) {
-        const target = document.querySelector(this.getAttribute("href"));
-        if (target) { e.preventDefault(); target.scrollIntoView({ behavior: "smooth" }); }
-      });
-    });
-  }
-
-  function cursorGlow() {
-    const glow = document.getElementById("cursor-glow");
-    if (!glow) return;
-    let tx = 0, ty = 0, cx = 0, cy = 0;
-    document.addEventListener("mousemove", (e) => {
-      tx = e.clientX; ty = e.clientY;
-    });
-    function animate() {
-      cx += (tx - cx) * 0.08;
-      cy += (ty - cy) * 0.08;
-      glow.style.transform = `translate(${cx - 250}px, ${cy - 250}px)`;
-      requestAnimationFrame(animate);
-    }
-    animate();
-  }
-
-  return { scrollReveal, typewriter, smoothScroll, observe, cursorGlow };
+  return { scrollReveal, typewriter, observe };
 })();
