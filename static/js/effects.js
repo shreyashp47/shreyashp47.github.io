@@ -5,8 +5,12 @@ const Effects = (() => {
     (entries) => {
       entries.forEach(entry => {
         if (entry.isIntersecting) {
-          entry.target.classList.add("visible");
-          observer.unobserve(entry.target);
+          const el = entry.target;
+          el.classList.add("visible");
+          observer.unobserve(el);
+          // Once the entrance finishes, switch to snappy hover transitions (no stagger delay).
+          const delay = parseFloat(getComputedStyle(el).getPropertyValue("--reveal-delay")) || 0;
+          setTimeout(() => el.classList.add("settled"), 750 + delay);
         }
       });
     },
@@ -14,6 +18,7 @@ const Effects = (() => {
   );
 
   function scrollReveal() {
+    document.querySelectorAll(".section-title").forEach(el => el.classList.add("reveal"));
     document.querySelectorAll(".reveal").forEach(el => observer.observe(el));
   }
 
@@ -25,7 +30,7 @@ const Effects = (() => {
     const el = document.getElementById("typewriter");
     if (!el) return;
     const phrases = [
-      "Mobile & AI Developer",
+      "Software Engineer — AI & Mobile",
       "Mobile + AI Developer",
       "Mobile Apps & AI Agents",
       "Open Source Contributor"
