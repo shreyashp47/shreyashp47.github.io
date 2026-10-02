@@ -26,6 +26,7 @@ Constantly exploring new tools and frameworks across mobile platforms. Open to c
 
 ## Projects
 
+- [AI Foundation](https://aifoundation.web.app/lesson.html#kv-cache): A free, visual roadmap for learning AI and machine learning fundamentals — plain-language lessons paired with interactive animations, quizzes, and progress tracking. (HTML, CSS, JavaScript, Firebase; source: )
 - [DoTrack](https://play.google.com/store/apps/details?id=com.shreyash.dotrack): A modern task management Android app built with Clean Architecture and Jetpack Compose that turns your wallpaper into a dynamic to-do list. (Kotlin, Jetpack Compose, Room, Hilt; source: https://github.com/shreyashp47/DoTrack)
 - [Sensor-App](https://play.google.com/store/apps/details?id=com.shreyash.sensorapp): A Kotlin-based Android app for reading and visualizing device sensor data in real time. (Kotlin, Android Sensors; source: https://github.com/shreyashp47/Sensor-App)
 - [chatgpt-analysis](https://chatgpt-clone-app-lyart.vercel.app): A ChatGPT clone built with TypeScript — deployed on Vercel. Full-stack web exploration alongside mobile development. (TypeScript; source: https://github.com/shreyashp47/chatgpt-analysis)
