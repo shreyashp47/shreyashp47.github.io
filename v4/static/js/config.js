@@ -23,6 +23,13 @@ const CONFIG = {
   },
   projects: [
     {
+      title: "AI Foundation",
+      description: "A free, visual roadmap for learning AI and machine learning fundamentals — plain-language lessons paired with interactive animations, quizzes, and progress tracking.",
+      tech: ["HTML", "CSS", "JavaScript", "Firebase"],
+      github: "",
+      demo: "https://aifoundation.web.app/lesson.html#kv-cache"
+    },
+    {
       title: "DoTrack",
       description: "A modern task management Android app built with Clean Architecture and Jetpack Compose that turns your wallpaper into a dynamic to-do list.",
       tech: ["Kotlin", "Jetpack Compose", "Room", "Hilt"],

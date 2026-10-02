@@ -105,7 +105,7 @@ const Render = (() => {
         const icon = TECH_ICONS[t] ? `<i class="${TECH_ICONS[t]}" aria-hidden="true"></i> ` : "";
         return `<span class="tech-badge">${icon}${esc(t)}</span>`;
       }).join("");
-      let links = `<a ${linkAttrs(proj.github)} class="btn btn-small btn-ghost"><i class="fab fa-github" aria-hidden="true"></i> source</a>`;
+      let links = proj.github ? `<a ${linkAttrs(proj.github)} class="btn btn-small btn-ghost"><i class="fab fa-github" aria-hidden="true"></i> source</a>` : "";
       if (proj.demo) {
         const isPlayStore = proj.demo.includes("play.google.com");
         const icon = isPlayStore ? "fab fa-google-play" : "fas fa-external-link-alt";
