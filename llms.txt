@@ -1,6 +1,6 @@
 # Shreyash Pattewar
 
-> AI Engineer at Cognizant. Building AI agents and LLM-powered apps.
+> AI Engineer at Cognizant. Turning LLMs into products people use.
 
 Software engineer at Cognizant, focused on AI. I build LLM-powered products: agents that call tools through MCP, local models with Ollama, streaming chat, and voice assistants with speech-to-text and safety checks. I also created AI Foundation, 93 free interactive lessons on AI engineering.
 
