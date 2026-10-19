@@ -145,7 +145,7 @@ const Navigation = (() => {
   // Brief terminal-style toast in a polite live region.
   let toastTimer = 0;
   let toastClear = 0;
-  function toast(name) {
+  function toast(theme) {
     const el = document.getElementById("toast");
     if (!el) return;
     clearTimeout(toastTimer);
@@ -160,7 +160,7 @@ const Navigation = (() => {
     const swatch = part("toast-swatch");
     swatch.setAttribute("aria-hidden", "true");
     const line = document.createElement("span");
-    line.append(part("toast-prompt", "$ "), "theme \u2192 ", part("toast-value", name));
+    line.append(part("toast-prompt", "$ "), "export THEME=", part("toast-value", theme.id));
     el.append(swatch, line);
     el.classList.add("show");
     toastTimer = setTimeout(() => {
@@ -172,7 +172,7 @@ const Navigation = (() => {
   function themeToggle() {
     const btn = document.getElementById("themeToggle");
     if (!btn) return;
-    const label = () => `Switch color theme (current: ${THEMES[Theme.current()].name})`;
+    const label = () => `Switch color theme, or press T (current: ${THEMES[Theme.current()].name})`;
     btn.title = label();
     const reduce = window.matchMedia("(prefers-reduced-motion: reduce)");
     btn.addEventListener("click", () => {
@@ -186,22 +186,28 @@ const Navigation = (() => {
         const apply = () => { if (!applied) { applied = true; t = Theme.next(); } };
         const vt = document.startViewTransition(apply);
         // Safety net: never leave the theme unchanged if the transition stalls.
-        setTimeout(() => { if (!applied) { apply(); btn.title = label(); if (t) toast(t.name); } }, 400);
+        setTimeout(() => { if (!applied) { apply(); btn.title = label(); if (t) toast(t); } }, 400);
         vt.ready.then(() => {
           document.documentElement.animate(
             { clipPath: [`circle(0px at ${x}px ${y}px)`, `circle(${radius}px at ${x}px ${y}px)`] },
             { duration: 650, easing: "cubic-bezier(0.16, 1, 0.3, 1)", pseudoElement: "::view-transition-new(root)" }
           );
         }).catch(() => {});
-        vt.updateCallbackDone.then(() => { btn.title = label(); if (t) toast(t.name); });
+        vt.updateCallbackDone.then(() => { btn.title = label(); if (t) toast(t); });
       } else {
         t = Theme.next();
         btn.title = label();
-        if (t) toast(t.name);
+        if (t) toast(t);
       }
       btn.classList.remove("spin");
       void btn.offsetWidth;
       btn.classList.add("spin");
+    });
+    // Press T anywhere outside a form field to switch themes, like an editor shortcut.
+    document.addEventListener("keydown", (e) => {
+      if (e.key.toLowerCase() !== "t" || e.ctrlKey || e.metaKey || e.altKey || e.repeat) return;
+      if (e.target.closest && e.target.closest("input, textarea, select, [contenteditable]")) return;
+      btn.click();
     });
   }
 

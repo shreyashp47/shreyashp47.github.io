@@ -14,7 +14,8 @@ Personal portfolio of Shreyash Pattewar, an AI engineer building LLM agents and 
 ## Features
 
 - **Terminal-style hero** with a typewriter role animation, resume download and three labelled dropdowns: `ai` (AI projects, with an "all ai projects" link that opens the projects section filtered), `apps` (Google Play) and `sites` (live websites)
-- **Three accent themes** (Purple Haze, Matrix Green, Cyber Blue): each visit starts with a random one, and the navbar toggle switches between them
+- **Four accent themes** inspired by editor color schemes (Tokyo Night, Dracula, Gruvbox, Sunset): each visit starts with a random one; switch with the navbar toggle or by pressing <kbd>T</kbd>, and a toast confirms it as `$ export THEME=dracula`
+- **Developer touches:** the <kbd>T</kbd> theme shortcut, the `export THEME=…` toast, and a styled greeting in the browser console (with the clone command and contact email) for anyone who opens DevTools
 - **Skills marquee** grouped by category (AI & LLMs first), with local SVG and Font Awesome icons
 - **Projects grid**, AI work first: each card has an 800×400 screenshot, a `live` / `play store` / `source` status chip, tech tags and GitHub / demo links. Filter chips (all, ai, android, web) sit above the grid, which starts with 6 cards (4 on phones) and a "show all" button
 - **LinkedIn post cards** for recent writing (a swipeable row on phones) with links to more posts on LinkedIn and Medium
@@ -123,7 +124,7 @@ All content lives in **`v4/static/js/config.js`**: name, tagline, bio, social li
 
 ## Theming
 
-Themes are defined in `v4/static/js/themes.js`, and each one sets CSS custom properties used across the stylesheets. Every visit starts with a random theme. The navbar toggle (palette icon) cycles through the themes, and a theme picked this way is kept in `sessionStorage`, so it survives reloads in that tab but the next visit is random again. Switching dispatches a `themechange` event on `document`, which `render.js` uses to recolor the third-party stats cards. `themes.js` loads in `<head>` so the theme is applied before first paint. To add a theme, add an entry to the themes list with its accent colors.
+Themes are defined in `v4/static/js/themes.js`, and each one sets CSS custom properties used across the stylesheets. Every visit starts with a random theme. The navbar toggle (palette icon) or the <kbd>T</kbd> key (ignored while typing in a form field) cycles through the themes, and a theme picked this way is kept in `sessionStorage`, so it survives reloads in that tab but the next visit is random again. Switching dispatches a `themechange` event on `document`, which `render.js` uses to recolor the third-party stats cards. `themes.js` loads in `<head>` so the theme is applied before first paint. To add a theme, add an entry to `THEMES` with an `id` (shown in the toast), a `name`, its accent colors and `onAccent`, the text color used on accent fills such as the primary button. Use a dark `onAccent` for light accents. The background colors are fixed in `base.css` and are not part of a theme.
 
 ## Deployment & Versions
 
