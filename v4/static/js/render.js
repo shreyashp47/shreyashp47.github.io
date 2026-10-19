@@ -36,6 +36,11 @@ const Render = (() => {
     OpenAI: "fas fa-microchip",
     MCP: "fas fa-plug",
     LangChain: "fas fa-link",
+    Ollama: "fas fa-hard-drive",
+    Groq: "fas fa-bolt",
+    FastAPI: "fas fa-rocket",
+    "Next.js": "fab fa-react",
+    "Node.js": "fab fa-node-js",
     SQLite: "fas fa-database",
     Realm: "fas fa-server",
     Swagger: "svg:swagger",
@@ -60,7 +65,12 @@ const Render = (() => {
     "HTML": "fab fa-html5",
     "Tailwind CSS": "fab fa-css3-alt",
     "LLM": "fas fa-brain",
-    "MCP": "fas fa-server"
+    "MCP": "fas fa-server",
+    "Ollama": "fas fa-hard-drive",
+    "LangChain": "fas fa-link",
+    "Groq": "fas fa-bolt",
+    "Whisper": "fas fa-microphone",
+    "Next.js": "fab fa-react"
   };
 
   // HTML templates shared by the browser and scripts/prerender.mjs, so the
