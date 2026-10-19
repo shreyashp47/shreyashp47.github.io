@@ -30,10 +30,10 @@ const Effects = (() => {
     const el = document.getElementById("typewriter");
     if (!el) return;
     const phrases = [
-      "Software Engineer — AI & Mobile",
-      "Mobile + AI Developer",
-      "Mobile Apps & AI Agents",
-      "Open Source Contributor"
+      "AI Engineer — LLM agents & apps",
+      "Tool calling · MCP · local LLMs",
+      "Voice AI · streaming chat",
+      "Android apps on Google Play"
     ];
     if (reducedMotion) { el.textContent = phrases[0]; return; }
     let idx = 0, char = 0, deleting = false;

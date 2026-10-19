@@ -1,8 +1,8 @@
 const CONFIG = {
   name: "Shreyash Pattewar",
-  tagline: "Building mobile apps and AI agents",
+  tagline: "Building AI agents and LLM-powered apps",
   // Used for SEO metadata (JSON-LD, llms.txt) by scripts/prerender.mjs; not shown on the page.
-  jobTitle: "Software Engineer (AI & Mobile)",
+  jobTitle: "AI Engineer",
   company: "Cognizant",
   siteUrl: "https://shreyashp47.github.io/",
   githubUsername: "shreyashp47",
@@ -16,48 +16,48 @@ const CONFIG = {
   email: "shreyashp47@gmail.com",
   resumePath: "static/assets/resume.pdf",
   skills: {
+    "AI & LLMs": ["Python", "LangChain", "MCP", "Ollama", "OpenAI", "Groq", "FastAPI"],
     "Mobile": ["Kotlin", "Java", "Swift", "Dart", "Flutter", "Jetpack Compose"],
-    "AI & LLMs": ["Python", "LangChain", "MCP", "OpenAI"],
-    "Web & Database": ["TypeScript", "Firebase", "Swagger", "Realm", "SQLite"],
+    "Web & Database": ["TypeScript", "Next.js", "Node.js", "Firebase", "Swagger", "Realm", "SQLite"],
     "Tools & DevOps": ["Figma", "Notion", "Git", "Docker", "CI/CD"]
   },
-  // tags drive the project filter chips (ai | android | web); image is an 800x400 WebP thumbnail.
+  // AI work first. tags drive the project filter chips (ai | android | web); image is an 800x400 WebP thumbnail.
   projects: [
     {
       title: "AI Foundation",
-      description: "A free, visual roadmap for learning AI and machine learning fundamentals — plain-language lessons paired with interactive animations, quizzes, and progress tracking.",
-      tech: ["HTML", "CSS", "JavaScript", "Firebase"],
+      description: "93 free, visual lessons on AI engineering: KV cache, prompt caching, RAG retrieval and reranking, tool calling, evals and guardrails. Each pairs a plain-English explanation with an interactive demo, runnable Python and a quiz.",
+      tech: ["JavaScript", "Python", "Firebase"],
       github: "",
       demo: "https://aifoundation.web.app/lesson.html#kv-cache",
       tags: ["ai", "web"],
       image: "static/assets/projects/ai-foundation.webp"
     },
     {
-      title: "DoTrack",
-      description: "A modern task management Android app built with Clean Architecture and Jetpack Compose that turns your wallpaper into a dynamic to-do list.",
-      tech: ["Kotlin", "Jetpack Compose", "Room", "Hilt"],
-      github: "https://github.com/shreyashp47/DoTrack",
-      demo: "https://play.google.com/store/apps/details?id=com.shreyash.dotrack",
-      tags: ["android"],
-      image: "static/assets/projects/dotrack.webp"
-    },
-    {
-      title: "Sensor-App",
-      description: "A Kotlin-based Android app for reading and visualizing device sensor data in real time.",
-      tech: ["Kotlin", "Android Sensors"],
-      github: "https://github.com/shreyashp47/Sensor-App",
-      demo: "https://play.google.com/store/apps/details?id=com.shreyash.sensorapp",
-      tags: ["android"],
-      image: "static/assets/projects/sensor-app.webp"
-    },
-    {
       title: "Agent Office",
-      description: "A pixel-art office dashboard for OpenCode AI agents — each agent is a character that moves between desk, sofa and server corner in real time as it runs tools, goes idle or asks for permission.",
+      description: "Real-time observability for OpenCode AI agents: a plugin streams tool calls, idle and permission events over SSE, and each agent appears as a pixel-art character moving around an office.",
       tech: ["TypeScript", "Hono", "OpenCode", "SSE"],
       github: "https://github.com/shreyashp47/Agent-Office",
       demo: "",
       tags: ["ai"],
       image: "static/assets/projects/agent-office.webp"
+    },
+    {
+      title: "Shreyash-AI",
+      description: "A fully local AI agent: a FastAPI service lets an Ollama model choose a tool from an MCP server, runs it over SSE, and answers from the result. No cloud LLM, no API keys.",
+      tech: ["Python", "Ollama", "MCP", "LangChain", "FastAPI"],
+      github: "https://github.com/shreyashp47/Shreyash-AI",
+      demo: "",
+      tags: ["ai"],
+      image: "static/assets/projects/shreyash-ai.webp"
+    },
+    {
+      title: "CalmSpace",
+      description: "A voice-first AI companion for calming down after a stressful moment: Whisper speech-to-text with live captions, an LLM-guided grounding and reframing flow, text-to-speech, and a crisis check on every message.",
+      tech: ["JavaScript", "Node.js", "Groq", "Whisper"],
+      github: "https://github.com/shreyashp47/CalmSpace",
+      demo: "",
+      tags: ["ai", "web"],
+      image: "static/assets/projects/calmspace.webp"
     },
     {
       title: "Tone Fixer",
@@ -69,31 +69,31 @@ const CONFIG = {
       image: "static/assets/projects/tone-fixer.webp"
     },
     {
-      title: "CalmSpace",
-      description: "A voice-first web app that helps you calm down after a stressful moment — talk it through with live captions, a short grounding exercise and gentle reframing, with a crisis check on every message.",
-      tech: ["JavaScript", "Node.js", "Express", "Groq"],
-      github: "https://github.com/shreyashp47/CalmSpace",
-      demo: "",
-      tags: ["ai", "web"],
-      image: "static/assets/projects/calmspace.webp"
+      title: "DoTrack",
+      description: "A modern task management Android app built with Clean Architecture and Jetpack Compose that turns your wallpaper into a dynamic to-do list.",
+      tech: ["Kotlin", "Jetpack Compose", "Room", "Hilt"],
+      github: "https://github.com/shreyashp47/DoTrack",
+      demo: "https://play.google.com/store/apps/details?id=com.shreyash.dotrack",
+      tags: ["android"],
+      image: "static/assets/projects/dotrack.webp"
     },
     {
-      title: "chatgpt-analysis",
-      description: "A ChatGPT clone built with TypeScript — deployed on Vercel. Full-stack web exploration alongside mobile development.",
-      tech: ["TypeScript"],
+      title: "ChatGPT Analysis",
+      description: "A ChatGPT-style chat app with streaming replies from Ollama (local), Groq, Gemini or OpenAI, plus Markdown and code highlighting. API keys stay in the browser.",
+      tech: ["Next.js", "TypeScript", "LLM"],
       github: "https://github.com/shreyashp47/chatgpt-analysis",
       demo: "https://chatgpt-clone-app-lyart.vercel.app",
       tags: ["ai", "web"],
       image: "static/assets/projects/chatgpt-analysis.webp"
     },
     {
-      title: "Anti-Theft-Alarm-App",
-      description: "An Android app that detects unauthorized device motion and triggers a loud alarm — built with Kotlin and device sensor integration.",
+      title: "Sensor-App",
+      description: "A Kotlin-based Android app for reading and visualizing device sensor data in real time.",
       tech: ["Kotlin", "Android Sensors"],
-      github: "https://github.com/shreyashp47/Anti-Theft-Alarm-App",
-      demo: "",
+      github: "https://github.com/shreyashp47/Sensor-App",
+      demo: "https://play.google.com/store/apps/details?id=com.shreyash.sensorapp",
       tags: ["android"],
-      image: "static/assets/projects/anti-theft-alarm.webp"
+      image: "static/assets/projects/sensor-app.webp"
     },
     {
       title: "OpenCodeLeet",
@@ -106,13 +106,13 @@ const CONFIG = {
       note: "free server: first load can take ~30 s"
     },
     {
-      title: "Shreyash-AI",
-      description: "AI-powered personal assistant exploring LLM agents, function calling, and MCP server integrations — built with Python.",
-      tech: ["Python", "LLM", "MCP"],
-      github: "https://github.com/shreyashp47/Shreyash-AI",
+      title: "Anti-Theft-Alarm-App",
+      description: "An Android app that detects unauthorized device motion and triggers a loud alarm — built with Kotlin and device sensor integration.",
+      tech: ["Kotlin", "Android Sensors"],
+      github: "https://github.com/shreyashp47/Anti-Theft-Alarm-App",
       demo: "",
-      tags: ["ai"],
-      image: "static/assets/projects/shreyash-ai.webp"
+      tags: ["android"],
+      image: "static/assets/projects/anti-theft-alarm.webp"
     }
   ],
   linkedinPosts: [
@@ -135,5 +135,5 @@ const CONFIG = {
       url: "https://www.linkedin.com/feed/update/urn:li:activity:7338562065843810304/"
     }
   ],
-  bio: "Software engineer working at Cognizant on AI and mobile, passionate about building mobile apps and exploring the world of LLMs, AI agents, and MCP servers. I work with Kotlin, Swift, and Python to bring ideas to life.\n\nConstantly exploring new tools and frameworks across mobile platforms. Open to collaborating on mobile app projects and anything at the intersection of mobile and AI. When I'm not coding, you'll find me swimming or playing ping pong."
+  bio: "Software engineer at Cognizant, focused on AI. I build LLM-powered products: agents that call tools through MCP, local models with Ollama, streaming chat, and voice assistants with speech-to-text and safety checks. I also created AI Foundation, 93 free interactive lessons on AI engineering.\n\nI came to AI from Android (Kotlin, Jetpack Compose, apps on Google Play), so I care about shipping AI features people actually use. Open to collaborating on AI agents and LLM products. When I'm not coding, you'll find me swimming or playing ping pong."
 };
