@@ -1,6 +1,6 @@
 const CONFIG = {
   name: "Shreyash Pattewar",
-  tagline: "Building AI agents and LLM-powered apps",
+  tagline: "Turning LLMs into products people use",
   // Used for SEO metadata (JSON-LD, llms.txt) by scripts/prerender.mjs; not shown on the page.
   jobTitle: "AI Engineer",
   company: "Cognizant",
