@@ -26,6 +26,13 @@
   .nav-link { display: block; font-size: 0.85rem; padding: 12px 14px; }
 }
 
+/* Five CTAs no longer fit one row: text buttons share the first row, dropdowns the second. */
+@media (min-width: 769px) and (max-width: 900px) {
+  .hero-cta > .btn { flex: 1 1 calc(50% - 6px); justify-content: center; }
+  .hero-cta > .dropdown { flex: 1 1 0; min-width: 0; }
+  .dropdown-btn { width: 100%; }
+}
+
 @media (max-width: 768px) {
   .hero { align-items: flex-start; padding-top: calc(var(--nav-height) + 24px); }
   .hero-content { width: calc(100% - 32px); }
@@ -41,23 +48,43 @@
   .project-grid { grid-template-columns: 1fr; }
   .contact-grid { grid-template-columns: 1fr; gap: 32px; }
   .contact-form .btn { align-self: stretch; justify-content: center; }
-  .repo-grid { grid-template-columns: 1fr; }
   .section { padding: 64px 0; }
-  .blog-scroll { grid-template-columns: 1fr; }
+  /* Posts become a swipeable row; the next card peeks in to hint at scrolling. */
+  .blog-scroll {
+    display: flex; gap: 16px;
+    overflow-x: auto; scroll-snap-type: x mandatory;
+    margin-inline: -24px; padding: 4px 24px 8px; scroll-padding-inline: 24px;
+    scrollbar-width: none;
+  }
+  .blog-scroll::-webkit-scrollbar { display: none; }
+  .blog-card { flex: 0 0 85%; scroll-snap-align: start; }
+  .blog-card:hover { transform: none; }
+  .project-filters { margin-top: -16px; gap: 6px; }
+  .filter-chip { padding: 0 10px; gap: 6px; }
   .nav-logo { font-size: 1rem; }
   .section-title { margin-bottom: 32px; gap: 0.5em; }
 
-  /* Text buttons take a full row each; icon dropdowns sit side by side below.
-     Menus span the CTA row so they never run off narrow screens. */
+  /* Text buttons take a full row each; the three dropdowns share one row in equal
+     thirds. Menus span the CTA row so they never run off narrow screens, and the
+     arrow points at the centre of each third (12px = .hero-cta gap). */
   .hero-cta { position: relative; }
   .hero-cta > .btn { flex: 1 1 100%; justify-content: center; padding-block: 12px; }
+  .hero-cta > .dropdown { flex: 1 1 0; min-width: 0; }
+  .dropdown-btn { width: 100%; padding: 0 8px; }
   .dropdown { position: static; }
   .dropdown-menu { left: 0; right: 0; min-width: 0; --dd-x: 0; }
-  .dropdown--play .dropdown-menu { --dd-arrow: 22px; }
-  .dropdown--web .dropdown-menu { --dd-arrow: 78px; }
-  .dropdown--ai .dropdown-menu { --dd-arrow: 134px; }
+  .dropdown--play .dropdown-menu { --dd-arrow: calc((100% - 24px) / 6); }
+  .dropdown--web .dropdown-menu { --dd-arrow: 50%; }
+  .dropdown--ai .dropdown-menu { --dd-arrow: calc(100% - (100% - 24px) / 6); }
   .dropdown-item { white-space: normal; }
 
+  /* Socials become a 3-column tile grid (label instead of handle); email leads, full width. */
+  .contact-info { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; }
+  .contact-detail-item { flex-direction: column; justify-content: center; gap: 6px; min-height: 72px; padding: 12px 6px; text-align: center; }
+  .contact-detail-item .contact-value, .contact-detail-item .contact-arrow { display: none; }
+  .contact-detail-item .contact-label { display: block; font-size: 0.72rem; line-height: 1.3; }
+  .contact-detail-item--email { order: -1; grid-column: 1 / -1; flex-direction: row; min-height: 48px; padding: 12px 18px; }
+  .contact-detail-item--email .contact-value { display: inline; }
   .contact-detail-item:hover { transform: none; }
 }
 
@@ -67,6 +94,7 @@
   .btn-small { min-height: 40px; padding-inline: 18px; }
   .nav-logo { padding: 8px 0; }
   .about-socials a { width: 44px; height: 44px; }
+  .filter-chip { min-height: 44px; }
 }
 
 @media (max-width: 480px) {
@@ -77,7 +105,15 @@
   .terminal-line { font-size: 0.75rem; }
   .hero-role { font-size: 0.85rem; }
   .blog-meta { flex-wrap: wrap; }
+  .blog-scroll { margin-inline: -16px; padding-inline: 16px; scroll-padding-inline: 16px; }
+  .dropdown-caret { display: none; }
   .footer { padding: 24px 16px; }
   .toast { right: 16px; left: 16px; max-width: none; justify-content: center; }
   .fab-top { right: max(16px, calc(env(safe-area-inset-right, 0px) + 12px)); bottom: max(16px, calc(env(safe-area-inset-bottom, 0px) + 12px)); }
+}
+
+/* Keep all four filter chips on one row on the narrowest phones */
+@media (max-width: 360px) {
+  .filter-chip { padding: 0 8px; font-size: 0.72rem; }
+  .filter-count { min-width: 16px; padding: 0 4px; }
 }

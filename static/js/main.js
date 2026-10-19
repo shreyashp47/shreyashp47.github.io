@@ -4,10 +4,10 @@ document.addEventListener("DOMContentLoaded", () => {
   Render.footer();
   Render.skills();
   Render.projects();
+  Render.projectFilters();
   Render.blog();
   Render.contact();
   Render.githubStats();
-  Render.githubRepos();
   Render.contactForm();
 
   Effects.typewriter();

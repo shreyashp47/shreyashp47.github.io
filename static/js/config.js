@@ -21,76 +21,98 @@ const CONFIG = {
     "Web & Database": ["TypeScript", "Firebase", "Swagger", "Realm", "SQLite"],
     "Tools & DevOps": ["Figma", "Notion", "Git", "Docker", "CI/CD"]
   },
+  // tags drive the project filter chips (ai | android | web); image is an 800x400 WebP thumbnail.
   projects: [
     {
       title: "AI Foundation",
       description: "A free, visual roadmap for learning AI and machine learning fundamentals — plain-language lessons paired with interactive animations, quizzes, and progress tracking.",
       tech: ["HTML", "CSS", "JavaScript", "Firebase"],
       github: "",
-      demo: "https://aifoundation.web.app/lesson.html#kv-cache"
+      demo: "https://aifoundation.web.app/lesson.html#kv-cache",
+      tags: ["ai", "web"],
+      image: "static/assets/projects/ai-foundation.webp"
     },
     {
       title: "DoTrack",
       description: "A modern task management Android app built with Clean Architecture and Jetpack Compose that turns your wallpaper into a dynamic to-do list.",
       tech: ["Kotlin", "Jetpack Compose", "Room", "Hilt"],
       github: "https://github.com/shreyashp47/DoTrack",
-      demo: "https://play.google.com/store/apps/details?id=com.shreyash.dotrack"
+      demo: "https://play.google.com/store/apps/details?id=com.shreyash.dotrack",
+      tags: ["android"],
+      image: "static/assets/projects/dotrack.webp"
     },
     {
       title: "Sensor-App",
       description: "A Kotlin-based Android app for reading and visualizing device sensor data in real time.",
       tech: ["Kotlin", "Android Sensors"],
       github: "https://github.com/shreyashp47/Sensor-App",
-      demo: "https://play.google.com/store/apps/details?id=com.shreyash.sensorapp"
+      demo: "https://play.google.com/store/apps/details?id=com.shreyash.sensorapp",
+      tags: ["android"],
+      image: "static/assets/projects/sensor-app.webp"
     },
     {
       title: "Agent Office",
       description: "A pixel-art office dashboard for OpenCode AI agents — each agent is a character that moves between desk, sofa and server corner in real time as it runs tools, goes idle or asks for permission.",
       tech: ["TypeScript", "Hono", "OpenCode", "SSE"],
       github: "https://github.com/shreyashp47/Agent-Office",
-      demo: ""
+      demo: "",
+      tags: ["ai"],
+      image: "static/assets/projects/agent-office.webp"
     },
     {
       title: "Tone Fixer",
       description: "A Chrome extension that rewrites any text in 9 tones, from polite to persuasive, using Groq, OpenRouter, Claude, ChatGPT, Gemini or Grok. Your API key stays in local storage.",
       tech: ["JavaScript", "Chrome Extension", "LLM"],
       github: "https://github.com/shreyashp47/tone-fixer",
-      demo: ""
+      demo: "",
+      tags: ["ai"],
+      image: "static/assets/projects/tone-fixer.webp"
     },
     {
       title: "CalmSpace",
       description: "A voice-first web app that helps you calm down after a stressful moment — talk it through with live captions, a short grounding exercise and gentle reframing, with a crisis check on every message.",
       tech: ["JavaScript", "Node.js", "Express", "Groq"],
       github: "https://github.com/shreyashp47/CalmSpace",
-      demo: ""
+      demo: "",
+      tags: ["ai", "web"],
+      image: "static/assets/projects/calmspace.webp"
     },
     {
       title: "chatgpt-analysis",
       description: "A ChatGPT clone built with TypeScript — deployed on Vercel. Full-stack web exploration alongside mobile development.",
       tech: ["TypeScript"],
       github: "https://github.com/shreyashp47/chatgpt-analysis",
-      demo: "https://chatgpt-clone-app-lyart.vercel.app"
+      demo: "https://chatgpt-clone-app-lyart.vercel.app",
+      tags: ["ai", "web"],
+      image: "static/assets/projects/chatgpt-analysis.webp"
     },
     {
       title: "Anti-Theft-Alarm-App",
       description: "An Android app that detects unauthorized device motion and triggers a loud alarm — built with Kotlin and device sensor integration.",
       tech: ["Kotlin", "Android Sensors"],
       github: "https://github.com/shreyashp47/Anti-Theft-Alarm-App",
-      demo: ""
+      demo: "",
+      tags: ["android"],
+      image: "static/assets/projects/anti-theft-alarm.webp"
     },
     {
       title: "OpenCodeLeet",
       description: "A local LeetCode-style coding challenge platform supporting Python and Kotlin. Solve algorithm problems in a web editor, run code against test cases, and get instant feedback.",
       tech: ["Python", "Flask", "Kotlin", "HTML", "Tailwind CSS"],
       github: "https://github.com/shreyashp47/OpenCodeLeet",
-      demo: "https://opencodeleet.onrender.com/"
+      demo: "https://opencodeleet.onrender.com/",
+      tags: ["web"],
+      image: "static/assets/projects/opencodeleet.webp",
+      note: "free server: first load can take ~30 s"
     },
     {
       title: "Shreyash-AI",
       description: "AI-powered personal assistant exploring LLM agents, function calling, and MCP server integrations — built with Python.",
       tech: ["Python", "LLM", "MCP"],
       github: "https://github.com/shreyashp47/Shreyash-AI",
-      demo: ""
+      demo: "",
+      tags: ["ai"],
+      image: "static/assets/projects/shreyash-ai.webp"
     }
   ],
   linkedinPosts: [

@@ -41,6 +41,7 @@ a { text-decoration: none; color: inherit; }
 button { font: inherit; }
 ul { list-style: none; }
 img { max-width: 100%; display: block; }
+[hidden] { display: none !important; }
 code { font-family: var(--font-mono); }
 
 ::selection {
