@@ -55,6 +55,7 @@
   .dropdown-menu { left: 0; right: 0; min-width: 0; --dd-x: 0; }
   .dropdown--play .dropdown-menu { --dd-arrow: 22px; }
   .dropdown--web .dropdown-menu { --dd-arrow: 78px; }
+  .dropdown--ai .dropdown-menu { --dd-arrow: 134px; }
   .dropdown-item { white-space: normal; }
 
   .contact-detail-item:hover { transform: none; }
