@@ -130,7 +130,8 @@
 .hamburger.active span:nth-child(3) { transform: rotate(-45deg) translate(5px, -5px); background: var(--accent-1); }
 
 /* ── Hero / Terminal ── */
-.hero { min-height: 100vh; min-height: 100svh; display: flex; align-items: center; padding-top: var(--nav-height); }
+/* z-index keeps the CTA dropdown menus above the next section's animated (stacking-context) content. */
+.hero { min-height: 100vh; min-height: 100svh; display: flex; align-items: center; padding-top: var(--nav-height); position: relative; z-index: 1; }
 
 .hero-content {
   width: min(75vw, 1400px);
@@ -232,6 +233,7 @@
 
 .dropdown--play { --dd-a: var(--accent-2); --dd-a-rgb: var(--accent-2-rgb); --dd-b: var(--accent-1); --dd-b-rgb: var(--accent-1-rgb); }
 .dropdown--web  { --dd-a: var(--accent-1); --dd-a-rgb: var(--accent-1-rgb); --dd-b: var(--accent-2); --dd-b-rgb: var(--accent-2-rgb); }
+.dropdown--ai   { --dd-a: var(--accent-green); --dd-a-rgb: var(--accent-green-rgb); --dd-b: var(--accent-1); --dd-b-rgb: var(--accent-1-rgb); }
 
 .dropdown-btn:hover,
 .dropdown.open .dropdown-btn {

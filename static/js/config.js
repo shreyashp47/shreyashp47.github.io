@@ -44,6 +44,27 @@ const CONFIG = {
       demo: "https://play.google.com/store/apps/details?id=com.shreyash.sensorapp"
     },
     {
+      title: "Agent Office",
+      description: "A pixel-art office dashboard for OpenCode AI agents — each agent is a character that moves between desk, sofa and server corner in real time as it runs tools, goes idle or asks for permission.",
+      tech: ["TypeScript", "Hono", "OpenCode", "SSE"],
+      github: "https://github.com/shreyashp47/Agent-Office",
+      demo: ""
+    },
+    {
+      title: "Tone Fixer",
+      description: "A Chrome extension that rewrites any text in 9 tones, from polite to persuasive, using Groq, OpenRouter, Claude, ChatGPT, Gemini or Grok. Your API key stays in local storage.",
+      tech: ["JavaScript", "Chrome Extension", "LLM"],
+      github: "https://github.com/shreyashp47/tone-fixer",
+      demo: ""
+    },
+    {
+      title: "CalmSpace",
+      description: "A voice-first web app that helps you calm down after a stressful moment — talk it through with live captions, a short grounding exercise and gentle reframing, with a crisis check on every message.",
+      tech: ["JavaScript", "Node.js", "Express", "Groq"],
+      github: "https://github.com/shreyashp47/CalmSpace",
+      demo: ""
+    },
+    {
       title: "chatgpt-analysis",
       description: "A ChatGPT clone built with TypeScript — deployed on Vercel. Full-stack web exploration alongside mobile development.",
       tech: ["TypeScript"],
