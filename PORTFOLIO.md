@@ -213,7 +213,7 @@ Defined in `responsive.css`:
 | `max-width: 1024px` | Projects grid to 2 columns, hero card widens to 88vw |
 | `max-width: 900px` | Nav links collapse into the hamburger menu |
 | `769px–900px` | Hero CTAs in two rows: the two text buttons, then the three dropdowns |
-| `max-width: 768px` | Single-column layout and full-width hero card. Text CTAs stack and the three dropdowns share a row in equal thirds; menus span the CTA row so they fit 320px screens. The blog becomes a swipeable row, social contacts become a 3-column tile grid with email first, and the project grid starts with 4 cards |
+| `max-width: 768px` | Single-column layout and full-width hero card. Text CTAs stack and the three dropdowns share a row in equal thirds; menus span the CTA row so they fit 320px screens. Blog posts stack as compact cards with 3-line excerpts, social contacts become a 3-column tile grid with email first, and the project grid starts with 4 cards |
 | `max-width: 480px` | Tighter gutters (16px), smaller hero type, no dropdown caret |
 | `max-width: 360px` | Smaller filter chips so all four fit one row |
 | `pointer: coarse` | Touch targets enlarged to ~44px (theme toggle, hamburger, back-to-top, social icons, small buttons, filter chips) |

@@ -18,7 +18,7 @@ Personal portfolio of Shreyash Pattewar, an AI engineer building LLM agents and 
 - **Developer touches:** the <kbd>T</kbd> theme shortcut, the `export THEME=…` toast, and a styled greeting in the browser console (with the clone command and contact email) for anyone who opens DevTools
 - **Skills marquee** grouped by category (AI & LLMs first), with local SVG and Font Awesome icons
 - **Projects grid**, AI work first: each card has an 800×400 screenshot, a `live` / `play store` / `source` status chip, tech tags and GitHub / demo links. Filter chips (all, ai, android, web) sit above the grid, which starts with 6 cards (4 on phones) and a "show all" button
-- **LinkedIn post cards** for recent writing (a swipeable row on phones) with links to more posts on LinkedIn and Medium
+- **LinkedIn post cards** for recent writing (stacked compact cards on phones, excerpts clamped to 3 lines) with links to more posts on LinkedIn and Medium
 - **GitHub section** with stats cards (GitHub stats, top languages, streak, LeetCode) colored from the active theme and recolored when it changes, plus a link to all repositories
 - **Contact form** via formsubmit.co, sent over AJAX with a fallback to a normal form POST; on phones the social links become a compact tile grid
 - **Motion:** hero terminal entrance with line-by-line reveal, circular theme-switch transition (View Transitions API), sliding nav indicator, cursor spotlight on cards, drawing section rules, rotating avatar ring, all disabled under `prefers-reduced-motion`
