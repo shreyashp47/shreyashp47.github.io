@@ -64,18 +64,23 @@ const Theme = (() => {
   function next() {
     const idx = (current() + 1) % THEMES.length;
     apply(idx);
-    try { localStorage.setItem(KEY, idx); } catch (e) { /* storage unavailable */ }
+    // A theme picked with the toggle sticks for this tab's session only.
+    try { sessionStorage.setItem(KEY, idx); } catch (e) { /* storage unavailable */ }
     // Lets themed third-party images (GitHub stats) refresh their colors.
     document.dispatchEvent(new CustomEvent("themechange", { detail: THEMES[idx] }));
     return THEMES[idx];
   }
 
-  // Runs in <head> so a saved theme is applied before first paint.
+  // Runs in <head> so the theme is applied before first paint: the visitor's pick
+  // from this session if there is one, otherwise a random theme on every visit.
   document.documentElement.classList.add("js");
+  let initial = Math.floor(Math.random() * THEMES.length);
   try {
-    const saved = parseInt(localStorage.getItem(KEY), 10);
-    if (THEMES[saved]) apply(saved);
+    const picked = parseInt(sessionStorage.getItem(KEY), 10);
+    if (THEMES[picked]) initial = picked;
+    localStorage.removeItem(KEY); // older versions kept the pick forever
   } catch (e) { /* storage unavailable */ }
+  apply(initial);
 
   return { apply, current, next };
 })();

@@ -9,22 +9,22 @@
 
 **Live:** https://shreyashp47.github.io/
 
-Personal portfolio of Shreyash Pattewar, a software engineer working on AI and mobile (Android, iOS and AI agents). The current version (**v4**) is a dark, terminal-inspired developer theme built as a static site with plain HTML, CSS and vanilla JavaScript: no framework and no build step.
+Personal portfolio of Shreyash Pattewar, an AI engineer building LLM agents and AI-powered apps, with an Android background. The current version (**v4**) is a dark, terminal-inspired developer theme built as a static site with plain HTML, CSS and vanilla JavaScript: no framework and no build step.
 
 ## Features
 
-- **Terminal-style hero** with a typewriter role animation, resume download and quick links to live apps
-- **Three accent themes** (Purple Haze, Matrix Green, Cyber Blue), switchable from the navbar and saved in `localStorage`
-- **Skills marquee** grouped by category, with Devicon tech icons
-- **Projects grid** with tech-stack tags, GitHub links and Play Store / live-demo links
-- **LinkedIn post cards** for recent writing
-- **GitHub section** with stats cards (GitHub stats, top languages, streak, LeetCode) and the top repositories loaded live from the GitHub REST API
-- **Contact form** via formsubmit.co, sent over AJAX with a fallback to a normal form POST
+- **Terminal-style hero** with a typewriter role animation, resume download and three labelled dropdowns: `ai` (AI projects, with an "all ai projects" link that opens the projects section filtered), `apps` (Google Play) and `sites` (live websites)
+- **Three accent themes** (Purple Haze, Matrix Green, Cyber Blue): each visit starts with a random one, and the navbar toggle switches between them
+- **Skills marquee** grouped by category (AI & LLMs first), with local SVG and Font Awesome icons
+- **Projects grid**, AI work first: each card has an 800×400 screenshot, a `live` / `play store` / `source` status chip, tech tags and GitHub / demo links. Filter chips (all, ai, android, web) sit above the grid, which starts with 6 cards (4 on phones) and a "show all" button
+- **LinkedIn post cards** for recent writing (a swipeable row on phones) with links to more posts on LinkedIn and Medium
+- **GitHub section** with stats cards (GitHub stats, top languages, streak, LeetCode) colored from the active theme and recolored when it changes, plus a link to all repositories
+- **Contact form** via formsubmit.co, sent over AJAX with a fallback to a normal form POST; on phones the social links become a compact tile grid
 - **Motion:** hero terminal entrance with line-by-line reveal, circular theme-switch transition (View Transitions API), sliding nav indicator, cursor spotlight on cards, drawing section rules, rotating avatar ring, all disabled under `prefers-reduced-motion`
 - **Navigation:** scroll-spy active links, a scroll progress bar and a responsive hamburger menu
 - **Accessibility:** skip link, visible focus styles, labelled form fields and icon links, keyboard-accessible dropdowns and menus, live regions, and `prefers-reduced-motion` support (Lighthouse accessibility score: 100)
-- **Mobile-first details:** full-width hero and stacked buttons on phones, dropdown menus that fit 320px screens, 44px touch targets on touch devices, and no horizontal overflow from 320px up
-- **Performance:** 16 KB WebP profile photo with PNG fallback, lazy-loaded stats cards with reserved dimensions, and a pinned Devicon version
+- **Mobile-first details:** full-width text buttons with the three dropdowns in equal thirds on phones (two rows at 769–900px), dropdown menus that fit 320px screens, 44px touch targets on touch devices, and no horizontal overflow from 320px up
+- **Performance:** 16 KB WebP profile photo with PNG fallback, lazy-loaded WebP project screenshots (about 130 KB for all ten), and lazy-loaded stats cards with reserved dimensions
 - **SEO:** content pre-rendered into the HTML (visible to crawlers and link previews without JavaScript), JSON-LD (`ProfilePage`, `Person`, `WebSite`, projects), Open Graph profile and X card tags with a 1200×630 preview image, `rel="me"` profile links, canonical URL, favicons and web manifest, `robots.txt`, `sitemap.xml`, `llms.txt` and a custom 404 page
 
 ## Tech Stack
@@ -34,7 +34,7 @@ Personal portfolio of Shreyash Pattewar, a software engineer working on AI and m
 | Markup | HTML5 |
 | Styling | CSS3 with custom properties for theming (no CSS framework) |
 | Logic | Vanilla JavaScript (no framework, no bundler) |
-| Fonts & icons | Google Fonts (Inter, JetBrains Mono), Font Awesome 6.5.1, Devicon 2.16.0 |
+| Fonts & icons | Google Fonts (Inter, JetBrains Mono), Font Awesome 6.5.1, local SVG skill icons |
 | Quality checks | html-validate, `node --check`, local link checker (GitHub Actions) |
 | Hosting | GitHub Pages, deployed with GitHub Actions |
 | Local dev | [`serve`](https://www.npmjs.com/package/serve) |
@@ -60,6 +60,9 @@ Personal portfolio of Shreyash Pattewar, a software engineer working on AI and m
     ├── llms.txt                   # Generated plain-text profile for AI tools
     └── static/
         ├── assets/
+        │   ├── icons/             # Colored SVG skill icons
+        │   ├── projects/          # 800×400 WebP project screenshots
+        │   ├── og-image.png       # 1200×630 link-preview image (contains the tagline)
         │   ├── profile.png        # Profile photo
         │   ├── profile.webp       # Profile photo (WebP)
         │   └── resume.pdf         # Downloadable resume
@@ -70,9 +73,9 @@ Personal portfolio of Shreyash Pattewar, a software engineer working on AI and m
         │   └── motion.css         # Entrance, hover and theme-switch animations
         └── js/
             ├── config.js          # All site content (single source of truth)
-            ├── themes.js          # Accent theme definitions + persistence
+            ├── themes.js          # Accent theme definitions + persistence; fires `themechange`
             ├── effects.js         # Typewriter, reveal-on-scroll, visual effects
-            ├── render.js          # Renders config.js content + GitHub data into the DOM
+            ├── render.js          # Renders config.js content, project filters and themed stats cards
             ├── navigation.js      # Scroll-spy, mobile menu, dropdowns, progress bar
             └── main.js            # Entry point: wires everything up on load
 ```
@@ -107,9 +110,12 @@ Recommended workflow: make changes on a feature branch, let CI pass on the pull 
 
 All content lives in **`v4/static/js/config.js`**: name, tagline, bio, social links, email, resume path, skills, projects and LinkedIn posts. `render.js` builds the page from this object, so most updates need no HTML changes.
 
-- **Add a project:** append an object to `projects` with `title`, `description`, `tech`, `github` and `demo` (use `""` when there is no demo).
-- **Add a skill:** add it to the matching category array in `skills`.
+- **Add a project:** add an object to `projects` with `title`, `description`, `tech`, `github` and `demo` (use `""` when there is no source or demo), `tags` (any of `ai`, `android`, `web`; they drive the filter chips) and `image` (an 800×400 WebP in `v4/static/assets/projects/`). An optional `note` shows a short line on the card, such as a cold-start warning. The status chip is derived from the links: no demo means `source`, a Google Play link means `play store`, anything else means `live`.
+- **Project order:** cards appear in the order of the `projects` array, and the first 6 (4 on phones) show before "show all". The order is AI-first on purpose.
+- **Hero dropdowns:** the `ai`, `apps` and `sites` menus are plain HTML in `index.html`, so update them there when a project is added or removed.
+- **Add a skill:** add it to the matching category array in `skills`, and give it an icon in `SKILL_ICONS` in `render.js` (`svg:<name>` for a file in `static/assets/icons/`, otherwise a Font Awesome class).
 - **Replace the resume or photo:** overwrite the files in `v4/static/assets/`.
+- **Change the tagline:** update `tagline` in `config.js`, the static hero and meta tags in `index.html` and `site.webmanifest`, regenerate `og-image.png` (the tagline is part of the image), and bump the `?v=` on its `og:image` / `twitter:image` URLs so LinkedIn and X fetch the new one.
 
 **After editing `config.js`, run `npm run prerender`.** It writes the content into `index.html` (between `<!-- prerender:… -->` markers) and regenerates the JSON-LD and `v4/llms.txt`, using the same templates as `render.js`. CI fails if you forget (`npm run prerender:check`). Don't hand-edit between the markers.
 
@@ -117,7 +123,7 @@ All content lives in **`v4/static/js/config.js`**: name, tagline, bio, social li
 
 ## Theming
 
-Themes are defined in `v4/static/js/themes.js`, and each one sets CSS custom properties used across the stylesheets. The navbar toggle cycles through the themes, and the chosen theme is saved in `localStorage`. `themes.js` loads in `<head>` so the saved theme is applied before first paint. To add a theme, add an entry to the themes list with its accent colors.
+Themes are defined in `v4/static/js/themes.js`, and each one sets CSS custom properties used across the stylesheets. Every visit starts with a random theme. The navbar toggle (palette icon) cycles through the themes, and a theme picked this way is kept in `sessionStorage`, so it survives reloads in that tab but the next visit is random again. Switching dispatches a `themechange` event on `document`, which `render.js` uses to recolor the third-party stats cards. `themes.js` loads in `<head>` so the theme is applied before first paint. To add a theme, add an entry to the themes list with its accent colors.
 
 ## Deployment & Versions
 
@@ -140,13 +146,11 @@ v2 and v3 are built with `npm ci && npm run build` in CI. v1 and v4 are publishe
 Third-party services and assets used by the site:
 
 - [Font Awesome](https://fontawesome.com/): UI and social icons
-- [Devicon](https://devicon.dev/): technology icons
 - [Google Fonts](https://fonts.google.com/): Inter and JetBrains Mono
 - [github-readme-stats](https://github.com/anuraghazra/github-readme-stats): GitHub stats and top-languages cards
 - [GitHub Readme Streak Stats](https://streak-stats.demolab.com/): contribution streak card
 - [LeetCard](https://github.com/JacobLinCool/LeetCode-Stats-Card): LeetCode stats card
 - [FormSubmit](https://formsubmit.co/): contact form delivery
-- [GitHub REST API](https://docs.github.com/en/rest): live repository list
 
 ## Copyright
 

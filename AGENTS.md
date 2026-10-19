@@ -12,10 +12,12 @@
 - When changing any CSS/JS file, bump its `?v=` cache-busting query param in `v4/index.html`.
 - After changing `config.js` or the templates in `render.js`, run `npm run prerender` (updates pre-rendered HTML between `<!-- prerender:* -->` markers, JSON-LD and `v4/llms.txt`). Never hand-edit between markers; CI checks this.
 - Don't change site text/content unless asked; keep layouts working down to 320px and touch targets ~44px.
+- Projects are listed AI-first on purpose (the site targets AI roles). Each needs `tags` (ai/android/web) and an 800×400 WebP `image` in `v4/static/assets/projects/`; the hero `ai`/`apps`/`sites` dropdowns are static HTML in `index.html`.
+- `og-image.png` contains the tagline: when the tagline changes, regenerate it and bump the `?v=` on its `og:image`/`twitter:image` URLs.
 - Work on a feature branch; pushing to `main` deploys immediately.
 
 ## CI
-- `.github/workflows/ci.yml` runs html-validate, `node --check` on JS, and a local link check on PRs / non-main pushes
+- `.github/workflows/ci.yml` runs html-validate, `node --check` on JS, a local link check and `prerender --check` on PRs / non-main pushes
 - Run locally: `npx --yes html-validate@8 v4/index.html v4/404.html && node .github/scripts/check-links.mjs v4/index.html v4/404.html`
 
 ## Deploy

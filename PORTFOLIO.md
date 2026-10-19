@@ -105,7 +105,7 @@ Push to `main` → GitHub Actions publishes the `v4/` directory to the `gh-pages
 
 # v4 — Developer Dark Theme (current)
 
-Static, framework-free site in `v4/`, published as-is to the GitHub Pages root. Dark, terminal-inspired design with switchable accent themes.
+Static, framework-free site in `v4/`, published as-is to the GitHub Pages root. Dark, terminal-inspired design with switchable accent themes. Content is positioned for AI engineering roles: the title is "AI Engineer — LLM Agents & Apps", the tagline is "Turning LLMs into products people use", and AI skills and projects come first.
 
 <a id="v4-tech-stack"></a>
 ### Tech Stack
@@ -114,8 +114,8 @@ Static, framework-free site in `v4/`, published as-is to the GitHub Pages root. 
 |------|---------|---------|
 | HTML5 / CSS3 | — | Markup and styling (CSS custom properties, no framework) |
 | Vanilla JS | — | All logic, no bundler or build step |
-| Font Awesome | 6.5.1 | UI and social icons (CDN) |
-| Devicon | 2.16.0 | Technology icons (jsDelivr CDN, pinned) |
+| Font Awesome | 6.5.1 | UI, social and some skill icons (CDN) |
+| Local SVGs | — | Colored skill icons in `static/assets/icons/` |
 | Inter / JetBrains Mono | — | Body and code fonts (Google Fonts) |
 | serve | ^14.2.6 | Local static server (dev only) |
 
@@ -138,7 +138,9 @@ v4/
 ├── robots.txt                # Allows all crawlers, points to sitemap
 ├── sitemap.xml               # Single root URL
 └── static/
-    ├── assets/               # profile.png (fallback), profile.webp (400×400, ~16 KB), resume.pdf
+    ├── assets/               # profile.png (fallback), profile.webp (400×400, ~16 KB), resume.pdf, og-image.png (1200×630)
+    │   ├── icons/            # Colored SVG skill icons
+    │   └── projects/         # 800×400 WebP project screenshots (lazy-loaded)
     ├── css/
     │   ├── base.css          # Reset, variables, typography, layout, reduced motion
     │   ├── components.css    # Navbar, hero, cards, marquee, forms, footer
@@ -146,9 +148,9 @@ v4/
     │   └── motion.css        # Animations (entrance, hover, theme switch); neutralised by reduced motion
     └── js/
         ├── config.js         # All site content
-        ├── themes.js         # Accent themes + localStorage persistence
+        ├── themes.js         # Accent themes, random theme per visit, `themechange` event
         ├── effects.js        # Typewriter, scroll reveal
-        ├── render.js         # DOM rendering from CONFIG + GitHub data
+        ├── render.js         # DOM rendering from CONFIG, project filters, themed stats cards
         ├── navigation.js     # Scroll progress, mobile menu, scroll-spy, dropdowns, theme toggle
         └── main.js           # Entry point
 ```
@@ -156,12 +158,12 @@ v4/
 <a id="v4-architecture--data-flow"></a>
 ### Architecture & Data Flow
 
-1. `index.html` provides the static shell: navbar, sections (`#hero`, `#about`, `#skills`, `#projects`, `#blog`, `#github`, `#contact`) and content containers, pre-filled by `scripts/prerender.mjs` (`#skillsContainer`, `#projectsContainer`, `#blogContainer`, `#githubStats`, `#repoGrid`, …).
-2. `themes.js` loads in `<head>` and applies the saved theme before first paint.
+1. `index.html` provides the static shell: navbar, sections (`#hero`, `#about`, `#skills`, `#projects`, `#blog`, `#github`, `#contact`) and content containers, pre-filled by `scripts/prerender.mjs` (`#skillsContainer`, `#projectsContainer`, `#blogContainer`, `#contactDetails`, …). `#projectFilters` and `#githubStats` stay empty in the HTML and are filled at runtime.
+2. `themes.js` loads in `<head>` and applies a theme before first paint: the one picked with the toggle earlier in this tab's session (`sessionStorage`), otherwise a random one.
 3. At the end of `<body>`, scripts load in order: `config.js` → `effects.js` → `render.js` → `navigation.js` → `main.js`.
 4. `config.js` defines a global `CONFIG` object (single source of truth for content).
 5. **Pre-rendering:** `scripts/prerender.mjs` (run with `npm run prerender`) executes `config.js` + `render.js` in a Node sandbox and writes the output of `Render.templates` into `index.html` between `<!-- prerender:NAME -->` markers (about, socials, skills lists, projects, blog, contact), plus the JSON-LD graph and `v4/llms.txt`. Crawlers without JavaScript see the full content; CI runs `--check` so it can't drift from `config.js`.
-6. `render.js` reads `CONFIG` and fills each container: hero, about/bio, socials, skills marquee, project cards, LinkedIn post cards, contact details, footer, and GitHub stats cards. It fetches `https://api.github.com/users/<githubUsername>/repos` and shows the top repos sorted by stars, then by most recent push.
+6. `render.js` reads `CONFIG` and fills each container: hero, about/bio, socials, skills marquee, project cards (screenshot, status chip, tech tags, links), LinkedIn post cards, contact details and footer. `projectFilters()` adds the filter chips (all / ai / android / web, from each project's `tags`) and a "show all" button. The grid starts with 6 cards (4 at ≤768px), and links with `data-project-filter` (the hero's "all ai projects") preselect a filter. `githubStats()` builds the stats-card URLs from the current theme's CSS variables and swaps them on `themechange`. No GitHub API calls are made.
 7. The contact form posts to formsubmit.co over AJAX (`/ajax/` endpoint) with status shown in a live region, and falls back to a regular form POST.
 8. `navigation.js` and `effects.js` add interactivity: scroll progress, scroll-spy, mobile menu, dropdowns, theme toggle, typewriter and reveal-on-scroll (the typewriter shows static text and CSS disables animations under `prefers-reduced-motion`).
 
@@ -172,10 +174,10 @@ CSS/JS are referenced with `?v=N` cache-busting query strings, so bump them when
 
 | File | Description |
 |------|-------------|
-| `config.js` | `name`, `tagline`, `bio`, social URLs, `email`, `resumePath`, `githubUsername`, `leetcodeUsername`, `skills` (by category), `projects`, `linkedinPosts` |
-| `themes.js` | Theme definitions, `apply`/`next`, persistence in `localStorage` |
+| `config.js` | `name`, `tagline`, `jobTitle`, `bio`, social URLs, `email`, `resumePath`, `githubUsername`, `leetcodeUsername`, `skills` (by category, AI & LLMs first), `projects` (`title`, `description`, `tech`, `github`, `demo`, `tags`, `image`, optional `note`; listed AI-first), `linkedinPosts` |
+| `themes.js` | Theme definitions, `apply`/`next`, random theme per visit; `next()` keeps the pick in `sessionStorage` and dispatches `themechange` |
 | `effects.js` | Scroll reveal (IntersectionObserver) and hero typewriter (static text under reduced motion) |
-| `render.js` | All DOM rendering, skill icon mapping (Devicon), GitHub repo fetch, contact form submission |
+| `render.js` | All DOM rendering, skill icon mapping (local SVGs + Font Awesome), project filters and "show all", themed stats cards, contact form submission |
 | `navigation.js` | Scroll progress bar, mobile hamburger menu, scroll-spy, accessible dropdowns, theme toggle button |
 | `main.js` | Bootstraps the modules on page load |
 
@@ -193,8 +195,7 @@ CSS/JS are referenced with `?v=N` cache-busting query strings, so bump them when
 
 | Service | Use |
 |---------|-----|
-| GitHub REST API | Live repository list |
-| github-readme-stats | Stats and top-languages cards |
+| github-readme-stats | Stats and top-languages cards (colored from the active theme) |
 | streak-stats.demolab.com | Contribution streak card |
 | leetcard.jacoblin.cool | LeetCode stats card |
 | formsubmit.co | Contact form delivery |
@@ -208,9 +209,11 @@ Defined in `responsive.css`:
 |-------|---------|
 | `max-width: 1024px` | Projects grid to 2 columns, hero card widens to 88vw |
 | `max-width: 900px` | Nav links collapse into the hamburger menu |
-| `max-width: 768px` | Single-column layout, full-width hero card, stacked CTA buttons, dropdown menus span the CTA row so they fit 320px screens |
-| `max-width: 480px` | Tighter gutters (16px) and smaller hero type |
-| `pointer: coarse` | Touch targets enlarged to ~44px (theme toggle, hamburger, back-to-top, social icons, small buttons) |
+| `769px–900px` | Hero CTAs in two rows: the two text buttons, then the three dropdowns |
+| `max-width: 768px` | Single-column layout and full-width hero card. Text CTAs stack and the three dropdowns share a row in equal thirds; menus span the CTA row so they fit 320px screens. The blog becomes a swipeable row, social contacts become a 3-column tile grid with email first, and the project grid starts with 4 cards |
+| `max-width: 480px` | Tighter gutters (16px), smaller hero type, no dropdown caret |
+| `max-width: 360px` | Smaller filter chips so all four fit one row |
+| `pointer: coarse` | Touch targets enlarged to ~44px (theme toggle, hamburger, back-to-top, social icons, small buttons, filter chips) |
 
 Verified with no horizontal overflow at 320, 360, 390, 414 and 768px. Lighthouse (mobile): Accessibility 100, Best Practices 100, SEO 100.
 
@@ -224,6 +227,7 @@ Verified with no horizontal overflow at 320, 360, 390, 414 and 768px. Lighthouse
 | HTML validation | `npx --yes html-validate@8 v4/index.html v4/404.html` (config: `.htmlvalidate.json`) |
 | JS syntax | `node --check` on each `v4/static/js/*.js` |
 | Local links | `node .github/scripts/check-links.mjs v4/index.html v4/404.html` |
+| Pre-render up to date | `npm run prerender:check` |
 
 `.github/dependabot.yml` opens monthly update PRs for GitHub Actions and npm.
 
