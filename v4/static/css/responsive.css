@@ -49,16 +49,17 @@
   .contact-grid { grid-template-columns: 1fr; gap: 32px; }
   .contact-form .btn { align-self: stretch; justify-content: center; }
   .section { padding: 64px 0; }
-  /* Posts become a swipeable row; the next card peeks in to hint at scrolling. */
-  .blog-scroll {
-    display: flex; gap: 16px;
-    overflow-x: auto; scroll-snap-type: x mandatory;
-    margin-inline: -24px; padding: 4px 24px 8px; scroll-padding-inline: 24px;
-    scrollbar-width: none;
-  }
-  .blog-scroll::-webkit-scrollbar { display: none; }
-  .blog-card { flex: 0 0 85%; scroll-snap-align: start; }
+  /* All posts stay visible, stacked as compact cards: excerpts clamp to 3 lines
+     (the full text stays in the DOM for crawlers and screen readers). */
+  .blog-scroll { grid-template-columns: 1fr; gap: 12px; }
+  .blog-card { padding: 16px 18px; }
   .blog-card:hover { transform: none; }
+  .blog-date { margin-bottom: 6px; }
+  .blog-excerpt {
+    margin-bottom: 12px;
+    display: -webkit-box; -webkit-box-orient: vertical;
+    -webkit-line-clamp: 3; line-clamp: 3; overflow: hidden;
+  }
   .project-filters { margin-top: -16px; gap: 6px; }
   .filter-chip { padding: 0 10px; gap: 6px; }
   .nav-logo { font-size: 1rem; }
@@ -105,7 +106,6 @@
   .terminal-line { font-size: 0.75rem; }
   .hero-role { font-size: 0.85rem; }
   .blog-meta { flex-wrap: wrap; }
-  .blog-scroll { margin-inline: -16px; padding-inline: 16px; scroll-padding-inline: 16px; }
   .dropdown-caret { display: none; }
   .footer { padding: 24px 16px; }
   .toast { right: 16px; left: 16px; max-width: none; justify-content: center; }
