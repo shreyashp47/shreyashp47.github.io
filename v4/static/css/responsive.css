@@ -73,9 +73,9 @@
   .dropdown-btn { width: 100%; padding: 0 8px; }
   .dropdown { position: static; }
   .dropdown-menu { left: 0; right: 0; min-width: 0; --dd-x: 0; }
-  .dropdown--play .dropdown-menu { --dd-arrow: calc((100% - 24px) / 6); }
-  .dropdown--web .dropdown-menu { --dd-arrow: 50%; }
-  .dropdown--ai .dropdown-menu { --dd-arrow: calc(100% - (100% - 24px) / 6); }
+  .dropdown--ai .dropdown-menu { --dd-arrow: calc((100% - 24px) / 6); }
+  .dropdown--play .dropdown-menu { --dd-arrow: 50%; }
+  .dropdown--web .dropdown-menu { --dd-arrow: calc(100% - (100% - 24px) / 6); }
   .dropdown-item { white-space: normal; }
 
   /* Socials become a 3-column tile grid (label instead of handle); email leads, full width. */
