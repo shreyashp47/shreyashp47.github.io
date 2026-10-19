@@ -2,18 +2,20 @@
   --bg-primary: #0a0a0f;
   --bg-secondary: #12121a;
   --bg-surface: #1a1a2e;
-  --accent-1: #7c3aed;
-  --accent-1-rgb: 124, 58, 237;
-  --accent-2: #06b6d4;
-  --accent-2-rgb: 6, 182, 212;
-  --accent-green: #10b981;
-  --accent-green-rgb: 16, 185, 129;
-  --accent-orange: #f59e0b;
+  /* Tokyo Night until themes.js applies a (random) theme in <head> */
+  --accent-1: #7aa2f7;
+  --accent-1-rgb: 122, 162, 247;
+  --accent-2: #bb9af7;
+  --accent-2-rgb: 187, 154, 247;
+  --accent-green: #9ece6a;
+  --accent-green-rgb: 158, 206, 106;
+  --accent-orange: #ff9e64;
+  --on-accent: #0a0a0f;
   --text-primary: #e4e4e7;
   --text-muted: #8b8b96;
   --text-dim: #52525b;
-  --border: rgba(124, 58, 237, 0.12);
-  --border-light: rgba(124, 58, 237, 0.25);
+  --border: rgba(122, 162, 247, 0.12);
+  --border-light: rgba(122, 162, 247, 0.25);
   --radius: 12px;
   --radius-sm: 8px;
   --transition: 0.25s cubic-bezier(0.4, 0, 0.2, 1);
@@ -21,8 +23,8 @@
   --font-mono: 'JetBrains Mono', 'Fira Code', monospace;
   --max-width: 1200px;
   --nav-height: 64px;
-  --glow-purple: 0 0 40px rgba(124, 58, 237, 0.15);
-  --glow-cyan: 0 0 40px rgba(6, 182, 212, 0.1);
+  --glow-purple: 0 0 40px rgba(var(--accent-1-rgb), 0.15);
+  --glow-cyan: 0 0 40px rgba(var(--accent-2-rgb), 0.1);
 }
 
 *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
@@ -66,7 +68,7 @@ code { font-family: var(--font-mono); }
 .skip-link {
   position: fixed; top: 12px; left: 12px; z-index: 2000;
   padding: 8px 16px;
-  background: var(--accent-1); color: #fff;
+  background: var(--accent-1); color: var(--on-accent);
   font-family: var(--font-mono); font-size: 0.85rem;
   border-radius: var(--radius-sm);
   transform: translateY(-200%);

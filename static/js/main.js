@@ -12,6 +12,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
   Effects.typewriter();
   Effects.scrollReveal();
+  Effects.consoleGreeting();
 
   Navigation.init();
 });

@@ -14,8 +14,8 @@
     :root {
       --bg-primary: #0a0a0f;
       --bg-secondary: #12121a;
-      --accent-1: #7c3aed;
-      --accent-2: #06b6d4;
+      --accent-1: #7aa2f7;
+      --accent-2: #bb9af7;
       --text-primary: #e4e4e7;
       --text-muted: #8b8b96;
       --font: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
@@ -29,7 +29,7 @@
       padding: 1.5rem;
       box-sizing: border-box;
       background:
-        radial-gradient(ellipse at top, rgba(124, 58, 237, 0.15), transparent 60%),
+        radial-gradient(ellipse at top, rgba(122, 162, 247, 0.15), transparent 60%),
         var(--bg-primary);
       color: var(--text-primary);
       font-family: var(--font);
@@ -49,17 +49,17 @@
     .terminal {
       text-align: left;
       background: var(--bg-secondary);
-      border: 1px solid rgba(124, 58, 237, 0.25);
+      border: 1px solid rgba(122, 162, 247, 0.25);
       border-radius: 12px;
       overflow: hidden;
-      box-shadow: 0 0 40px rgba(124, 58, 237, 0.15);
+      box-shadow: 0 0 40px rgba(122, 162, 247, 0.15);
     }
     .terminal-bar {
       display: flex;
       align-items: center;
       gap: 0.4rem;
       padding: 0.6rem 0.9rem;
-      border-bottom: 1px solid rgba(124, 58, 237, 0.12);
+      border-bottom: 1px solid rgba(122, 162, 247, 0.12);
     }
     .dot { width: 0.7rem; height: 0.7rem; border-radius: 50%; }
     .dot:nth-child(1) { background: #ef4444; }
@@ -86,12 +86,12 @@
       padding: 0.7rem 1.4rem;
       border-radius: 8px;
       background: var(--accent-1);
-      color: #fff;
+      color: #0a0a0f;
       font: 600 0.95rem var(--font-mono);
       text-decoration: none;
       transition: transform 0.2s, box-shadow 0.2s;
     }
-    .home:hover { transform: translateY(-2px); box-shadow: 0 0 24px rgba(124, 58, 237, 0.45); }
+    .home:hover { transform: translateY(-2px); box-shadow: 0 0 24px rgba(122, 162, 247, 0.45); }
     .home:focus-visible { outline: 2px solid var(--accent-2); outline-offset: 3px; }
     @media (prefers-reduced-motion: reduce) { .home { transition: none; } .home:hover { transform: none; } }
   </style>
