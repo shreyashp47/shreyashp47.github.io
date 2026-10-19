@@ -186,9 +186,12 @@ CSS/JS are referenced with `?v=N` cache-busting query strings, so bump them when
 
 | Theme | Description |
 |-------|-------------|
-| Purple Haze | Purple accent (first in the list) |
-| Matrix Green | Green accent |
-| Cyber Blue | Blue accent |
+| Tokyo Night | Soft blue and lavender (also the CSS default before `themes.js` runs) |
+| Dracula | Purple and pink |
+| Gruvbox | Warm yellow and aqua |
+| Sunset | Coral pink and amber |
+
+Each visit starts with a random theme. The toggle or the <kbd>T</kbd> key switches themes, and the toast reads `$ export THEME=<id>`. Each theme sets `--accent-1/2` (+ `-rgb`), `--accent-green`, `--accent-orange`, `--border(-light)` and `--on-accent` (the text color on accent fills). The glows are derived from the accent variables. `404.html` is standalone and uses the Tokyo Night colors.
 
 <a id="v4-external-services"></a>
 ### External Services

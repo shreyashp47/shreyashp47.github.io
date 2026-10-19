@@ -10,7 +10,7 @@
 
 .btn-primary {
   background: linear-gradient(135deg, var(--accent-1), var(--accent-2));
-  color: #fff;
+  color: var(--on-accent);
 }
 .btn-primary:hover {
   transform: translateY(-1px);

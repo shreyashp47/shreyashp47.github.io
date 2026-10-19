@@ -50,5 +50,16 @@ const Effects = (() => {
     type();
   }
 
-  return { scrollReveal, typewriter, observe };
+  // A hello for anyone who opens DevTools, in the current theme's colors.
+  function consoleGreeting() {
+    const css = getComputedStyle(document.documentElement);
+    const a1 = css.getPropertyValue("--accent-1").trim(), a2 = css.getPropertyValue("--accent-2").trim();
+    console.log(
+      `%c> ${CONFIG.name}%c\n${CONFIG.tagline}.\n\n$ git clone ${CONFIG.githubUrl}/${CONFIG.githubUsername}.github.io\n$ press T to switch themes · say hi at ${CONFIG.email}`,
+      `font: 700 16px "JetBrains Mono", monospace; color: ${a1};`,
+      `font: 12px "JetBrains Mono", monospace; line-height: 1.6; color: ${a2};`
+    );
+  }
+
+  return { scrollReveal, typewriter, observe, consoleGreeting };
 })();
