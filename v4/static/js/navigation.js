@@ -104,7 +104,7 @@ const Navigation = (() => {
   function spotlight() {
     if (!window.matchMedia("(hover: hover) and (pointer: fine)").matches) return;
     document.addEventListener("pointermove", (e) => {
-      const card = e.target.closest && e.target.closest(".project-card, .blog-card, .repo-card");
+      const card = e.target.closest && e.target.closest(".project-card, .blog-card");
       if (!card) return;
       const r = card.getBoundingClientRect();
       card.style.setProperty("--mx", `${e.clientX - r.left}px`);

@@ -74,9 +74,14 @@ const Render = (() => {
       `<a ${linkAttrs(s.url, true)} aria-label="${s.label}" title="${s.label}"><i class="${s.icon}" aria-hidden="true"></i></a>`
     ).join(""),
 
-    contact: () => SOCIALS.map(s =>
-      `<a ${linkAttrs(s.url, true)} class="contact-detail-item"><i class="${s.icon}" aria-hidden="true"></i> <span>${esc(s.value)}</span><i class="fas fa-arrow-right contact-arrow" aria-hidden="true"></i></a>`
-    ).join(""),
+    // Phones show the short platform label (compact tiles); wider screens show the handle.
+    contact: () => SOCIALS.map(s => {
+      const email = s.url.startsWith("mailto:");
+      return `<a ${linkAttrs(s.url, true)} class="contact-detail-item${email ? " contact-detail-item--email" : ""}"><i class="${s.icon}" aria-hidden="true"></i> ` +
+        `<span class="contact-value">${esc(s.value)}</span>` +
+        (email ? "" : `<span class="contact-label">${esc(s.label)}</span>`) +
+        `<i class="fas fa-arrow-right contact-arrow" aria-hidden="true"></i></a>`;
+    }).join(""),
 
     footer: (year) => `// &copy; ${year} ${esc(C.name)} &mdash; built with &lt;3 and a lot of coffee`,
 
@@ -109,12 +114,19 @@ const Render = (() => {
         return `<span class="tech-badge">${icon}${esc(t)}</span>`;
       }).join("");
       let links = proj.github ? `<a ${linkAttrs(proj.github)} class="btn btn-small btn-ghost"><i class="fab fa-github" aria-hidden="true"></i> source</a>` : "";
+      const isPlayStore = proj.demo && proj.demo.includes("play.google.com");
       if (proj.demo) {
-        const isPlayStore = proj.demo.includes("play.google.com");
         const icon = isPlayStore ? "fab fa-google-play" : "fas fa-external-link-alt";
         const label = isPlayStore ? "Play Store" : "demo";
         links += `<a ${linkAttrs(proj.demo)} class="btn btn-small btn-primary"><i class="${icon}" aria-hidden="true"></i> ${label}</a>`;
       }
+      // At-a-glance availability chip on the thumbnail, derived from the links.
+      const [status, statusIcon] = !proj.demo ? ["source", "fas fa-code"] : isPlayStore ? ["play store", "fab fa-google-play"] : ["live", "fas fa-circle"];
+      const thumb = proj.image
+        ? `<div class="project-thumb"><img src="${esc(proj.image)}" alt="${esc(proj.title)} screenshot" width="800" height="400" loading="lazy" decoding="async">` +
+          `<span class="project-status project-status--${status.replace(" ", "-")}"><i class="${statusIcon}" aria-hidden="true"></i> ${status}</span></div>`
+        : "";
+      const note = proj.note ? `<p class="project-note"><i class="fas fa-hourglass-half" aria-hidden="true"></i> ${esc(proj.note)}</p>` : "";
       let testingHtml = "";
       if (proj.testing) {
         testingHtml = `<details class="project-testing">` +
@@ -125,10 +137,12 @@ const Render = (() => {
           `<p>&gt; report issues: <a ${linkAttrs(`${proj.github}/issues`)}>GitHub Issues</a></p>` +
           `</div></details>`;
       }
-      return `<article class="project-card reveal"${stagger(i % 3)}>` +
+      return `<article class="project-card reveal" data-tags="${esc((proj.tags || []).join(" "))}"${stagger(i % 3)}>` +
+        thumb +
         `<h3 class="project-title">${esc(proj.title)}</h3>` +
         `<p class="project-desc">${esc(proj.description)}</p>` +
         `<div class="project-tech">${techHtml}</div>` +
+        note +
         `<div class="project-links">${links}</div>` +
         `${testingHtml}</article>`;
     }).join(""),
@@ -180,17 +194,23 @@ const Render = (() => {
 
   function contact() { fill("contactDetails", templates.contact()); }
 
+  // Third-party stat cards, colored from the active theme and recolored when it changes.
   function githubStats() {
     const container = document.getElementById("githubStats");
-    const cards = [
-      { src: `https://github-readme-stats.vercel.app/api?username=${C.githubUsername}&show_icons=true&theme=radical&hide_border=true`, alt: "GitHub stats", w: 467, h: 195 },
-      { src: `https://streak-stats.demolab.com/?user=${C.githubUsername}&theme=radical&hide_border=true`, alt: "GitHub contribution streak", w: 495, h: 195 },
-      { src: `https://github-readme-stats.vercel.app/api/top-langs/?username=${C.githubUsername}&layout=compact&theme=radical&hide_border=true`, alt: "Most used languages", w: 300, h: 165 },
-    ];
-    if (C.leetcodeUsername) {
-      cards.push({ src: `https://leetcard.jacoblin.cool/${C.leetcodeUsername}?theme=dark&font=JetBrains%20Mono&ext=heatmap&hide_border=true`, alt: "LeetCode stats", w: 500, h: 400 });
-    }
-    cards.forEach(c => {
+    const hex = (v) => getComputedStyle(document.documentElement).getPropertyValue(v).trim().replace("#", "");
+    const cards = () => {
+      const a1 = hex("--accent-1"), a2 = hex("--accent-2"), bg = hex("--bg-secondary"), text = "d4d4d8", muted = hex("--text-muted");
+      const list = [
+        { src: `https://github-readme-stats.vercel.app/api?username=${C.githubUsername}&show_icons=true&hide_border=true&hide=contribs&bg_color=${bg}&title_color=${a1}&icon_color=${a2}&text_color=${text}&ring_color=${a1}`, alt: "GitHub stats", w: 467, h: 165 },
+        { src: `https://streak-stats.demolab.com/?user=${C.githubUsername}&hide_border=true&background=${bg}&ring=${a1}&fire=${a2}&currStreakNum=${text}&sideNums=${a1}&currStreakLabel=${a2}&sideLabels=${muted}&dates=${muted}&stroke=${hex("--bg-surface")}`, alt: "GitHub contribution streak", w: 495, h: 195 },
+        { src: `https://github-readme-stats.vercel.app/api/top-langs/?username=${C.githubUsername}&layout=compact&hide_border=true&bg_color=${bg}&title_color=${a1}&text_color=${text}`, alt: "Most used languages", w: 300, h: 165 },
+      ];
+      if (C.leetcodeUsername) {
+        list.push({ src: `https://leetcard.jacoblin.cool/${C.leetcodeUsername}?theme=dark&font=JetBrains%20Mono&hide_border=true&colors=${bg},${hex("--bg-surface")},${text},${muted},${a1},${a2},${hex("--accent-green")},${hex("--accent-orange")}`, alt: "LeetCode stats", w: 500, h: 200 });
+      }
+      return list;
+    };
+    cards().forEach(c => {
       const img = document.createElement("img");
       img.src = c.src;
       img.alt = c.alt;
@@ -202,52 +222,79 @@ const Render = (() => {
       img.addEventListener("error", () => img.remove());
       container.appendChild(img);
     });
+    document.addEventListener("themechange", () => {
+      const next = cards();
+      container.querySelectorAll("img").forEach(img => {
+        const c = next.find(n => n.alt === img.alt);
+        if (c) img.src = c.src;
+      });
+    });
   }
 
-  function githubRepos() {
-    const grid = document.getElementById("repoGrid");
-    grid.setAttribute("aria-busy", "true");
-    grid.innerHTML = Array.from({ length: 6 }, () => `
-      <div class="repo-card skeleton" aria-hidden="true">
-        <div class="sk-line sk-title"></div>
-        <div class="sk-line"></div>
-        <div class="sk-line sk-short"></div>
-      </div>`).join("");
+  // Filter chips (all / ai / android / web) and a "show all" button so the grid starts compact.
+  function projectFilters() {
+    const grid = document.getElementById("projectsContainer");
+    const bar = document.getElementById("projectFilters");
+    if (!grid || !bar) return;
+    const cards = [...grid.querySelectorAll(".project-card")];
+    // Two rows on desktop (3 columns), four single-column cards on phones.
+    const phone = window.matchMedia("(max-width: 768px)");
+    const initial = () => phone.matches ? 4 : 6;
+    const FILTERS = [["all", "all"], ["ai", "ai"], ["android", "android"], ["web", "web"]];
+    const count = (f) => f === "all" ? cards.length : cards.filter(c => c.dataset.tags.split(" ").includes(f)).length;
+    let filter = "all";
+    let expanded = false;
 
-    fetch(`https://api.github.com/users/${C.githubUsername}/repos?per_page=100`)
-      .then(res => { if (!res.ok) throw new Error(); return res.json(); })
-      .then(repos => {
-        grid.innerHTML = "";
-        const langColors = {
-          Python: "#3572A5", JavaScript: "#f1e05a", TypeScript: "#3178c6",
-          HTML: "#e34c26", CSS: "#563d7c", Java: "#b07219",
-          Kotlin: "#A97BFF", Swift: "#F05138", Dart: "#00B4AB",
-          Go: "#00ADD8", Rust: "#dea584", "C++": "#f34b7d",
-          Ruby: "#701516", Shell: "#89e051", Dockerfile: "#384d54",
-        };
-        repos
-          .sort((a, b) => b.stargazers_count - a.stargazers_count || new Date(b.pushed_at) - new Date(a.pushed_at))
-          .slice(0, 6)
-          .forEach((repo, i) => {
-            const color = langColors[repo.language] || "#7c3aed";
-            const card = document.createElement("article");
-            card.className = "repo-card reveal";
-            card.dataset.stagger = Math.min(i % 3, 5);
-            card.innerHTML = `
-              <h3 class="repo-name"><i class="far fa-folder" aria-hidden="true"></i> <a href="${esc(repo.html_url)}" target="_blank" rel="noopener">${esc(repo.name)}</a></h3>
-              <p class="repo-desc">${esc(repo.description || "No description provided.")}</p>
-              <div class="repo-meta">
-                ${repo.language ? `<span class="repo-lang"><span class="lang-dot" style="background:${color}"></span>${esc(repo.language)}</span>` : ""}
-                <span aria-label="${repo.stargazers_count} stars">⭐ ${repo.stargazers_count}</span>
-                <span aria-label="${repo.forks_count} forks">🍴 ${repo.forks_count}</span>
-              </div>
-            `;
-            grid.appendChild(card);
-            Effects.observe(card);
-          });
-      })
-      .catch(() => { grid.innerHTML = `<p class="loading-text">// error: failed to fetch repositories</p>`; })
-      .finally(() => grid.removeAttribute("aria-busy"));
+    bar.innerHTML = FILTERS.filter(([f]) => count(f)).map(([f, label]) =>
+      `<button type="button" class="filter-chip" data-filter="${f}" aria-pressed="${f === filter}">${label} <span class="filter-count">${count(f)}</span></button>`
+    ).join("");
+    const more = document.createElement("button");
+    more.type = "button";
+    more.className = "btn btn-small btn-ghost projects-more";
+    more.innerHTML = `show all ${cards.length} projects <i class="fas fa-chevron-down" aria-hidden="true"></i>`;
+    grid.after(more);
+    const status = document.getElementById("projectStatus");
+
+    function apply(announce) {
+      let shown = 0;
+      const limit = initial();
+      cards.forEach((card, i) => {
+        const match = filter === "all" || card.dataset.tags.split(" ").includes(filter);
+        const visible = match && (filter !== "all" || expanded || i < limit);
+        card.hidden = !visible;
+        if (visible) shown++;
+      });
+      bar.querySelectorAll(".filter-chip").forEach(b => b.setAttribute("aria-pressed", String(b.dataset.filter === filter)));
+      more.hidden = filter !== "all" || expanded || cards.length <= limit;
+      if (announce && status) status.textContent = `Showing ${shown} ${filter === "all" ? "" : `${filter} `}projects`;
+    }
+
+    function setFilter(f) { filter = f; apply(true); }
+
+    bar.addEventListener("click", (e) => {
+      const b = e.target.closest(".filter-chip");
+      if (b) setFilter(b.dataset.filter);
+    });
+    more.addEventListener("click", () => {
+      const first = cards[initial()];
+      expanded = true;
+      apply(true);
+      if (first) first.querySelector("a")?.focus({ preventScroll: true });
+    });
+    phone.addEventListener("change", () => apply(false));
+    // Links like the hero's "all ai projects" jump to #projects with a filter preselected.
+    document.addEventListener("click", (e) => {
+      const link = e.target.closest("[data-project-filter]");
+      if (!link) return;
+      setFilter(link.dataset.projectFilter);
+      const dd = link.closest(".dropdown");
+      if (dd) {
+        dd.classList.remove("open");
+        dd.querySelector(".dropdown-btn").setAttribute("aria-expanded", "false");
+        link.blur();
+      }
+    });
+    apply(false);
   }
 
   function contactForm() {
@@ -283,5 +330,5 @@ const Render = (() => {
     });
   }
 
-  return { hero, about, footer, skills, projects, blog, contact, githubStats, githubRepos, contactForm, templates };
+  return { hero, about, footer, skills, projects, projectFilters, blog, contact, githubStats, contactForm, templates };
 })();

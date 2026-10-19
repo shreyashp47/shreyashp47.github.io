@@ -65,6 +65,8 @@ const Theme = (() => {
     const idx = (current() + 1) % THEMES.length;
     apply(idx);
     try { localStorage.setItem(KEY, idx); } catch (e) { /* storage unavailable */ }
+    // Lets themed third-party images (GitHub stats) refresh their colors.
+    document.dispatchEvent(new CustomEvent("themechange", { detail: THEMES[idx] }));
     return THEMES[idx];
   }
 
