@@ -28,7 +28,8 @@ const { CONFIG: C, Render } = ctx;
 const T = Render.templates;
 
 const url = C.siteUrl;
-const sameAs = [C.githubUrl, C.linkedinUrl, C.twitterUrl, C.mediumUrl, C.stackoverflowUrl, C.instagramUrl];
+const sameAs = [C.githubUrl, C.linkedinUrl, C.twitterUrl, C.mediumUrl, C.stackoverflowUrl, C.instagramUrl, `https://leetcode.com/u/${C.leetcodeUsername}/`];
+const [givenName, ...rest] = C.name.split(" ");
 const skills = [...new Set(Object.values(C.skills).flat())];
 
 const jsonLd = {
@@ -47,6 +48,10 @@ const jsonLd = {
       "@type": "Person",
       "@id": `${url}#person`,
       name: C.name,
+      // Name parts and handle help search engines match "Shreyash Pattewar" / "shreyashp47" to this page.
+      givenName,
+      familyName: rest.join(" "),
+      alternateName: C.githubUsername,
       url,
       image: `${url}static/assets/profile.webp`,
       jobTitle: C.jobTitle,
