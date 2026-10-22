@@ -96,3 +96,29 @@ jobs:
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           publish_dir: ${{ steps.version.outputs.publish_dir }}
+
+  # Mirrors the same v4/ files to Firebase Hosting so https://shreyashpattewar.web.app
+  # serves exactly what https://shreyashp47.github.io/ serves. Runs only for pushes to
+  # main (v4); manual runs of older versions stay GitHub Pages-only.
+  firebase:
+    if: github.event_name == 'push'
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v7
+
+      - name: Check Firebase credentials
+        env:
+          SERVICE_ACCOUNT: ${{ secrets.FIREBASE_SERVICE_ACCOUNT_SHREYASHPATTEWAR }}
+        run: |
+          if [ -z "$SERVICE_ACCOUNT" ]; then
+            echo "::error::Secret FIREBASE_SERVICE_ACCOUNT_SHREYASHPATTEWAR is missing. Run 'firebase init hosting:github' once (see README) to create it."
+            exit 1
+          fi
+
+      - name: Deploy to Firebase Hosting
+        uses: FirebaseExtended/action-hosting-deploy@v0
+        with:
+          firebaseServiceAccount: ${{ secrets.FIREBASE_SERVICE_ACCOUNT_SHREYASHPATTEWAR }}
+          projectId: shreyashpattewar
+          channelId: live

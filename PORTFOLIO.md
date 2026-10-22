@@ -69,7 +69,7 @@ Info that applies across all versions.
 ### Deployment
 
 #### Automatic
-Push to `main` → GitHub Actions publishes the `v4/` directory to the `gh-pages` branch (served at the site root).
+Push to `main` → GitHub Actions publishes the `v4/` directory to the `gh-pages` branch (served at https://shreyashp47.github.io/) and, in the `firebase` job, to Firebase Hosting project `shreyashpattewar` (https://shreyashpattewar.web.app/). Both always serve identical files. The Firebase job needs the `FIREBASE_SERVICE_ACCOUNT_SHREYASHPATTEWAR` repo secret (created with `firebase init hosting:github`).
 
 #### Manual
 1. Go to GitHub Actions → "Deploy to GitHub Pages" workflow
