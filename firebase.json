@@ -1,0 +1,20 @@
+{
+  "hosting": {
+    "public": "v4",
+    "ignore": ["**/.*"],
+    "headers": [
+      {
+        "source": "**/*.@(css|js)",
+        "headers": [{ "key": "Cache-Control", "value": "public, max-age=31536000, immutable" }]
+      },
+      {
+        "source": "**/*.@(png|webp|svg|jpg|pdf)",
+        "headers": [{ "key": "Cache-Control", "value": "public, max-age=86400" }]
+      },
+      {
+        "source": "**/*.@(html|txt|xml|webmanifest)",
+        "headers": [{ "key": "Cache-Control", "value": "no-cache" }]
+      }
+    ]
+  }
+}

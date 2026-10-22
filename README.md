@@ -7,7 +7,7 @@
 ![CSS3](https://img.shields.io/badge/CSS3-1572B6?style=flat-square&logo=css3&logoColor=white)
 ![JavaScript](https://img.shields.io/badge/JavaScript-F7DF1E?style=flat-square&logo=javascript&logoColor=black)
 
-**Live:** https://shreyashp47.github.io/
+**Live:** https://shreyashp47.github.io/ and https://shreyashpattewar.web.app/ (the same site, deployed to both)
 
 Personal portfolio of Shreyash Pattewar, an AI engineer building LLM agents and AI-powered apps, with an Android background. The current version (**v4**) is a dark, terminal-inspired developer theme built as a static site with plain HTML, CSS and vanilla JavaScript: no framework and no build step.
 
@@ -37,7 +37,7 @@ Personal portfolio of Shreyash Pattewar, an AI engineer building LLM agents and 
 | Logic | Vanilla JavaScript (no framework, no bundler) |
 | Fonts & icons | Google Fonts (Inter, JetBrains Mono), Font Awesome 6.5.1, local SVG skill icons |
 | Quality checks | html-validate, `node --check`, local link checker (GitHub Actions) |
-| Hosting | GitHub Pages, deployed with GitHub Actions |
+| Hosting | GitHub Pages and Firebase Hosting (identical mirror), both deployed with GitHub Actions |
 | Local dev | [`serve`](https://www.npmjs.com/package/serve) |
 
 ## Project Structure
@@ -45,11 +45,12 @@ Personal portfolio of Shreyash Pattewar, an AI engineer building LLM agents and 
 ```
 .
 ├── .github/
-│   ├── workflows/deploy.yml       # GitHub Pages deploy (v1–v4)
+│   ├── workflows/deploy.yml       # GitHub Pages deploy (v1–v4) + Firebase mirror (v4)
 │   ├── workflows/ci.yml           # PR checks: html-validate, JS syntax, local links
 │   ├── scripts/check-links.mjs    # Verifies every local href/src exists
 │   └── dependabot.yml             # Monthly action / npm updates
 ├── .htmlvalidate.json             # html-validate config used by CI
+├── .firebaserc / firebase.json    # Firebase Hosting: project shreyashpattewar, serves v4/
 ├── AGENTS.md                      # Short conventions for contributors / AI agents
 ├── PORTFOLIO.md                   # Detailed docs for every version
 ├── package.json                   # Dev scripts (serve, prerender)
@@ -128,9 +129,12 @@ Themes are defined in `v4/static/js/themes.js`, and each one sets CSS custom pro
 
 ## Deployment & Versions
 
-The site deploys to GitHub Pages through [`.github/workflows/deploy.yml`](.github/workflows/deploy.yml), using `peaceiris/actions-gh-pages` to publish to the `gh-pages` branch.
+The site is served from two places, always with identical content, by [`.github/workflows/deploy.yml`](.github/workflows/deploy.yml):
 
-- **Automatic:** pushing to `main` publishes the `v4/` directory as the site root.
+- **GitHub Pages** (https://shreyashp47.github.io/): `peaceiris/actions-gh-pages` publishes to the `gh-pages` branch.
+- **Firebase Hosting** (https://shreyashpattewar.web.app/): the `firebase` job deploys the same `v4/` folder with `FirebaseExtended/action-hosting-deploy` to project `shreyashpattewar` (config in `firebase.json`: long caching for versioned CSS/JS, one day for images, no-cache for HTML). It needs the repo secret `FIREBASE_SERVICE_ACCOUNT_SHREYASHPATTEWAR`, created once with `firebase init hosting:github`. Manual deploy: `firebase deploy --only hosting`.
+
+- **Automatic:** pushing to `main` publishes the `v4/` directory as the site root on both hosts, so every change shows up on both URLs.
 - **Manual:** open **Actions → Deploy to GitHub Pages → Run workflow** and choose a version.
 
 | Version | Branch | Stack | Status |

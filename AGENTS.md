@@ -21,7 +21,7 @@
 - Run locally: `npx --yes html-validate@8 v4/index.html v4/404.html && node .github/scripts/check-links.mjs v4/index.html v4/404.html`
 
 ## Deploy
-- **Auto**: Push to `main` → publishes the `v4/` directory to the site root (https://shreyashp47.github.io/)
+- **Auto**: Push to `main` → publishes the `v4/` directory to both https://shreyashp47.github.io/ (GitHub Pages) and https://shreyashpattewar.web.app/ (Firebase project `shreyashpattewar`, config in `firebase.json`); both always serve the same files
 - **Manual**: GitHub Actions → "Deploy to GitHub Pages" → pick v1, v2, v3, or v4 (built from the branches above)
 
 ## Commands
